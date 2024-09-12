@@ -1,0 +1,2 @@
+// Common ///////////////////////////////////////////
+export const SearchUrl = (): string => `/initial`;

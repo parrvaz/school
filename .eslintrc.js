@@ -4,21 +4,14 @@ module.exports = {
   extends: [
     'next', // Includes Next.js specific rules
     'next/core-web-vitals', // Enforces Core Web Vitals best practices
+    'plugin:@typescript-eslint/recommended', // TypeScript-specific linting rules
     'plugin:prettier/recommended', // Integrates Prettier with ESLint
+    'plugin:react/recommended', // React-specific linting rules
   ],
-  plugins: ['prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'react-hooks'],
   rules: {
     // Enforce Prettier rules
     'prettier/prettier': 'error',
-    'no-console': 2,
-    'no-unused-vars': 2,
-
-    // React specific rules
-    'react/react-in-jsx-scope': 'off', // Next.js automatically imports React
-    'react/prop-types': 'off', // Disable prop-types as we use TypeScript or modern React
-
-    // Next.js specific rules
-    '@next/next/no-img-element': 'off', // Allow using the standard <img> element (use Next.js <Image> for optimization)
 
     // Code quality rules
     'no-console': ['warn', { allow: ['warn', 'error'] }], // Warn on console logs except for warnings and errors
@@ -39,6 +32,11 @@ module.exports = {
 
     // Performance rules
     'no-duplicate-imports': 'error', // Prevent duplicate imports
+
+    'react/react-in-jsx-scope': 0,
+
+    // TypeScript rules
+    '@typescript-eslint/explicit-function-return-type': 2, // Enforce explicit return types for functions
   },
   settings: {
     react: {

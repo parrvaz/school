@@ -10,7 +10,7 @@ body {
   height: auto !important;
   position: relative !important;
   width: 100% !important;
-  font-family: "IRANSans_Medium";
+  font-family: 'IRANSans_Medium';
 }
 
 * {
@@ -19,28 +19,45 @@ body {
 
 @layer base {
   @font-face {
-    font-family: "IRANSans_Bold";
-    src: url("./../fonts/IRANSansX-Bold.ttf");
+    font-family: 'IRANSans_Bold';
+    src: url('./../fonts/IRANSansX-Bold.ttf');
     font-display: swap;
   }
   @font-face {
-    font-family: "IRANSans_SemiBold";
-    src: url("./../fonts/IRANSansX-DemiBold.ttf");
+    font-family: 'IRANSans_SemiBold';
+    src: url('./../fonts/IRANSansX-DemiBold.ttf');
     font-display: swap;
   }
   @font-face {
-    font-family: "IRANSans_Medium";
-    src: url("./../fonts/IRANSansX-Medium.ttf");
+    font-family: 'IRANSans_Medium';
+    src: url('./../fonts/IRANSansX-Medium.ttf');
     font-display: swap;
   }
   @font-face {
-    font-family: "IRANSans_Regular";
-    src: url("./../fonts/IRANSansX-Regular.ttf");
+    font-family: 'IRANSans_Regular';
+    src: url('./../fonts/IRANSansX-Regular.ttf');
     font-display: swap;
   }
   @font-face {
-    font-family: "IRANSans_Light";
-    src: url("./../fonts/IRANSansX-Light.ttf");
+    font-family: 'IRANSans_Light';
+    src: url('./../fonts/IRANSansX-Light.ttf');
     font-display: swap;
   }
+}
+
+.isCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animate {
+  transition: all 0.3s ease;
+}
+
+.rtl {
+  direction: rtl;
+}
+.ltr {
+  direction: ltr;
 }

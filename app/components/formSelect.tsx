@@ -1,7 +1,7 @@
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
-import Select from 'react-select';
 import { handleError } from 'app/utils/component.util';
+import ReactSelect from './select';
 
 type SelectType = {
   options: { value: string | number; label: string }[];
@@ -20,14 +20,7 @@ const FormSelect: React.FC<SelectType> = (props) => {
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (
-          <Select
-            {...field}
-            {...{ placeholder, options }}
-            components={{ IndicatorSeparator: null }}
-            styles={{
-              control: (baseStyles) => ({ ...baseStyles, borderRadius: '8px', fontSize: 14 }),
-            }}
-          />
+          <ReactSelect {...field} {...{ placeholder, options }} />
         )}
       />
 

@@ -13,6 +13,9 @@ module.exports = {
     // Enforce Prettier rules
     'prettier/prettier': 'error',
 
+    'no-unused-vars': 'off', // Turn off the basic rule
+    '@typescript-eslint/no-unused-vars': ['error'],
+
     // Code quality rules
     'no-console': ['warn', { allow: ['warn', 'error'] }], // Warn on console logs except for warnings and errors
     'no-unused-vars': 'warn', // Warn on unused variables

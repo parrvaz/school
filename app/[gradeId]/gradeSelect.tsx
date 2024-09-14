@@ -11,7 +11,7 @@ const GradeSelect: React.FC<{ options: { label: string; value: number }[] }> = (
   const activeGrade = options.find((k) => k.value === Number(gradeId));
 
   return (
-    <div className="w-48 mb-10">
+    <div className="w-48 absolute left-0 top-0">
       <ReactSelect
         options={options}
         value={activeGrade}

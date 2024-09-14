@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   description: 'School',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element => {
   return (
     <html lang="en" data-theme="light">
       <body>
@@ -25,4 +25,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

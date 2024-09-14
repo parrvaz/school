@@ -13,12 +13,12 @@ module.exports = {
     // Enforce Prettier rules
     'prettier/prettier': 'error',
 
-    'no-unused-vars': 'off', // Turn off the basic rule
+    'no-unused-vars': 0, // Turn off the basic rule
     '@typescript-eslint/no-unused-vars': ['error'],
+    'react-hooks/exhaustive-deps': 0,
 
     // Code quality rules
     'no-console': ['warn', { allow: ['warn', 'error'] }], // Warn on console logs except for warnings and errors
-    'no-unused-vars': 'warn', // Warn on unused variables
     'no-debugger': 'error', // Disallow debugger statements
 
     // Best practices

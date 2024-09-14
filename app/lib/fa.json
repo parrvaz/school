@@ -53,11 +53,12 @@
     "fillInfo": "تکمیل اطلاعات حساب کاربری"
   },
   "classroom": {
-    "title": "نام",
+    "title": "نام کلاس",
     "number": "شماره",
     "field": "رشته",
     "floor": "طبقه",
-    "": "",
+    "newClass": "ایجاد کلاس جدید",
+    "submitClass": "ثبت کلاس",
     "action": "عملیات"
   },
   "home": {

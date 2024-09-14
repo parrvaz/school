@@ -1,8 +1,8 @@
-'use client';
-
-import Table from 'app/components/table';
+import { Metadata } from 'next';
+import ClassTable from './classTable';
 import fa from 'app/lib/fa.json';
-import DeleteRow from './deleteRow';
+
+export const metadata: Metadata = { title: fa.sidebar.classroom };
 
 const ClassroomPage: React.FC = () => {
   const data = [
@@ -35,28 +35,10 @@ const ClassroomPage: React.FC = () => {
     },
   ];
 
-  const columns = [
-    {
-      headerName: fa.classroom.title,
-      field: 'title',
-      pinned: 'right',
-      lockPosition: 'right',
-    },
-    { headerName: fa.classroom.number, field: 'number' },
-    { headerName: fa.classroom.field, field: 'field' },
-    { headerName: fa.classroom.floor, field: 'floor' },
-    {
-      headerName: fa.classroom.action,
-      cellRenderer: DeleteRow,
-      pinned: 'left',
-      lockPosition: 'left',
-      width: 75,
-      resizable: false,
-    },
-  ];
   return (
     <div className="">
-      <Table columns={columns} data={data} className="h-full w-full" />
+      <h1 className="font-bold text-berry100 text-32 mb-10">{fa.sidebar.classroom}</h1>
+      <ClassTable data={data} />
     </div>
   );
 };

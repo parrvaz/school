@@ -16,6 +16,7 @@ const ReactSelect: React.FC<SelectType> = ({ placeholder, options, onChange, val
     <Select
       {...{ placeholder, options, value, onChange }}
       components={{ IndicatorSeparator: null }}
+      isRtl
       styles={{
         control: (baseStyles) => ({ ...baseStyles, borderRadius: '8px', fontSize: 14 }),
         // Style for the options

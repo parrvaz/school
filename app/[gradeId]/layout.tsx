@@ -22,7 +22,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }): React.ReactNode
         <Sidebar menu={menu} />
       </div>
 
-      <div className="flex-1 m-10">
+      <div className="flex-1 m-10 relative">
         <GradeSelect options={options} />
         {children}
       </div>

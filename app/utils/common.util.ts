@@ -1,5 +1,8 @@
 import Cookies from 'js-cookie';
 import fa from 'app/lib/fa.json';
+
+export const justNumber = { value: /^[0-9]+$/, message: fa.global.rules.justNumber };
+
 export const faNumber = (value: string | number): string => {
   if (value === null || value === undefined) return '';
 

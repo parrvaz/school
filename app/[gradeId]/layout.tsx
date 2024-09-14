@@ -1,12 +1,11 @@
 import React from 'react';
 import Sidebar from './sidebar';
-import ReactSelect from 'app/components/select';
 import GradeSelect from './gradeSelect';
 
 const menu = [
   { title: 'dashboard', icon: 'icon-home' },
-  { title: 'classroom', icon: 'icon-people' },
-  { title: 'student', icon: 'icon-teacher' },
+  { title: 'classroom', icon: 'icon-monitor' },
+  { title: 'student', icon: 'icon-people' },
 ];
 
 const grades = [

@@ -1,16 +1,15 @@
 import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ClassActions: React.FC = (props: any) => {
-  const { api, node, setOpenModal } = props;
+const ActionRenderer: React.FC = (props: any) => {
+  const { api, node, setEditData } = props;
 
   const handleDelete = (): void => {
-    setOpenModal(true);
     api.applyTransaction({ remove: [node.data] });
   };
 
   const handleEdit = (): void => {
-    setOpenModal(node.data);
+    setEditData(node.data);
   };
 
   return (
@@ -21,4 +20,4 @@ const ClassActions: React.FC = (props: any) => {
   );
 };
 
-export default ClassActions;
+export default ActionRenderer;

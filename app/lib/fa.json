@@ -29,7 +29,9 @@
     "9th": "نهم",
     "10th": "دهم",
     "11th": "یازدهم",
-    "12th": "دوازدهم"
+    "12th": "دوازدهم",
+    "": "",
+    "action": "عملیات"
   },
   "account": {
     "login": "ورود به حساب کاربری",
@@ -60,6 +62,23 @@
     "newClass": "ایجاد کلاس جدید",
     "submitClass": "ثبت کلاس",
     "action": "عملیات"
+  },
+  "student": {
+    "lastName": "‌نام‌خانوادگی",
+    "firstName": "نام",
+    "classroom": "کلاس",
+    "nationalId": "کد ملی",
+    "phone": "تلفن",
+    "birthday": "تاریخ تولد",
+    "socialMediaID": "آیدی ایتا",
+    "religion": "مذهب",
+    "specialDisease": "بیماری خاص",
+    "address": "آدرس",
+    "chooseClass": "انتخاب کلاس",
+    "": "",
+    "": "",
+    "": "",
+    "newStudent": "ایجاد دانش‌آموز جدید"
   },
   "home": {
     "welcome": "به پیشکار خوش آمدید.",

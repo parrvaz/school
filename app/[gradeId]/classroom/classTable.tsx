@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { ClassroomType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
-import ClassActions from './classActions';
 import Table from 'app/components/table';
 import CreateNewClass from './createNewClass';
+import ActionRenderer from '../../components/actionRenderer';
 
 const ClassTable: React.FC<{ data: ClassroomType[] }> = ({ data }) => {
   const [openCreateClassModal, setOpenCreateClassModal] = useState<ClassroomType | boolean>(false);
@@ -22,14 +22,12 @@ const ClassTable: React.FC<{ data: ClassroomType[] }> = ({ data }) => {
     { headerName: fa.classroom.floor, field: 'floor' },
     {
       headerName: fa.classroom.action,
-      cellRenderer: ClassActions,
+      cellRenderer: ActionRenderer,
       pinned: 'left',
       lockPosition: 'left',
       width: 90,
       resizable: false,
-      cellRendererParams: {
-        setOpenModal: setOpenCreateClassModal, // Pass the custom prop here
-      },
+      cellRendererParams: { setEditData: setOpenCreateClassModal },
     },
   ];
   return (

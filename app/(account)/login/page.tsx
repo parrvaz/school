@@ -4,37 +4,33 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
-// import { useRouter, useSearchParams } from 'next/navigation';
-import { RegisterRoute } from 'app/lib/routes';
-// import request from 'app/lib/request';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { HomeRoute, RegisterRoute } from 'app/lib/routes';
 import fa from 'app/lib/fa.json';
 import FormInput from 'app/components/formInput';
 import Button from 'app/components/button';
-// import { ResponseType } from 'app/types/common.type';
-// import { setCookie } from 'app/utils/common.util';
-// import useClearCacheData from 'app/hooks/useClearCacheData';
+import { LoginUrl } from 'app/lib/urls';
+import request from 'app/lib/request';
+import { setCookie } from 'app/utils/common.util';
+import { ResponseType } from 'app/types/common.type';
+import useClearCacheData from 'app/hooks/useClearCacheData';
 
-type FormType = { auth: string; password: string };
+type FormType = { phone: string; password: string };
 
 const LoginPage: React.FC = () => {
   const rules = { required: true };
-  // const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const clearData = useClearCacheData();
-  // const { refetch } = useQuery(USER_KEY, getUser, { enabled: false });
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const clearData = useClearCacheData();
 
   const PostLogin = async (e: FormType): Promise<boolean> => {
-    console.log('submit', e);
-    // const isMobile = !auth.includes('@');
-    // const body = isMobile ? { mobile: auth, password } : { email: auth, password };
-    // const url = isMobile ? LoginMobileUrl() : LoginEmailUrl();
-    // const res: ResponseType<{ user: UserType }> = await request.post(url, body);
-    // if (res.ok) {
-    //   setCookie(res.data?.user.token);
-    //   // refetch();
-    //   clearData();
-    //   // router.replace(searchParams.get('next') || HomeRoute());
-    // }
+    const res: ResponseType<{ token: string }> = await request.post(LoginUrl(), e);
+    if (res.ok) {
+      setCookie(res.data?.token);
+      router.push(HomeRoute());
+      clearData();
+      router.replace(searchParams.get('next') || HomeRoute());
+    }
     return true;
   };
 
@@ -43,17 +39,16 @@ const LoginPage: React.FC = () => {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<FormType>({ defaultValues: { auth: '', password: '' } });
+  } = useForm<FormType>({ defaultValues: { phone: '', password: '' } });
   return (
     <form
       onSubmit={handleSubmit((e) => mutate(e))}
       className="flex h-full w-full flex-col items-center px-5"
     >
       <div className="my-3 font-semibold text-18 text-black70 md:my-12">{fa.account.login}</div>
-      <span className="icon-taalei2 my-10 text-[6.4rem] md:hidden" />
 
       <div className="flex w-full flex-col md:w-64 xl:w-80">
-        <FormInput {...{ errors, control, rules }} name="auth" placeholder={fa.account.phone} />
+        <FormInput {...{ errors, control, rules }} name="phone" placeholder={fa.account.phone} />
         <FormInput
           {...{ errors, control }}
           name="password"

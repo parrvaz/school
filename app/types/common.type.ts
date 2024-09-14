@@ -16,3 +16,21 @@ export type ClassroomType = {
   field_id: number;
   field: string;
 };
+
+export type StudentType = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  classroom: string;
+  nationalId: string;
+  classroom_id: number;
+  birthday: string;
+  isOnlyChild: boolean;
+  address: string;
+  phone: string;
+  socialMediaID: string;
+  numberOfGlasses: string;
+  isLeftHand: boolean;
+  religion: string;
+  specialDisease: string;
+};

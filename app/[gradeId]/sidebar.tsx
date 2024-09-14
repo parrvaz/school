@@ -29,7 +29,7 @@ const Sidebar: React.FC<{
             >
               <>
                 <span className={`ml-3 text-24  ${icon}`} />
-                <h2 className="hidden max-h-11 overflow-hidden xl:flex">
+                <h2 className="max-h-11 overflow-hidden">
                   {fa.sidebar[title as keyof typeof fa.sidebar]}
                 </h2>
               </>

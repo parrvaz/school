@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { ApisauceInstance, create } from 'apisauce';
 import { toast } from 'react-hot-toast';
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'pishkar.semimnet.ir/api';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://171.22.26.174/api/';
 
 // create main request configs
 const request = ((): ApisauceInstance => {
@@ -29,9 +29,7 @@ request.axiosInstance.interceptors.response.use(
     // if (token && error.config.url === "/user" && error.response.status === 401)
     //   Cookies.remove("token");
 
-    // error.response.data.message &&
-    //   !error.config.url.includes("/user") &&
-    //   toast.error(error.response.data.message);
+    error.response.data.message && toast.error(error.response.data.message);
     return error;
   }
 );

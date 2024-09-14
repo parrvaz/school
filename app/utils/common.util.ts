@@ -2,6 +2,11 @@ import Cookies from 'js-cookie';
 import fa from 'app/lib/fa.json';
 
 export const justNumber = { value: /^[0-9]+$/, message: fa.global.rules.justNumber };
+export const numberValidation = (otherRules?: object): object => ({
+  required: true,
+  pattern: justNumber,
+  ...otherRules,
+});
 
 export const faNumber = (value: string | number): string => {
   if (value === null || value === undefined) return '';
@@ -32,7 +37,7 @@ export const maxLengthMessage = (length: number): string =>
   `${fa.account.maxLength1} ${length} ${fa.account.minLength2}`;
 
 export const setCookie = (data = ''): string | undefined =>
-  Cookies.set('token', data, { expires: 999 });
+  Cookies.set('token', `Bearer ${data}`, { expires: 999 });
 
 export const kebabCase = (input: string): string =>
   input

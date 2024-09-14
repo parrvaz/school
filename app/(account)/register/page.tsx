@@ -3,29 +3,30 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import fa from 'app/lib/fa.json';
-import { LoginRoute } from 'app/lib/routes';
+import { HomeRoute, LoginRoute } from 'app/lib/routes';
 import FormInput from 'app/components/formInput';
 import Button from 'app/components/button';
-import { minLengthMessage } from 'app/utils/common.util';
+import { minLengthMessage, setCookie } from 'app/utils/common.util';
+import request from 'app/lib/request';
+import { RegisterUrl } from 'app/lib/urls';
+import { ResponseType } from 'app/types/common.type';
 
 type FormType = { phone: string; name: string; password: string; confirmPassword: string };
 
 const RegisterPage: React.FC = () => {
   const rules = { required: true };
-  //   const router = useRouter();
-  // const { refetch } = useQuery(USER_KEY, getUser, { enabled: false });
+  const router = useRouter();
 
   const PostRegister = async (data: FormType): Promise<boolean> => {
-    console.log(data);
-    // const body = { type: data.auth.includes('@') ? 'email' : 'mobile', ...data };
-    // const res = await request.post(RegisterUrl(), body);
-    // if (res.ok) {
-    //   router.push(VerifyRoute());
-    // }
-    // refetch();
-    return true;
+    const res: ResponseType<{ token: string }> = await request.post(RegisterUrl(), data);
+    if (res.ok) {
+      setCookie(res.data?.token);
+      router.replace(HomeRoute());
+    }
+    return res.ok;
   };
 
   const { mutate, isPending } = useMutation({ mutationFn: PostRegister });

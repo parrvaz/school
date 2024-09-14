@@ -26,7 +26,7 @@ const ReactSelect: React.FC<SelectType> = ({ placeholder, options, onChange, val
 
           borderRadius: '8px', // Add border radius to options
           backgroundColor: state.isSelected
-            ? '#c7d2fe' // Background color for the selected option
+            ? '#e0e7ff' // Background color for the selected option
             : state.isFocused
               ? '#eef2ff' // Background color for the focused (hovered) option
               : 'white', // Default background

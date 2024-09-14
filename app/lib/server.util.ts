@@ -1,9 +1,10 @@
 'use server';
 
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { revalidateTag, revalidatePath } from 'next/cache';
 import { baseURL } from './request';
+import { LoginRoute } from './routes';
 
 export const workshopTag = (id: number | string): string => `workshop-${id}`;
 export const lessonTag = (id: number | string): string => `lesson-${id}`;
@@ -26,6 +27,7 @@ export const fetchData = async <T>(
   const res = await fetch(baseURL + url, requestOptions);
 
   if (res.status === 404) return notFound();
+  if (res.status === 405) return redirect(LoginRoute());
 
   const data = await res.json();
 

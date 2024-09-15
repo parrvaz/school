@@ -7,6 +7,7 @@ export type PageType = {
   searchParams?: { [key: string]: string | undefined };
 };
 
+export type SelectOptionType = { value: string | number; label: string };
 export type GradeType = { id: number; title: string };
 
 export type ClassroomType = {

@@ -4,13 +4,14 @@ import { fetchData } from './lib/server.util';
 import { GradeUrl } from './lib/urls';
 import { GradeRoute } from './lib/routes';
 import { GradeType } from './types/common.type';
+import fa from 'app/lib/fa.json';
 
 const Home: React.FC = async () => {
   const data = await fetchData<{ data: GradeType[] }>(GradeUrl(), 'grades');
 
   if (!!data.data.length) redirect(GradeRoute(data.data[0].id, 'dashboard'));
 
-  return <CreateGradeForm />;
+  return <CreateGradeForm grades={data.data} />;
 };
 
 export default Home;

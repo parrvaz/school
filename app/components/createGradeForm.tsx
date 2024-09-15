@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import fa from 'app/lib/fa.json';
 import FormInput from './formInput';
 import Button from './button';
@@ -10,22 +10,39 @@ import { GradeType, ResponseType } from 'app/types/common.type';
 import request from 'app/lib/request';
 import { CreateGradeUrl } from 'app/lib/urls';
 import { GradeRoute } from 'app/lib/routes';
+import FormSelect from './formSelect';
+import { useEffect } from 'react';
 
-type FormType = { title: string };
+type FormType = { title: string; grade: { label: string; value: number } };
 
-const CreateGradeForm: React.FC = () => {
+const gradeOptions = [
+  { label: fa.global.grade10, value: 10 },
+  { label: fa.global.grade11, value: 11 },
+  { label: fa.global.grade12, value: 12 },
+];
+
+const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
   const rules = { required: true };
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   const {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<FormType>({ defaultValues: { title: '' } });
+  } = useForm<FormType>({ defaultValues: { title: '', grade: undefined } });
 
-  const PostCreateGrade = async (e: FormType): Promise<boolean> => {
-    const res: ResponseType<{ data: GradeType[] }> = await request.post(CreateGradeUrl(), e);
-    console.log('submit', e, res);
-    if (res.ok) router.replace(GradeRoute(res.data?.data[0].id || 12, 'dashboard'));
+  useEffect(() => {
+    if (id) {
+      console.log(id, grades);
+    }
+  }, [id]);
+
+  const PostCreateGrade = async (value: FormType): Promise<boolean> => {
+    const body = { title: value.title, grade_id: value.grade.value };
+    const res: ResponseType<{ data: GradeType }> = await request.post(CreateGradeUrl(), body);
+    console.log('submit', body, res);
+    if (res.ok) router.replace(GradeRoute(res.data?.data.id || 1, 'dashboard'));
 
     return true;
   };
@@ -45,6 +62,13 @@ const CreateGradeForm: React.FC = () => {
             rtl
             placeholder={fa.home.gradeName}
             className="mt-12 w-full"
+          />
+          <FormSelect
+            {...{ errors, control, rules }}
+            name="grade"
+            options={gradeOptions}
+            className="mt-8"
+            placeholder={fa.home.chooseGrade}
           />
 
           <Button className="btn btn-primary mb-10 w-full mt-9" isLoading={isPending}>

@@ -9,7 +9,7 @@ import FormInput from './formInput';
 import Button from './button';
 import { GradeType, ResponseType } from 'app/types/common.type';
 import request from 'app/lib/request';
-import { CreateGradeUrl } from 'app/lib/urls';
+import { CreateGradeUrl, UpdateGradeUrl } from 'app/lib/urls';
 import { GradeRoute } from 'app/lib/routes';
 import FormSelect from './formSelect';
 
@@ -26,27 +26,29 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const targetGrade = grades.find((k) => k.code === id);
+  const targetOption = gradeOptions.find((k) => k.value === targetGrade?.grade_id);
   const {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<FormType>({ defaultValues: { title: '', grade: undefined } });
-
-  useEffect(() => {
-    if (id) {
-      console.log(id, grades);
-    }
-  }, [id]);
 
   const PostCreateGrade = async (value: FormType): Promise<boolean> => {
     const body = { title: value.title, grade_id: value.grade.value };
-    const res: ResponseType<{ data: GradeType }> = await request.post(CreateGradeUrl(), body);
-    console.log('submit', body, res);
-    if (res.ok) router.replace(GradeRoute(res.data?.data.id || 1, 'dashboard'));
+    const url = id ? UpdateGradeUrl(id) : CreateGradeUrl();
+    const res: ResponseType<{ data: GradeType }> = await request.post(url, body);
+    if (res.ok) router.replace(GradeRoute(res.data?.data.code || '', 'dashboard'));
 
     return true;
   };
 
+  useEffect(() => {
+    targetGrade && reset({ title: targetGrade.title, grade: targetOption });
+  }, []);
+
+  console.log(targetGrade);
   const { mutate, isPending } = useMutation({ mutationFn: PostCreateGrade });
   return (
     <div className="isCenter h-screen  bg-berry10  ">

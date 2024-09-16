@@ -5,8 +5,9 @@ export const RegisterUrl = (): string => `/register`;
 // Grades ///////////////////////////////////////////
 export const GradeUrl = (): string => `/grades/show`;
 export const CreateGradeUrl = (): string => `/grades/store`;
-export const DeleteGradeUrl = (id: number): string => `/grades/delete/${id}`;
-export const FieldsUrl = (gradeId: number): string => `/${gradeId}/fields/show`;
+export const DeleteGradeUrl = (gradeId: string): string => `/grades/${gradeId}/delete`;
+export const UpdateGradeUrl = (gradeId: string): string => `/grades/${gradeId}/update`;
+export const FieldsUrl = (gradeId: string): string => `/${gradeId}/fields/show`;
 
 // Class ///////////////////////////////////////////
 export const ShowClassUrl = (gradeId: string): string => `/${gradeId}/classrooms/show`;

@@ -6,10 +6,7 @@ import { revalidateTag, revalidatePath } from 'next/cache';
 import { baseURL } from './request';
 import { LoginRoute } from './routes';
 
-export const workshopTag = (id: number | string): string => `workshop-${id}`;
-export const lessonTag = (id: number | string): string => `lesson-${id}`;
-export const eventTag = (id: number | string): string => `event-${id}`;
-export const userTag = (): string => `user`;
+export const gradesTag = (): string => `grades`;
 
 export const fetchData = async <T>(
   url: string,
@@ -20,7 +17,7 @@ export const fetchData = async <T>(
   const token = cookies().get('token')?.value || '';
   const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
   const next = { tags: [tag] };
-  const requestOptions: RequestInit = { method, headers, next, cache: 'force-cache' };
+  const requestOptions: RequestInit = { method, headers, next };
 
   if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
 

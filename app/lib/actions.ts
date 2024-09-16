@@ -9,7 +9,7 @@ import {
 } from './urls';
 
 export const fieldsKey = (id: string): string[] => ['fields', id];
-export const getFields = async (id: number): Promise<FieldsType[] | null> => {
+export const getFields = async (id: string): Promise<FieldsType[] | null> => {
   const res: ResponseType<{ data: FieldsType[] }> = await request.get(FieldsUrl(id));
   return res.data?.data || null;
 };

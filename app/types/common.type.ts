@@ -8,7 +8,7 @@ export type PageType = {
 };
 
 export type SelectOptionType = { value: string | number; label: string };
-export type GradeType = { id: number; title: string };
+export type GradeType = { code: string; title: string; grade_id: number };
 export type FieldsType = { id: number; title: string };
 
 export type ClassroomType = {

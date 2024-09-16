@@ -11,16 +11,16 @@ import request from 'app/lib/request';
 import { DeleteGradeUrl } from 'app/lib/urls';
 import DeleteModal from 'app/components/deleteModal';
 
-const GradeSelect: React.FC<{ options: { label: string; value: number }[] }> = ({ options }) => {
+const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = ({ options }) => {
   const { gradeId } = useParams();
   const router = useRouter();
-  const activeGrade = options.find((k) => k.value === Number(gradeId));
-  const [deleteId, setDeleteId] = useState<boolean | number>(false);
+  const activeGrade = options.find((k) => k.value === gradeId);
+  const [deleteId, setDeleteId] = useState<boolean | string>(false);
 
   const PostDelete = async (): Promise<void> => {
-    const res = await request.post(DeleteGradeUrl(deleteId as number));
+    const res = await request.post(DeleteGradeUrl(deleteId as string));
     if (res.ok) {
-      Number(gradeId) === deleteId && router.replace(HomeRoute());
+      gradeId === deleteId && router.replace(HomeRoute());
       setDeleteId(false);
     }
   };
@@ -32,9 +32,11 @@ const GradeSelect: React.FC<{ options: { label: string; value: number }[] }> = (
       <ReactSelect
         options={options}
         value={activeGrade}
-        onDelete={(item: SelectOptionType) => setDeleteId(Number(item.value))}
+        onDelete={(item: SelectOptionType) => setDeleteId(item.value.toString())}
         onEdit={(item: SelectOptionType) => router.push(HomeRoute(String(item.value)))}
-        onChange={(e) => router.push(GradeRoute(e?.value || Number(gradeId), 'dashboard'))}
+        onChange={(e) =>
+          router.push(GradeRoute(e?.value.toString() || gradeId.toString(), 'dashboard'))
+        }
       />
       <DeleteModal
         open={!!deleteId}

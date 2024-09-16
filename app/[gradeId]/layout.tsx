@@ -1,8 +1,11 @@
 import React from 'react';
+import { redirect } from 'next/navigation';
 import Sidebar from './sidebar';
 import GradeSelect from './gradeSelect';
-import { fetchData } from 'app/lib/server.util';
+import { fetchData, gradesTag } from 'app/lib/server.util';
 import { GradeUrl } from 'app/lib/urls';
+import { GradeType } from 'app/types/common.type';
+import { HomeRoute } from 'app/lib/routes';
 
 const menu = [
   { title: 'dashboard', icon: 'icon-home' },
@@ -18,11 +21,12 @@ const grades = [
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
-  const data = await fetchData<{ data: { id: number; title: string }[] }>(GradeUrl(), 'grades');
+  const data = await fetchData<{ data: GradeType[] }>(GradeUrl(), gradesTag());
 
-  // if (!data.data.length) redirect(HomeRoute());
-  const options = grades.map(({ id, title }) => ({
-    value: id,
+  if (!data.data.length) redirect(HomeRoute());
+
+  const options = data.data.map(({ code, title }) => ({
+    value: code,
     label: title,
     hasDelete: true,
     hasEdit: true,

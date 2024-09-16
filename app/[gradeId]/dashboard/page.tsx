@@ -13,7 +13,6 @@ const DashboardPage: React.FC = () => {
     console.log('aa', res.data);
   };
   const { data } = useQuery({ queryKey: ['todos'], queryFn: getData });
-  console.log(1, data);
   return <div className="">Dashboard</div>;
 };
 

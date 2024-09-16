@@ -1,10 +1,8 @@
 import React from 'react';
-import { redirect } from 'next/navigation';
 import Sidebar from './sidebar';
 import GradeSelect from './gradeSelect';
 import { fetchData } from 'app/lib/server.util';
 import { GradeUrl } from 'app/lib/urls';
-import { HomeRoute } from 'app/lib/routes';
 
 const menu = [
   { title: 'dashboard', icon: 'icon-home' },

@@ -18,7 +18,7 @@ export const fetchData = async <T>(
   body: Record<string, any> | null = null // eslint-disable-line
 ): Promise<T> => {
   const token = cookies().get('token')?.value || '';
-  const headers = { Authorization: token, 'Content-Type': 'application/json' };
+  const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
   const next = { tags: [tag] };
   const requestOptions: RequestInit = { method, headers, next, cache: 'force-cache' };
 

@@ -10,6 +10,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@hassanmojab/react-modern-calendar-datepicker": "^3.1.7",
     "@tanstack/react-query": "^5.55.4",
     "ag-grid-community": "^32.1.0",
     "ag-grid-react": "^32.1.0",
@@ -20,7 +21,6 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
-    "react-modern-calendar-datepicker": "^3.1.6",
     "react-select": "^5.8.0"
   },
   "devDependencies": {

@@ -61,3 +61,19 @@ body {
 .ltr {
   direction: ltr;
 }
+
+.placeholder-rtl::-webkit-input-placeholder {
+  text-align: right;
+}
+
+.placeholder-rtl::-moz-placeholder {
+  text-align: right;
+}
+
+.placeholder-rtl:-ms-input-placeholder {
+  text-align: right;
+}
+
+.placeholder-rtl::placeholder {
+  text-align: right;
+}

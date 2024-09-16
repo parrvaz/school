@@ -1,3 +1,4 @@
+import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import fa from 'app/lib/fa.json';
 
@@ -51,3 +52,12 @@ export const camelCase = (input: string): string =>
     .replace(/([-_ ]){1,}/g, ' ')
     .split(/[-_ ]/)
     .reduce((cur, acc) => cur + acc[0].toUpperCase() + acc.substring(1));
+
+export const convertToDate = (value: DayValue): string =>
+  `${value?.year}/${value?.month}/${value?.day}`;
+
+export const convertToDayValue = (value: string): DayValue => {
+  if (!value) return null;
+  const date = value.split('/');
+  return { year: Number(date[0]), month: Number(date[1]), day: Number(date[2]) };
+};

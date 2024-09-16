@@ -9,6 +9,7 @@ import fa from 'app/lib/fa.json';
 const Home: React.FC = async () => {
   const data = await fetchData<{ data: GradeType[] }>(GradeUrl(), 'grades');
 
+  console.log(4, data);
   if (!!data.data.length) redirect(GradeRoute(data.data[0].id, 'dashboard'));
 
   return <CreateGradeForm grades={data.data} />;

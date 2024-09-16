@@ -7,7 +7,7 @@ import { GradeUrl } from 'app/lib/urls';
 const DashboardPage: React.FC = () => {
   const getData = async (): Promise<void> => {
     const res = await request.get(GradeUrl());
-    console.log('aa', res);
+    console.log('aa', res.data.data.grades);
   };
   const { data } = useQuery({ queryKey: ['todos'], queryFn: getData });
   return <div className="">Dashboard</div>;

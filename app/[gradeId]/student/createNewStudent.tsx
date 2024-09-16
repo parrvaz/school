@@ -13,6 +13,8 @@ import {
   minLengthMessage,
   numberValidation,
 } from 'app/utils/common.util';
+import AppDatePicker from 'app/components/datePicker';
+import FormDatePiker from 'app/components/formDatePiker';
 
 type FormType = {
   firstName: string;
@@ -56,6 +58,7 @@ const CreateNewStudent: React.FC<{
     formState: { errors },
     control,
     reset,
+    watch,
   } = useForm<FormType>({ defaultValues });
 
   // useEffect(() => {
@@ -90,6 +93,7 @@ const CreateNewStudent: React.FC<{
   const { mutate, isPending } = useMutation({ mutationFn: PostCreate });
   const fieldOptions = useMemo(() => data.map((k) => ({ value: k.id, label: k.title })), [data]);
 
+  console.log(watch('birthday'));
   return (
     <div className="flex justify-end mt-6">
       <Button onClick={(): void => setStudentData(true)} className="btn btn-primary">
@@ -133,18 +137,11 @@ const CreateNewStudent: React.FC<{
               {...{ errors, control, rules }}
               name="filed"
               options={fieldOptions}
-              className="mt-8"
               placeholder={(studentData as StudentType)?.classroom || fa.classroom.field}
             />
           </div>
           <div className="flex-1 px-5">
-            <FormInput
-              {...{ errors, control, rules }}
-              name="floor"
-              className="mt-8"
-              rules={{ required: true, pattern: justNumber }}
-              placeholder={fa.classroom.floor}
-            />
+            <FormDatePiker {...{ errors, control }} name="birthday" />
           </div>
         </div>
         <Button type="submit" className="btn btn-primary mt-10 w-full" isLoading={isPending}>

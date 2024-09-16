@@ -1,5 +1,6 @@
 // home /////////////////////////////////////////////////////////////////////////////////////////
-export const HomeRoute = (id?: string): string => `/${id ? `?id=${id}` : ''}`;
+export const HomeRoute = (id?: string, isCreate?: boolean): string =>
+  `/${id ? `?id=${id}` : ''}${isCreate ? `?isCreate=true` : ''}`;
 
 // account /////////////////////////////////////////////////////////////////////////////////////////
 export const RegisterRoute = (): string => `/register`;

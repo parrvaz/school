@@ -10,6 +10,7 @@ import fa from 'app/lib/fa.json';
 import request from 'app/lib/request';
 import { DeleteGradeUrl } from 'app/lib/urls';
 import DeleteModal from 'app/components/deleteModal';
+import { gradesTag, tagRevalidate } from 'app/lib/server.util';
 
 const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = ({ options }) => {
   const { gradeId } = useParams();
@@ -20,7 +21,15 @@ const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = (
   const PostDelete = async (): Promise<void> => {
     const res = await request.post(DeleteGradeUrl(deleteId as string));
     if (res.ok) {
-      gradeId === deleteId && router.replace(HomeRoute());
+      tagRevalidate(gradesTag());
+
+      if (gradeId === deleteId) {
+        const otherOptions = options.filter((k) => k.value !== gradeId);
+        console.log(options, gradeId, otherOptions);
+        router.replace(
+          otherOptions.length ? GradeRoute(otherOptions[0].value, 'dashboard') : HomeRoute()
+        );
+      }
       setDeleteId(false);
     }
   };
@@ -34,6 +43,8 @@ const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = (
         value={activeGrade}
         onDelete={(item: SelectOptionType) => setDeleteId(item.value.toString())}
         onEdit={(item: SelectOptionType) => router.push(HomeRoute(String(item.value)))}
+        onAdd={(): void => router.push(HomeRoute('', true))}
+        addMessage={fa.home.createNewGrade}
         onChange={(e) =>
           router.push(GradeRoute(e?.value.toString() || gradeId.toString(), 'dashboard'))
         }

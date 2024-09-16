@@ -10,6 +10,8 @@ type SelectType = {
   onChange: (value: SingleValue<SelectOptionType>) => void;
   onDelete?: (option: SelectOptionType) => void;
   onEdit?: (option: SelectOptionType) => void;
+  onAdd?: () => void;
+  addMessage?: string;
 };
 
 // eslint-disable-next-line prettier/prettier
@@ -47,11 +49,34 @@ const CustomOption = (props: any): JSX.Element => {
   );
 };
 
+const CustomButton = (props: any): JSX.Element => {
+  const { children, selectProps } = props;
+
+  const handleAddClick = (): void => {
+    if (selectProps.onAdd) {
+      console.log('add');
+      selectProps.onAdd(); // Call the onAdd prop passed to Select component
+    }
+  };
+
+  return (
+    <components.MenuList {...props}>
+      {children}
+      {selectProps.addMessage && (
+        <button className="btn btn-primary btn-sm w-full text-14" onClick={handleAddClick}>
+          <i className="icon-add text-24" />
+          {selectProps.addMessage}
+        </button>
+      )}
+    </components.MenuList>
+  );
+};
+
 const ReactSelect: React.FC<SelectType> = ({ ...rest }) => {
   return (
     <Select
       {...rest}
-      components={{ IndicatorSeparator: null, Option: CustomOption }}
+      components={{ IndicatorSeparator: null, Option: CustomOption, MenuList: CustomButton }}
       isRtl
       styles={{
         control: (baseStyles) => ({ ...baseStyles, borderRadius: '8px', fontSize: 14 }),

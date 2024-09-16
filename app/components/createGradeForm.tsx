@@ -26,6 +26,7 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const isCreate = searchParams.get('isCreate');
   const targetGrade = grades.find((k) => k.code === id);
   const targetOption = gradeOptions.find((k) => k.value === targetGrade?.grade_id);
   const {
@@ -54,9 +55,15 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
     <div className="isCenter h-screen  bg-berry10  ">
       <div className="flex flex-col w-[34rem] px-20 items-center rounded-2xl border-2  border-white md:bg-white50">
         <i className="icon-trend-up text-berry60 mt-10 text-48" />
-        <div className="text-24 font-bold text-berry100 mt-6 mb-8">{fa.home.welcome}</div>
-        <div className="text-16 font-regular text-black70 mb-1">{fa.home.info1}</div>
-        <div className="text-16 font-regular text-black70">{fa.home.info2}</div>
+        <div className="text-24 font-bold text-berry100 mt-6 mb-8">
+          {fa.home[isCreate ? 'createNewGrade' : id ? 'updateGrade' : 'welcome']}
+        </div>
+        {!(isCreate || id) && (
+          <div className="text-16 font-regular text-black70 mb-1">{fa.home.info1}</div>
+        )}
+        {!(isCreate || id) && (
+          <div className="text-16 font-regular text-black70">{fa.home.info2}</div>
+        )}
         <form onSubmit={handleSubmit((e) => mutate(e))} className="w-full">
           <FormInput
             {...{ errors, control, rules }}
@@ -74,7 +81,7 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
           />
 
           <Button className="btn btn-primary mb-10 w-full mt-9" isLoading={isPending}>
-            {fa.home.start}
+            {fa.home[isCreate || id ? 'save' : 'start']}
           </Button>
         </form>
       </div>

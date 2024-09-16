@@ -33,7 +33,7 @@ const FormInput: React.FC<InputType> = (props) => {
         >
           {!textarea ? (
             <input
-              {...{ value, onChange }}
+              {...{ value: value || '', onChange }}
               type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
               placeholder={placeholder}
               onFocus={onFocus}

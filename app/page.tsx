@@ -4,7 +4,6 @@ import { fetchData } from './lib/server.util';
 import { GradeUrl } from './lib/urls';
 import { GradeRoute } from './lib/routes';
 import { GradeType } from './types/common.type';
-import fa from 'app/lib/fa.json';
 
 const Home: React.FC = async () => {
   const data = await fetchData<{ data: GradeType[] }>(GradeUrl(), 'grades');

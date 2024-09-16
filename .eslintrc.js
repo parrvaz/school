@@ -15,6 +15,7 @@ module.exports = {
 
     'no-unused-vars': 0, // Turn off the basic rule
     '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-explicit-any': 0,
     'react-hooks/exhaustive-deps': 0,
 
     // Code quality rules

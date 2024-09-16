@@ -6,6 +6,7 @@ import fa from 'app/lib/fa.json';
 import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import CreateNewStudent from './createNewStudent';
+import { DeleteStudentAction } from 'app/lib/actions';
 
 const StudentsTable: React.FC<{ data: StudentType[] }> = ({ data }) => {
   const [studentData, setStudentData] = useState<StudentType | boolean>(false);
@@ -29,7 +30,11 @@ const StudentsTable: React.FC<{ data: StudentType[] }> = ({ data }) => {
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: { setEditData: setStudentData },
+      cellRendererParams: {
+        setEditData: setStudentData,
+        deleteAction: DeleteStudentAction,
+        id: 'student',
+      },
     },
   ];
   return (

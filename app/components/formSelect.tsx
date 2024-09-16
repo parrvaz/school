@@ -16,7 +16,7 @@ type SelectType = {
 const FormSelect: React.FC<SelectType> = (props) => {
   const { options, className, control, name, errors, rules, placeholder } = props;
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative text-right ${className}`}>
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (

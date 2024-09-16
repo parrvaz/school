@@ -81,9 +81,9 @@
     "specialDisease": "بیماری خاص",
     "address": "آدرس",
     "chooseClass": "انتخاب کلاس",
-    "": "",
-    "": "",
-    "": "",
+    "fatherPhone": "تلفن ولی (پدر)",
+    "motherPhone": "تلفن ولی (مادر)",
+    "submitNewStudent": "ثبت دانش‌آموز جدید",
     "newStudent": "ایجاد دانش‌آموز جدید"
   },
   "home": {
@@ -100,6 +100,6 @@
     "dashboard": "داشبورد",
     "classroom": "لیست کلاس‌ها",
     "": "",
-    "student": "دانش‌آموز"
+    "student": "لیست دانش‌آموزان"
   }
 }

@@ -6,7 +6,8 @@ const Modal: React.FC<{
   children: ReactNode;
   open: boolean;
   setOpen: (status: boolean) => void;
-}> = ({ children, id, open, setOpen }) => {
+  className?: string;
+}> = ({ children, id, open, setOpen, className }) => {
   useEffect(() => {
     const modalElement = document.getElementById(id);
 
@@ -30,7 +31,7 @@ const Modal: React.FC<{
 
   return (
     <dialog id={id} className="modal">
-      <div className="modal-box">
+      <div className={`modal-box ${className}`}>
         {children}
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}

@@ -1,6 +1,6 @@
-import { SelectOptionType } from 'app/types/common.type';
 import React from 'react';
 import Select, { SingleValue, components } from 'react-select';
+import { SelectOptionType } from 'app/types/common.type';
 
 type SelectType = {
   options: SelectOptionType[];
@@ -12,17 +12,18 @@ type SelectType = {
   onEdit?: (option: SelectOptionType) => void;
 };
 
-const CustomOption = (props: any) => {
+// eslint-disable-next-line prettier/prettier
+const CustomOption = (props: any): JSX.Element => {
   const { data, innerRef, innerProps, selectProps } = props;
 
-  const handleDeleteClick = (event: React.MouseEvent) => {
+  const handleDeleteClick = (event: React.MouseEvent): void => {
     event.stopPropagation(); // Prevent closing the dropdown
     if (selectProps.onDelete) {
       selectProps.onDelete(data); // Call the onDelete prop passed to Select component
     }
   };
 
-  const handleEditClick = (event: React.MouseEvent) => {
+  const handleEditClick = (event: React.MouseEvent): void => {
     event.stopPropagation(); // Prevent closing the dropdown
     if (selectProps.onEdit) {
       selectProps.onEdit(data); // Call the onDelete prop passed to Select component

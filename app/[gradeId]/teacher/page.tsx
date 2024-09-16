@@ -35,7 +35,7 @@ const StudentPage: React.FC<PageType> = async () => {
   ];
   return (
     <div className="">
-      <h1 className="font-bold text-berry100 text-32 mb-10">{fa.sidebar.teacher}</h1>
+      <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.teacher}</h1>
       <TeacherTable data={data} />
     </div>
   );

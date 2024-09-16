@@ -37,7 +37,7 @@ const ClassroomPage: React.FC = () => {
 
   return (
     <div className="">
-      <h1 className="font-bold text-berry100 text-32 mb-10">{fa.sidebar.classroom}</h1>
+      <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.classroom}</h1>
       <ClassTable data={data} />
     </div>
   );

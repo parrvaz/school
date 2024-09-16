@@ -53,10 +53,7 @@ const CustomButton = (props: any): JSX.Element => {
   const { children, selectProps } = props;
 
   const handleAddClick = (): void => {
-    if (selectProps.onAdd) {
-      console.log('add');
-      selectProps.onAdd(); // Call the onAdd prop passed to Select component
-    }
+    if (selectProps.onAdd) selectProps.onAdd(); // Call the onAdd prop passed to Select component
   };
 
   return (

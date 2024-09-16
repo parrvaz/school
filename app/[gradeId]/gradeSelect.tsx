@@ -25,7 +25,6 @@ const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = (
 
       if (gradeId === deleteId) {
         const otherOptions = options.filter((k) => k.value !== gradeId);
-        console.log(options, gradeId, otherOptions);
         router.replace(
           otherOptions.length ? GradeRoute(otherOptions[0].value, 'dashboard') : HomeRoute()
         );

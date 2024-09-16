@@ -1,73 +1,73 @@
 import React, { useEffect, useMemo } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import Modal from 'app/components/modal';
 import FormInput from 'app/components/formInput';
 import { justNumber } from 'app/utils/common.util';
 import FormSelect from 'app/components/formSelect';
-import { ClassroomType } from 'app/types/common.type';
+import { ClassFormType, ClassroomType } from 'app/types/common.type';
+import { fieldsKey, getFields, UpdateClassAction } from 'app/lib/actions';
+import { classroomTag, tagRevalidate } from 'app/lib/server.util';
 
-type FormType = {
-  title: string;
-  field: { label: string; value: number };
-  floor: number;
-  number: number;
+const defaultValues = {
+  title: '',
+  field: { value: undefined, label: '' },
+  floor: undefined,
+  number: undefined,
 };
-
-const data = [
-  { id: 1, title: 'ریاضی و فیزیک' },
-  { id: 2, title: 'تجربی' },
-  { id: 3, title: 'انسانی' },
-];
 
 const CreateNewClass: React.FC<{
   classData: ClassroomType | boolean;
   setClassData: (data: ClassroomType | boolean) => void;
 }> = ({ classData, setClassData }) => {
   const rules = { required: true };
+  const { gradeId } = useParams();
+  const id = typeof classData !== 'boolean' ? classData?.id : undefined;
+
   const {
-    setValue,
     handleSubmit,
     formState: { errors },
     control,
     reset,
-  } = useForm<FormType>({
-    defaultValues: { title: '', field: undefined, floor: undefined, number: undefined },
-  });
+  } = useForm<ClassFormType>({ defaultValues });
 
   useEffect(() => {
     if (typeof classData !== 'boolean' && classData.title) {
-      setValue('title', classData.title);
-      setValue('floor', classData.floor);
-      setValue('number', classData.number);
-      setValue('field', { label: classData.field, value: classData.field_id });
-    }
+      const newData = {
+        ...classData,
+        number: classData.number.toString(),
+        field: { label: classData.field, value: classData.field_id },
+      };
+      reset(newData);
+    } else reset(defaultValues);
   }, [classData]);
-
-  const PostCreate = async (e: FormType): Promise<boolean> => {
-    console.log('submit', e);
-    // const isMobile = !auth.includes('@');
-    // const body = isMobile ? { mobile: auth, password } : { email: auth, password };
-    // const url = isMobile ? LoginMobileUrl() : LoginEmailUrl();
-    // const res: ResponseType<{ user: UserType }> = await request.post(url, body);
-    // if (res.ok) {
-    //   setCookie(res.data?.user.token);
-    //   // refetch();
-    //   clearData();
-    //   // router.replace(searchParams.get('next') || HomeRoute());
-    // }
-    return true;
-  };
 
   const handleCloseModal = (): void => {
     setClassData(false);
     reset();
   };
 
-  const { mutate, isPending } = useMutation({ mutationFn: PostCreate });
-  const fieldOptions = useMemo(() => data.map((k) => ({ value: k.id, label: k.title })), [data]);
+  const { data } = useQuery({
+    queryKey: fieldsKey(gradeId.toString()),
+    queryFn: () => getFields(gradeId.toString()),
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (e: ClassFormType) => UpdateClassAction(e, gradeId.toString(), id),
+    onSuccess: (ok) => {
+      if (ok) {
+        setClassData(false);
+        tagRevalidate(classroomTag());
+      }
+    },
+  });
+  const classOptions = useMemo(
+    () => data?.map((k) => ({ value: k.id, label: k.title })) || [],
+    [data]
+  );
 
   return (
     <div className="flex justify-end mt-6">
@@ -89,8 +89,8 @@ const CreateNewClass: React.FC<{
             />
             <FormSelect
               {...{ errors, control, rules }}
-              name="filed"
-              options={fieldOptions}
+              name="field"
+              options={classOptions}
               className="mt-8"
               placeholder={(classData as ClassroomType)?.field || fa.classroom.field}
             />

@@ -9,9 +9,10 @@ type TableType = {
   data: any[]; // eslint-disable-line
   columns: any[]; // eslint-disable-line
   className?: string;
+  emptyMessage?: string;
 };
 
-const Table: React.FC<TableType> = ({ data, columns, className }) => {
+const Table: React.FC<TableType> = ({ data, columns, className, emptyMessage }) => {
   return (
     <div className={`ag-theme-quartz ${className}`}>
       <AgGridReact
@@ -20,6 +21,7 @@ const Table: React.FC<TableType> = ({ data, columns, className }) => {
         autoSizeStrategy={{ type: 'fitGridWidth' }}
         rowData={data}
         columnDefs={columns}
+        overlayNoRowsTemplate={`${emptyMessage || 'No rows to display'}`}
       />
     </div>
   );

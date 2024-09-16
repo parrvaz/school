@@ -11,11 +11,11 @@ export const FieldsUrl = (gradeId: string): string => `/${gradeId}/fields/show`;
 
 // Class ///////////////////////////////////////////
 export const ShowClassUrl = (gradeId: string): string => `/${gradeId}/classrooms/show`;
-// export const UpdateClassUrl = (gradeId: string, id?: number): string =>
-//   `/${gradeId}/Classs/update/${id}`;
-// export const DeleteClassUrl = (gradeId: string, id?: number): string =>
-//   `/${gradeId}/Classs/delete/${id}`;
-// export const CreateClassUrl = (gradeId: string): string => `/${gradeId}/Classs/store`;
+export const UpdateClassUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/classrooms/update/${id}`;
+export const DeleteClassUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/classrooms/delete/${id}`;
+export const CreateClassUrl = (gradeId: string): string => `/${gradeId}/classrooms/store`;
 
 // Student ///////////////////////////////////////////
 export const ShowStudentUrl = (gradeId: string): string => `/${gradeId}/students/show`;

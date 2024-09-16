@@ -49,7 +49,6 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
     targetGrade && reset({ title: targetGrade.title, grade: targetOption });
   }, []);
 
-  console.log(targetGrade);
   const { mutate, isPending } = useMutation({ mutationFn: PostCreateGrade });
   return (
     <div className="isCenter h-screen  bg-berry10  ">

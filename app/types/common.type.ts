@@ -21,6 +21,13 @@ export type ClassroomType = {
   field: string;
 };
 
+export type ClassFormType = {
+  title: string;
+  field: { label: string; value: number };
+  floor: number;
+  number: string;
+};
+
 export type StudentType = {
   id: number;
   firstName: string;

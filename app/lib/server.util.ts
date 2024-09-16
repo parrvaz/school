@@ -7,6 +7,7 @@ import { baseURL } from './request';
 import { LoginRoute } from './routes';
 
 export const gradesTag = (): string => `grades`;
+export const classroomTag = (): string => `classroom-show`;
 
 export const fetchData = async <T>(
   url: string,
@@ -20,7 +21,6 @@ export const fetchData = async <T>(
   const requestOptions: RequestInit = { method, headers, next };
 
   if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
-
   const res = await fetch(baseURL + url, requestOptions);
 
   if (res.status === 404) return notFound();

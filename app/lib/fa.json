@@ -65,6 +65,7 @@
     "number": "شماره",
     "field": "رشته",
     "floor": "طبقه",
+    "noClassroom": "هنوز کلاسی ثبت نشده است.",
     "newClass": "ایجاد کلاس جدید",
     "submitClass": "ثبت کلاس",
     "action": "عملیات"

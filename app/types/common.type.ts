@@ -53,3 +53,14 @@ export type StudentFormType = {
   address: string;
   classroom: { label: string; value: number };
 };
+
+export type TeacherType = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  nationalId: number;
+  name: string;
+  degree: string;
+  personalId: number;
+  user_grade_id: number;
+};

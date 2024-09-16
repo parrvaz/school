@@ -1,10 +1,16 @@
+import React from 'react';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
 import StudentsTable from './studentsTable';
+// import { fetchData } from 'app/lib/server.util';
+// import { ShowStudentUrl } from 'app/lib/urls';
+import { PageType } from 'app/types/common.type';
 
 export const metadata: Metadata = { title: fa.sidebar.student };
 
-const StudentPage: React.FC = () => {
+const StudentPage: React.FC<PageType> = async ({ params }) => {
+  // const data = await fetchData<{ data: GradeType[] }>(ShowStudentUrl(params.gradeId), 'students');
+
   const data = [
     {
       id: 100,

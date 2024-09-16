@@ -8,6 +8,7 @@ const menu = [
   { title: 'dashboard', icon: 'icon-home' },
   { title: 'classroom', icon: 'icon-monitor' },
   { title: 'student', icon: 'icon-people' },
+  { title: 'teacher', icon: 'icon-teacher' },
 ];
 
 const grades = [

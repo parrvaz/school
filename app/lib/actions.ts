@@ -1,14 +1,22 @@
-import { ClassFormType, FieldsType, ResponseType, StudentFormType } from 'app/types/common.type';
+import {
+  ClassFormType,
+  FieldsType,
+  ResponseType,
+  StudentFormType,
+  TeacherFormType,
+} from 'app/types/common.type';
 import request from './request';
 import {
   CreateClassUrl,
   CreateStudentUrl,
+  CreateTeacherUrl,
   DeleteClassUrl,
   DeleteStudentUrl,
   DeleteTeacherUrl,
   FieldsUrl,
   UpdateClassUrl,
   UpdateStudentUrl,
+  UpdateTeacherUrl,
 } from './urls';
 
 export const fieldsKey = (id: string): string[] => ['fields', id];
@@ -51,6 +59,18 @@ export const UpdateStudentAction = async (
 export const DeleteStudentAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = DeleteStudentUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
+
+  return res.ok;
+};
+
+export const UpdateTeacherAction = async (
+  values: TeacherFormType,
+  gradeId: string,
+  id?: number
+): Promise<boolean> => {
+  const url = id ? UpdateTeacherUrl(gradeId, id) : CreateTeacherUrl(gradeId);
+  const body = { ...values };
+  const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
 };

@@ -71,3 +71,12 @@ export type TeacherType = {
   personalId: number;
   user_grade_id: number;
 };
+
+export type TeacherFormType = {
+  firstName: string;
+  lastName: string;
+  nationalId: number;
+  phone: number;
+  personalID: string;
+  degree: string;
+};

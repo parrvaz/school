@@ -1,15 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { TeacherType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import { DeleteTeacherAction } from 'app/lib/actions';
+import { teacherTag } from 'app/lib/server.util';
+import CreateNewTeacher from './createNewTeacher';
 
 const TeacherTable: React.FC<{ data: TeacherType[] }> = ({ data }) => {
-  //   const [teacherData, setTeacherData] = useState<TeacherType | boolean>(false);
-
+  const [teacherData, setTeacherData] = useState<TeacherType | boolean>(false);
+  const emptyMessage = fa.teacher.noTeacher;
+  const tag = teacherTag();
   const columns = [
     {
       headerName: fa.teacher.lastName,
@@ -29,17 +32,13 @@ const TeacherTable: React.FC<{ data: TeacherType[] }> = ({ data }) => {
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: {
-        // setEditData: setTeacherData,
-        deleteAction: DeleteTeacherAction,
-        id: 'teacher',
-      },
+      cellRendererParams: { setEditData: setTeacherData, deleteAction: DeleteTeacherAction, tag },
     },
   ];
   return (
     <div>
-      <Table columns={columns} data={data} className="h-full w-full" />
-      {/* <CreateNewStudent studentData={studentData} setStudentData={setStudentData} /> */}
+      <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
+      <CreateNewTeacher teacherData={teacherData} setTeacherData={setTeacherData} />
     </div>
   );
 };

@@ -27,8 +27,8 @@ export const CreateStudentUrl = (gradeId: string): string => `/${gradeId}/studen
 
 // Teacher ///////////////////////////////////////////
 export const ShowTeacherUrl = (gradeId: string): string => `/${gradeId}/teachers/show`;
-// export const UpdateTeacherUrl = (gradeId: string, id?: number): string =>
-//   `/${gradeId}/Teachers/update/${id}`;
+export const UpdateTeacherUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/teachers/update/${id}`;
 export const DeleteTeacherUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/teachers/delete/${id}`;
-// export const CreateTeacherUrl = (gradeId: string): string => `/${gradeId}/Teachers/store`;
+export const CreateTeacherUrl = (gradeId: string): string => `/${gradeId}/teachers/store`;

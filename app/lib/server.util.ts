@@ -9,6 +9,7 @@ import { LoginRoute } from './routes';
 export const gradesTag = (): string => `grades`;
 export const classroomTag = (): string => `classroom-show`;
 export const studentTag = (): string => `student-show`;
+export const teacherTag = (): string => `teacher-show`;
 
 export const fetchData = async <T>(
   url: string,

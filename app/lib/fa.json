@@ -99,10 +99,13 @@
     "chooseClass": "انتخاب کلاس",
     "degree": "مدرک",
     "personalId": "کد پرسنلی",
+    "noTeacher": "هنوز معلمی ثبت نشده است.",
+    "phone": "تلفن",
     "": "",
-    "": "",
-    "submitNewStudent": "ثبت معلم جدید",
-    "newStudent": "ایجاد معلم جدید"
+    "updateTeacher": "به‌روزرسانی اطلاعات معلم",
+    "submit": "ثبت تغییرات",
+    "submitNewTeacher": "ثبت معلم جدید",
+    "newTeacher": "ایجاد معلم جدید"
   },
   "home": {
     "welcome": "به پیشکار خوش آمدید.",

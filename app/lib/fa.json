@@ -101,11 +101,17 @@
     "personalId": "کد پرسنلی",
     "noTeacher": "هنوز معلمی ثبت نشده است.",
     "phone": "تلفن",
-    "": "",
     "updateTeacher": "به‌روزرسانی اطلاعات معلم",
     "submit": "ثبت تغییرات",
     "submitNewTeacher": "ثبت معلم جدید",
     "newTeacher": "ایجاد معلم جدید"
+  },
+  "assign": {
+    "chooseClass": "انتخاب کلاس",
+    "chooseCourse": "انتخاب درس",
+    "chooseTeacher": "انتخاب معلم",
+    "addNewRow": "ردیف جدید",
+    "submit": "ثبت"
   },
   "home": {
     "welcome": "به پیشکار خوش آمدید.",
@@ -124,6 +130,7 @@
     "dashboard": "داشبورد",
     "classroom": "لیست کلاس‌ها",
     "teacher": "لیست معلم‌ها",
+    "assign": "تخصیص درس",
     "": "",
     "student": "لیست دانش‌آموزان"
   }

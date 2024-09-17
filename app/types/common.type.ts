@@ -80,3 +80,27 @@ export type TeacherFormType = {
   personalID: string;
   degree: string;
 };
+
+export type CourseType = {
+  contentCount: number;
+  factor: number;
+  grade_id: number;
+  id: number;
+  name: string;
+  type: string;
+};
+
+export type AssignType = {
+  id: number;
+  classroom_id: number;
+  course_id: number;
+  teacher_id: number;
+};
+
+export type AssignFormType = {
+  assignments: {
+    class: { value: number; label: string } | null;
+    course: { value: number; label: string } | null;
+    teacher: { value: number; label: string } | null;
+  }[];
+};

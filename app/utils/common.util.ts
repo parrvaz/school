@@ -1,6 +1,13 @@
 import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import fa from 'app/lib/fa.json';
+import {
+  AssignFormType,
+  AssignType,
+  ClassroomType,
+  CourseType,
+  TeacherType,
+} from 'app/types/common.type';
 
 export const justNumber = { value: /^[0-9]+$/, message: fa.global.rules.justNumber };
 export const numberValidation = (otherRules?: object): object => ({
@@ -60,4 +67,30 @@ export const convertToDayValue = (value: string): DayValue => {
   if (!value) return null;
   const date = value.split('/');
   return { year: Number(date[0]), month: Number(date[1]), day: Number(date[2]) };
+};
+
+export const getNestedError = (errors: any, name: string): { message: string } => {
+  const path = name.split('.');
+  return path.reduce((acc, key) => (acc ? acc[key] : undefined), errors);
+};
+
+export const normalizeAssignData = (
+  data: AssignType[],
+  courses: CourseType[],
+  teachers: TeacherType[],
+  classrooms: ClassroomType[]
+): AssignFormType => {
+  return {
+    assignments: data.map((assign) => {
+      const course = courses.find((c) => c.id === assign.course_id);
+      const teacher = teachers.find((t) => t.id === assign.teacher_id);
+      const classroom = classrooms.find((cl) => cl.id === assign.classroom_id);
+
+      return {
+        class: { value: classroom?.id || 0, label: classroom?.title || '' },
+        course: { value: course?.id || 0, label: course?.name || '' },
+        teacher: { value: teacher?.id || 0, label: teacher?.name || '' },
+      };
+    }),
+  };
 };

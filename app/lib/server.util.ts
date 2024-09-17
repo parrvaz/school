@@ -10,6 +10,8 @@ export const gradesTag = (): string => `grades`;
 export const classroomTag = (): string => `classroom-show`;
 export const studentTag = (): string => `student-show`;
 export const teacherTag = (): string => `teacher-show`;
+export const courseTag = (): string => `course-show`;
+export const assignTag = (): string => `assign-show`;
 
 export const fetchData = async <T>(
   url: string,

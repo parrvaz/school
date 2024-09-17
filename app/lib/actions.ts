@@ -1,4 +1,5 @@
 import {
+  AssignFormType,
   ClassFormType,
   FieldsType,
   ResponseType,
@@ -15,6 +16,7 @@ import {
   DeleteTeacherUrl,
   FieldsUrl,
   UpdateClassUrl,
+  UpdateCourseUrl,
   UpdateStudentUrl,
   UpdateTeacherUrl,
 } from './urls';
@@ -78,6 +80,21 @@ export const UpdateTeacherAction = async (
 export const DeleteTeacherAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = DeleteTeacherUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
+
+  return res.ok;
+};
+
+export const UpdateAssignmentAction = async (
+  values: AssignFormType,
+  gradeId: string
+): Promise<boolean> => {
+  const url = UpdateCourseUrl(gradeId);
+  const list = values.assignments.map((k) => ({
+    classroom_id: k.class?.value,
+    course_id: k.course?.value,
+    teacher_id: k.teacher?.value,
+  }));
+  const res: ResponseType<{ data: string }> = await request.post(url, { list });
 
   return res.ok;
 };

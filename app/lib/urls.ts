@@ -32,3 +32,8 @@ export const UpdateTeacherUrl = (gradeId: string, id?: number): string =>
 export const DeleteTeacherUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/teachers/delete/${id}`;
 export const CreateTeacherUrl = (gradeId: string): string => `/${gradeId}/teachers/store`;
+
+// Assign ///////////////////////////////////////////
+export const ShowCourseUrl = (gradeId: string): string => `/${gradeId}/courses/show`;
+export const GetAssignUrl = (gradeId: string): string => `/${gradeId}/courses/classroom/show`;
+export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses/store`;

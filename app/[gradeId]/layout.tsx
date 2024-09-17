@@ -12,6 +12,7 @@ const menu = [
   { title: 'classroom', icon: 'icon-monitor' },
   { title: 'student', icon: 'icon-people' },
   { title: 'teacher', icon: 'icon-teacher' },
+  { title: 'assign', icon: 'icon-book' },
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
@@ -26,8 +27,8 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
     hasEdit: true,
   }));
   return (
-    <div className="bg-berry10 flex w-screen min-h-screen">
-      <div className="right-0 h-screen w-60 overflow-auto bg-white">
+    <div className="bg-berry10 flex w-full min-h-screen pr-60">
+      <div className="right-0 h-screen w-60 fixed overflow-auto bg-white">
         <Sidebar menu={menu} />
       </div>
 

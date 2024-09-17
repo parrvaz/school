@@ -1,7 +1,7 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
-import Sidebar from './sidebar';
-import GradeSelect from './gradeSelect';
+import Sidebar from '../components/sidebar';
+import GradeSelect from '../components/gradeSelect';
 import { fetchData, gradesTag } from 'app/lib/server.util';
 import { GradeUrl } from 'app/lib/urls';
 import { GradeType } from 'app/types/common.type';

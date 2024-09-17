@@ -5,14 +5,14 @@ import { ClassroomType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import CreateNewClass from './createNewClass';
-import ActionRenderer from '../../components/actionRenderer';
 import { DeleteClassAction } from 'app/lib/actions';
 import { classroomTag } from 'app/lib/server.util';
+import ActionRenderer from 'app/components/actionRenderer';
 
 const ClassTable: React.FC<{ data: ClassroomType[] }> = ({ data }) => {
   const [classData, setClassData] = useState<ClassroomType | boolean>(false);
   const emptyMessage = fa.classroom.noClassroom;
-  const tag = classroomTag().toString();
+  const tag = classroomTag();
   const columns = [
     {
       headerName: fa.classroom.title,

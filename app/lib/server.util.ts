@@ -8,6 +8,7 @@ import { LoginRoute } from './routes';
 
 export const gradesTag = (): string => `grades`;
 export const classroomTag = (): string => `classroom-show`;
+export const studentTag = (): string => `student-show`;
 
 export const fetchData = async <T>(
   url: string,
@@ -28,7 +29,7 @@ export const fetchData = async <T>(
 
   const data = await res.json();
 
-  return data as T;
+  return data.data as T;
 };
 
 export const revalidateAllData = (): void => revalidateTag('*');

@@ -68,6 +68,8 @@
     "noClassroom": "هنوز کلاسی ثبت نشده است.",
     "newClass": "ایجاد کلاس جدید",
     "submitClass": "ثبت کلاس",
+    "updateClass": "به‌روزرسانی اطلاعات کلاس",
+    "submit": "ثبت تغییرات",
     "action": "عملیات"
   },
   "student": {
@@ -81,10 +83,13 @@
     "religion": "مذهب",
     "specialDisease": "بیماری خاص",
     "address": "آدرس",
+    "noStudent": "هنوز دانش‌آموزی ثبت نشده است.",
     "chooseClass": "انتخاب کلاس",
     "fatherPhone": "تلفن ولی (پدر)",
     "motherPhone": "تلفن ولی (مادر)",
     "submitNewStudent": "ثبت دانش‌آموز جدید",
+    "updateStudent": "به‌روزرسانی اطلاعات دانش‌آموز",
+    "submit": "ثبت تغییرات",
     "newStudent": "ایجاد دانش‌آموز جدید"
   },
   "teacher": {

@@ -14,18 +14,12 @@ const menu = [
   { title: 'teacher', icon: 'icon-teacher' },
 ];
 
-const grades = [
-  { title: 'aaa', id: 1 },
-  { title: 'ddd', id: 2 },
-  { title: 'ccc', id: 3 },
-];
-
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
-  const data = await fetchData<{ data: GradeType[] }>(GradeUrl(), gradesTag());
+  const data = await fetchData<GradeType[]>(GradeUrl(), gradesTag());
 
-  if (!data.data.length) redirect(HomeRoute());
+  if (!data?.length) redirect(HomeRoute());
 
-  const options = data.data.map(({ code, title }) => ({
+  const options = data.map(({ code, title }) => ({
     value: code,
     label: title,
     hasDelete: true,

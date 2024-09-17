@@ -1,16 +1,17 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import Button from 'app/components/button';
-import { StudentFormType, StudentType } from 'app/types/common.type';
+import { ClassroomType, StudentFormType, StudentType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import Modal from 'app/components/modal';
 import FormInput from 'app/components/formInput';
 import FormSelect from 'app/components/formSelect';
 import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/common.util';
 import FormDatePiker from 'app/components/formDatePiker';
-import { UpdateStudentAction, fieldsKey, getFields } from 'app/lib/actions';
+import { UpdateStudentAction } from 'app/lib/actions';
+import { studentTag, tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   firstName: '',
@@ -24,13 +25,14 @@ const defaultValues = {
   religion: '',
   specialDisease: '',
   address: '',
-  classroom: { label: '', value: undefined },
+  classroom: undefined,
 };
 
 const CreateNewStudent: React.FC<{
   studentData: StudentType | boolean;
   setStudentData: (data: StudentType | boolean) => void;
-}> = ({ studentData, setStudentData }) => {
+  classes: ClassroomType[];
+}> = ({ studentData, setStudentData, classes }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const id = typeof studentData !== 'boolean' ? studentData?.id : undefined;
@@ -40,11 +42,6 @@ const CreateNewStudent: React.FC<{
     control,
     reset,
   } = useForm<StudentFormType>({ defaultValues });
-
-  const { data } = useQuery({
-    queryKey: fieldsKey(gradeId.toString()),
-    queryFn: () => getFields(Number(gradeId)),
-  });
 
   useEffect(() => {
     if (typeof studentData !== 'boolean') {
@@ -63,11 +60,16 @@ const CreateNewStudent: React.FC<{
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: StudentFormType) => UpdateStudentAction(e, gradeId.toString(), id),
-    onSuccess: (ok) => ok && setStudentData(false),
+    onSuccess: (ok) => {
+      if (ok) {
+        setStudentData(false);
+        tagRevalidate(studentTag());
+      }
+    },
   });
   const classOptions = useMemo(
-    () => data?.map((k) => ({ value: k.id, label: k.title })) || [],
-    [data]
+    () => classes?.map((k) => ({ value: k.id, label: k.title })) || [],
+    [classes]
   );
 
   return (
@@ -84,7 +86,9 @@ const CreateNewStudent: React.FC<{
         id="create-class"
       >
         <div className="flex flex-col items-center">
-          <div className="font-bold mb-6 text-20 mt-4 text-berry90">{fa.student.newStudent}</div>
+          <div className="font-bold mb-6 text-20 mt-4 text-berry90">
+            {fa.student[id ? 'updateStudent' : 'newStudent']}
+          </div>
           <form className="w-[37rem] text-center" onSubmit={handleSubmit((e) => mutate(e))}>
             <div className="flex">
               <div className="flex-1 flex flex-col gap-8 border-l px-5 border-l-berry10">
@@ -168,7 +172,7 @@ const CreateNewStudent: React.FC<{
               </div>
             </div>
             <Button type="submit" className="btn btn-primary mt-10 w-52" isLoading={isPending}>
-              {fa.student.submitNewStudent}
+              {fa.student[id ? 'submit' : 'submitNewStudent']}
             </Button>
           </form>
         </div>

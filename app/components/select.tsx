@@ -12,6 +12,7 @@ type SelectType = {
   onEdit?: (option: SelectOptionType) => void;
   onAdd?: () => void;
   addMessage?: string;
+  error?: boolean;
 };
 
 // eslint-disable-next-line prettier/prettier
@@ -69,14 +70,20 @@ const CustomButton = (props: any): JSX.Element => {
   );
 };
 
-const ReactSelect: React.FC<SelectType> = ({ ...rest }) => {
+const ReactSelect: React.FC<SelectType> = ({ error, ...rest }) => {
   return (
     <Select
       {...rest}
       components={{ IndicatorSeparator: null, Option: CustomOption, MenuList: CustomButton }}
       isRtl
       styles={{
-        control: (baseStyles) => ({ ...baseStyles, borderRadius: '8px', fontSize: 14 }),
+        control: (baseStyles) => ({
+          ...baseStyles,
+          borderRadius: '8px',
+          fontSize: 14,
+          border: '1x solid',
+          borderColor: error ? '#b91c1c' : '#cbd5e1',
+        }),
         // Style for the options
         option: (baseStyles, state) => ({
           ...baseStyles,

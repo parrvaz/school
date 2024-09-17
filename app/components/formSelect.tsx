@@ -20,7 +20,7 @@ const FormSelect: React.FC<SelectType> = (props) => {
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (
-          <ReactSelect {...field} {...{ placeholder, options }} />
+          <ReactSelect {...field} {...{ placeholder, options }} error={!!errors?.[name]} />
         )}
       />
 

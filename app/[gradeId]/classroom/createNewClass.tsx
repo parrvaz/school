@@ -14,7 +14,7 @@ import { classroomTag, tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   title: '',
-  field: { value: undefined, label: '' },
+  field: undefined,
   floor: undefined,
   number: undefined,
 };
@@ -78,7 +78,9 @@ const CreateNewClass: React.FC<{
 
       <Modal open={!!classData} setOpen={handleCloseModal} id="create-class">
         <div className="flex flex-col items-center">
-          <div className="font-bold text-20 mt-4 text-berry90">{fa.classroom.newClass}</div>
+          <div className="font-bold text-20 mt-4 text-berry90">
+            {fa.classroom[id ? 'updateClass' : 'newClass']}
+          </div>
           <form className="w-full px-14" onSubmit={handleSubmit((e) => mutate(e))}>
             <FormInput
               {...{ errors, control, rules }}
@@ -111,7 +113,7 @@ const CreateNewClass: React.FC<{
             />
 
             <Button type="submit" className="btn btn-primary mt-10 w-full" isLoading={isPending}>
-              {fa.classroom.submitClass}
+              {fa.classroom[id ? 'submit' : 'submitClass']}
             </Button>
           </form>
         </div>

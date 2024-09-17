@@ -6,13 +6,11 @@ import fa from 'app/lib/fa.json';
 import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import { DeleteTeacherAction } from 'app/lib/actions';
-import { teacherTag } from 'app/lib/server.util';
 import CreateNewTeacher from './createNewTeacher';
 
-const TeacherTable: React.FC<{ data: TeacherType[] }> = ({ data }) => {
+const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, tag }) => {
   const [teacherData, setTeacherData] = useState<TeacherType | boolean>(false);
   const emptyMessage = fa.teacher.noTeacher;
-  const tag = teacherTag();
   const columns = [
     {
       headerName: fa.teacher.lastName,

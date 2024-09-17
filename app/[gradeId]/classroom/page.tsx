@@ -14,7 +14,7 @@ const ClassroomPage: React.FC<PageType> = async ({ params }) => {
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.classroom}</h1>
-      <ClassTable data={data} />
+      <ClassTable data={data} tag={classroomTag()} />
     </div>
   );
 };

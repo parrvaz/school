@@ -10,9 +10,12 @@ import fa from 'app/lib/fa.json';
 import request from 'app/lib/request';
 import { DeleteGradeUrl } from 'app/lib/urls';
 import DeleteModal from 'app/components/deleteModal';
-import { gradesTag, tagRevalidate } from 'app/lib/server.util';
+import { tagRevalidate } from 'app/lib/server.util';
 
-const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = ({ options }) => {
+const GradeSelect: React.FC<{ options: { label: string; value: string }[]; tag: string }> = ({
+  options,
+  tag,
+}) => {
   const { gradeId } = useParams();
   const router = useRouter();
   const activeGrade = options.find((k) => k.value === gradeId);
@@ -21,7 +24,7 @@ const GradeSelect: React.FC<{ options: { label: string; value: string }[] }> = (
   const PostDelete = async (): Promise<void> => {
     const res = await request.post(DeleteGradeUrl(deleteId as string));
     if (res.ok) {
-      tagRevalidate(gradesTag());
+      tagRevalidate(tag);
 
       if (gradeId === deleteId) {
         const otherOptions = options.filter((k) => k.value !== gradeId);

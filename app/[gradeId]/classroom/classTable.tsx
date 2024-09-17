@@ -6,13 +6,12 @@ import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import CreateNewClass from './createNewClass';
 import { DeleteClassAction } from 'app/lib/actions';
-import { classroomTag } from 'app/lib/server.util';
 import ActionRenderer from 'app/components/actionRenderer';
 
-const ClassTable: React.FC<{ data: ClassroomType[] }> = ({ data }) => {
+const ClassTable: React.FC<{ data: ClassroomType[]; tag: string }> = ({ data, tag }) => {
   const [classData, setClassData] = useState<ClassroomType | boolean>(false);
   const emptyMessage = fa.classroom.noClassroom;
-  const tag = classroomTag();
+
   const columns = [
     {
       headerName: fa.classroom.title,

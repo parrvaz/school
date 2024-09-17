@@ -32,7 +32,7 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
       </div>
 
       <div className="flex-1 m-10 relative">
-        <GradeSelect options={options} />
+        <GradeSelect options={options} tag={gradesTag()} />
         {children}
       </div>
     </div>

@@ -7,15 +7,14 @@ import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import CreateNewStudent from './createNewStudent';
 import { DeleteStudentAction } from 'app/lib/actions';
-import { studentTag } from 'app/lib/server.util';
 
-const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[] }> = ({
+const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; tag: string }> = ({
   data,
   classes,
+  tag,
 }) => {
   const [studentData, setStudentData] = useState<StudentType | boolean>(false);
   const emptyMessage = fa.student.noStudent;
-  const tag = studentTag();
   const columns = [
     {
       headerName: fa.student.lastName,

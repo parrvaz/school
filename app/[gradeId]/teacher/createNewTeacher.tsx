@@ -9,7 +9,7 @@ import FormInput from 'app/components/formInput';
 import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/common.util';
 import { TeacherFormType, TeacherType } from 'app/types/common.type';
 import { UpdateTeacherAction } from 'app/lib/actions';
-import { tagRevalidate, teacherTag } from 'app/lib/server.util';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   firstName: '',
@@ -23,7 +23,8 @@ const defaultValues = {
 const CreateNewTeacher: React.FC<{
   teacherData: TeacherType | boolean;
   setTeacherData: (data: TeacherType | boolean) => void;
-}> = ({ teacherData, setTeacherData }) => {
+  tag: string;
+}> = ({ teacherData, setTeacherData, tag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const id = typeof teacherData !== 'boolean' ? teacherData?.id : undefined;
@@ -52,7 +53,7 @@ const CreateNewTeacher: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         setTeacherData(false);
-        tagRevalidate(teacherTag());
+        tagRevalidate(tag);
       }
     },
   });

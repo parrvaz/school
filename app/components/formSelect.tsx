@@ -21,9 +21,9 @@ const FormSelect: React.FC<SelectType> = (props) => {
     <div className={`relative text-right ${className}`}>
       <Controller
         {...{ control, name, rules }}
-        render={({ field }): JSX.Element => (
-          <ReactSelect {...field} {...{ placeholder, options }} error={!!fieldError} />
-        )}
+        render={({ field }): JSX.Element => {
+          return <ReactSelect {...field} {...{ placeholder, options }} error={!!fieldError} />;
+        }}
       />
 
       {handleError(fieldError)}

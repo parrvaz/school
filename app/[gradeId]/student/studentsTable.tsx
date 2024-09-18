@@ -40,7 +40,7 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
   return (
     <div>
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
-      <CreateNewStudent {...{ studentData, setStudentData, classes }} />
+      <CreateNewStudent {...{ studentData, setStudentData, classes, tag }} />
     </div>
   );
 };

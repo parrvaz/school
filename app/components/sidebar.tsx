@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import { GradeRoute } from 'app/lib/routes';
 import fa from 'app/lib/fa.json';
+import { kebabCase } from 'app/utils/common.util';
 
 const className =
   'animate mb-1.5 flex cursor-pointer items-center rounded-xl p-2 text-14 hover:bg-berry20 hover:text-black80';
@@ -22,9 +23,11 @@ const Sidebar: React.FC<{
         <div className="relative pl-4 pr-5" key={title}>
           {
             <Link
-              href={GradeRoute(gradeId.toString(), title)}
+              href={GradeRoute(gradeId.toString(), kebabCase(title))}
               className={`${
-                title === activeTab ? ' bg-berry20 text-black80' : 'bg-white text-black60'
+                kebabCase(title) === activeTab
+                  ? ' bg-berry20 text-black80'
+                  : 'bg-white text-black60'
               } ${className}`}
             >
               <>

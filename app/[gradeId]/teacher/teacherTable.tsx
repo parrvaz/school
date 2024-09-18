@@ -36,7 +36,7 @@ const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, ta
   return (
     <div>
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
-      <CreateNewTeacher teacherData={teacherData} setTeacherData={setTeacherData} />
+      <CreateNewTeacher teacherData={teacherData} setTeacherData={setTeacherData} tag={tag} />
     </div>
   );
 };

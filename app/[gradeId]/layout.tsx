@@ -13,10 +13,11 @@ const menu = [
   { title: 'student', icon: 'icon-people' },
   { title: 'teacher', icon: 'icon-teacher' },
   { title: 'assign', icon: 'icon-book' },
+  { title: 'createExam', icon: 'icon-book' },
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
-  const data = await fetchData<GradeType[]>(GradeUrl(), gradesTag());
+  const data = await fetchData<GradeType[]>(GradeUrl(), await gradesTag());
 
   if (!data?.length) redirect(HomeRoute());
 
@@ -33,7 +34,7 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
       </div>
 
       <div className="flex-1 m-10 relative">
-        <GradeSelect options={options} tag={gradesTag()} />
+        <GradeSelect options={options} tag={await gradesTag()} />
         {children}
       </div>
     </div>

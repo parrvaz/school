@@ -36,7 +36,7 @@ const ClassTable: React.FC<{ data: ClassroomType[]; tag: string }> = ({ data, ta
   return (
     <div className="">
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
-      <CreateNewClass classData={classData} setClassData={setClassData} />
+      <CreateNewClass classData={classData} setClassData={setClassData} tag={tag} />
     </div>
   );
 };

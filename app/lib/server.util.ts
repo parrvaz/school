@@ -6,12 +6,12 @@ import { revalidateTag, revalidatePath } from 'next/cache';
 import { baseURL } from './request';
 import { LoginRoute } from './routes';
 
-export const gradesTag = (): string => `grades`;
-export const classroomTag = (): string => `classroom-show`;
-export const studentTag = (): string => `student-show`;
-export const teacherTag = (): string => `teacher-show`;
-export const courseTag = (): string => `course-show`;
-export const assignTag = (): string => `assign-show`;
+export const gradesTag = async (): Promise<string> => `grades`;
+export const classroomTag = async (): Promise<string> => `classroom-show`;
+export const studentTag = async (): Promise<string> => `student-show`;
+export const teacherTag = async (): Promise<string> => `teacher-show`;
+export const courseTag = async (): Promise<string> => `course-show`;
+export const assignTag = async (): Promise<string> => `assign-show`;
 
 export const fetchData = async <T>(
   url: string,
@@ -22,7 +22,7 @@ export const fetchData = async <T>(
   const token = cookies().get('token')?.value || '';
   const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
   const next = { tags: [tag] };
-  const requestOptions: RequestInit = { method, headers, next };
+  const requestOptions: RequestInit = { method, headers, next, cache: 'force-cache' };
 
   if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
   const res = await fetch(baseURL + url, requestOptions);

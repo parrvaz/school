@@ -11,7 +11,7 @@ import FormSelect from 'app/components/formSelect';
 import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/common.util';
 import FormDatePiker from 'app/components/formDatePiker';
 import { UpdateStudentAction } from 'app/lib/actions';
-import { studentTag, tagRevalidate } from 'app/lib/server.util';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   firstName: '',
@@ -32,7 +32,8 @@ const CreateNewStudent: React.FC<{
   studentData: StudentType | boolean;
   setStudentData: (data: StudentType | boolean) => void;
   classes: ClassroomType[];
-}> = ({ studentData, setStudentData, classes }) => {
+  tag: string;
+}> = ({ studentData, setStudentData, classes, tag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const id = typeof studentData !== 'boolean' ? studentData?.id : undefined;
@@ -63,7 +64,7 @@ const CreateNewStudent: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         setStudentData(false);
-        tagRevalidate(studentTag());
+        tagRevalidate(tag);
       }
     },
   });

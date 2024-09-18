@@ -17,17 +17,17 @@ export const metadata: Metadata = { title: fa.sidebar.teacher };
 
 const AssignPage: React.FC<PageType> = async ({ params }) => {
   const [classes, teachers, courses, assignData] = await Promise.all([
-    fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), classroomTag()),
-    fetchData<TeacherType[]>(ShowTeacherUrl(params?.gradeId), teacherTag()),
-    fetchData<CourseType[]>(ShowCourseUrl(params.gradeId), courseTag()),
-    fetchData<AssignType[]>(GetAssignUrl(params.gradeId), assignTag()),
+    fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
+    fetchData<TeacherType[]>(ShowTeacherUrl(params?.gradeId), await teacherTag()),
+    fetchData<CourseType[]>(ShowCourseUrl(params.gradeId), await courseTag()),
+    fetchData<AssignType[]>(GetAssignUrl(params.gradeId), await assignTag()),
   ]);
 
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.assign}</h1>
       <AssignList
-        tag={assignTag()}
+        tag={await assignTag()}
         {...{ classes, teachers, courses }}
         assign={normalizeAssignData(assignData, courses, teachers, classes)}
       />

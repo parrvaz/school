@@ -10,14 +10,14 @@ export const metadata: Metadata = { title: fa.sidebar.student };
 
 const StudentPage: React.FC<PageType> = async ({ params }) => {
   const [data, classes] = await Promise.all([
-    fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), studentTag()),
-    fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), classroomTag()),
+    fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), await studentTag()),
+    fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
   ]);
 
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.student}</h1>
-      <StudentsTable data={data} classes={classes} tag={studentTag()} />
+      <StudentsTable data={data} classes={classes} tag={await studentTag()} />
     </div>
   );
 };

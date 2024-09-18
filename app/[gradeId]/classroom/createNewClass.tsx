@@ -10,7 +10,7 @@ import { justNumber } from 'app/utils/common.util';
 import FormSelect from 'app/components/formSelect';
 import { ClassFormType, ClassroomType } from 'app/types/common.type';
 import { fieldsKey, getFields, UpdateClassAction } from 'app/lib/actions';
-import { classroomTag, tagRevalidate } from 'app/lib/server.util';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   title: '',
@@ -22,7 +22,8 @@ const defaultValues = {
 const CreateNewClass: React.FC<{
   classData: ClassroomType | boolean;
   setClassData: (data: ClassroomType | boolean) => void;
-}> = ({ classData, setClassData }) => {
+  tag: string;
+}> = ({ classData, setClassData, tag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const id = typeof classData !== 'boolean' ? classData?.id : undefined;
@@ -60,7 +61,7 @@ const CreateNewClass: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         setClassData(false);
-        tagRevalidate(classroomTag());
+        tagRevalidate(tag);
       }
     },
   });

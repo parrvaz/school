@@ -9,12 +9,12 @@ import { ShowTeacherUrl } from 'app/lib/urls';
 export const metadata: Metadata = { title: fa.sidebar.teacher };
 
 const StudentPage: React.FC<PageType> = async ({ params }) => {
-  const data = await fetchData<TeacherType[]>(ShowTeacherUrl(params.gradeId), teacherTag());
+  const data = await fetchData<TeacherType[]>(ShowTeacherUrl(params.gradeId), await teacherTag());
 
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.teacher}</h1>
-      <TeacherTable data={data} tag={teacherTag()} />
+      <TeacherTable data={data} tag={await teacherTag()} />
     </div>
   );
 };

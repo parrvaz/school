@@ -1,23 +1,23 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Button from 'app/components/button';
-import fa from 'app/lib/fa.json';
-import FormInput from 'app/components/formInput';
-import FormTimePicker from 'app/components/formTimePicker';
+// import { useMutation } from '@tanstack/react-query';
+import React from 'react';
+// import { useForm } from 'react-hook-form';
+// import Button from 'app/components/button';
+// import fa from 'app/lib/fa.json';
+// import FormInput from 'app/components/formInput';
+// import FormTimePicker from 'app/components/formTimePicker';
 
 export type BellsFormType = { time: string; totalScore: string };
-const defaultValues = { time: '', totalScore: '' };
+// const defaultValues = { time: '', totalScore: '' };
 
 const Bells: React.FC = () => {
-  const [time, settime] = useState('00:00');
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm<BellsFormType>({ defaultValues });
+  //   const [time, settime] = useState('00:00');
+  //   const {
+  //     handleSubmit,
+  //     formState: { errors },
+  //     control,
+  //   } = useForm<BellsFormType>({ defaultValues });
 
   //   const { mutate, isPending } = useMutation({
   //     mutationFn: (e: BellsFormType) => console.log('submit', e),

@@ -82,8 +82,18 @@ export type TeacherFormType = {
   degree: string;
 };
 
+export type ContentType = {
+  id: number;
+  course_id: number;
+  season: string;
+  content: string;
+  pageStart: number;
+  pageEnd: number;
+  priority: number;
+};
+
 export type CourseType = {
-  contentCount: number;
+  contents: ContentType[];
   factor: number;
   grade_id: number;
   id: number;
@@ -106,9 +116,24 @@ export type AssignFormType = {
   }[];
 };
 
+export type ExamType = {
+  date: string;
+  content: string[];
+  course_id: number;
+  classroom_id: number;
+  expected: number;
+  totalScore: number;
+  type: number;
+  status: boolean;
+  isGeneral: boolean;
+  id: number;
+  classroom: string;
+  course: string;
+};
+
 export type CreateExamFormType = {
   date: string;
-  content: string;
+  contents: { value: number; label: string }[];
   course: { value: number; label: string } | null;
   classroom: { value: number; label: string } | null;
   expected: number;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
 import { ClassroomType, CourseType, PageType, StudentType } from 'app/types/common.type';
-import { classroomTag, courseTag, fetchData, studentTag } from 'app/lib/server.util';
+import { classroomTag, courseTag, examTag, fetchData, studentTag } from 'app/lib/server.util';
 import { ShowClassUrl, ShowCourseUrl, ShowStudentUrl } from 'app/lib/urls';
 import CreateExam from '.';
 
@@ -18,7 +18,7 @@ const CreateExamPage: React.FC<PageType> = async ({ params }) => {
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.createExam}</h1>
-      <CreateExam {...{ classes, courses, students }} />
+      <CreateExam {...{ classes, courses, students }} tag={await examTag()} />
     </div>
   );
 };

@@ -110,6 +110,7 @@ export const CreateExamAction = async (
     ...values,
     classroom_id: values.classroom?.value,
     course_id: values.course?.value,
+    contents: values.contents.map((k) => k.value),
     students: values.students.map((k) => ({ student_id: k.name?.value, score: k.score })),
   };
   const res: ResponseType<{ data: string }> = await request.post(url, body);

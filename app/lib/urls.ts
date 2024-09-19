@@ -40,3 +40,4 @@ export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses
 
 // Exam ///////////////////////////////////////////
 export const CreateExamUrl = (gradeId: string): string => `/${gradeId}/exams/store`;
+export const ShowExamUrl = (gradeId: string): string => `/${gradeId}/exams/show`;

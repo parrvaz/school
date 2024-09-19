@@ -15,6 +15,7 @@ import FormSelect from 'app/components/formSelect';
 import FormCheckbox from 'app/components/formCheckbox';
 import StudentsList from './studentsList';
 import { CreateExamAction } from 'app/lib/actions';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const typeOptions = [
   { value: 1, title: fa.createExam.written },
@@ -26,21 +27,22 @@ const CreateExam: React.FC<{
   classes: ClassroomType[];
   courses: CourseType[];
   students: StudentType[];
-}> = ({ classes, courses, students }) => {
+  tag: string;
+}> = ({ classes, courses, students, tag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
 
   const defaultValues = {
     date: getTody(),
-    content: '',
-    course: null,
+    contents: [],
+    course: { value: courses[0].id, label: courses[0].name },
     classroom: !classes.length ? null : { value: classes[0].id, label: classes[0].title },
     expected: undefined,
     totalScore: undefined,
     type: 1,
     status: false,
     isGeneral: false,
-    students: [{ name: null, score: null }],
+    students: [],
   };
 
   const methods = useForm<CreateExamFormType>({ defaultValues });
@@ -55,14 +57,29 @@ const CreateExam: React.FC<{
   const examScore = watch('totalScore');
   const { mutate, isPending } = useMutation({
     mutationFn: (e: CreateExamFormType) => CreateExamAction(e, gradeId.toString()),
+    onSuccess: (ok) => {
+      if (ok) {
+        tagRevalidate(tag);
+        setValue('students', []);
+        setValue('contents', []);
+      }
+    },
   });
 
   useEffect(() => {
     watch('type') === 3 && setValue('totalScore', 100);
   }, [watch('type')]);
   useEffect(() => {
-    setValue('students', [{ name: null, score: null }]);
+    setValue('students', []);
   }, [watch('classroom')]);
+
+  const contentsOption = useMemo(
+    () =>
+      courses
+        .find((k) => k.id === watch('course.value'))
+        ?.contents.map((k) => ({ value: k.id, label: k.content })) || [],
+    [watch('course')]
+  );
 
   return (
     <FormProvider {...methods}>
@@ -72,13 +89,24 @@ const CreateExam: React.FC<{
 
           <FormRadio {...{ control, errors }} className="mt-3" options={typeOptions} name="type" />
           <FormDatePiker name="date" {...{ control, errors, rules }} />
-          <FormInput
-            {...{ errors, control }}
-            name="totalScore"
-            disabled={watch('type') === 3}
-            placeholder={fa.createExam.totalScore}
-            rules={numberValidation({ ...valueValidation(0, 100), required: isFinal })}
-          />
+          <div className="flex gap-2">
+            <FormInput
+              {...{ errors, control }}
+              name="totalScore"
+              disabled={watch('type') === 3}
+              placeholder={fa.createExam.totalScore}
+              rules={numberValidation({ ...valueValidation(0, 100), required: isFinal })}
+            />
+            <FormInput
+              {...{ errors, control }}
+              name="expected"
+              placeholder={fa.createExam.expectedNumber}
+              rules={numberValidation({
+                ...valueValidation(0, Number(examScore) || 100),
+                required: isFinal,
+              })}
+            />
+          </div>
           <FormSelect
             {...{ errors, control, rules }}
             name="classroom"
@@ -91,15 +119,12 @@ const CreateExam: React.FC<{
             options={useMemo(() => getOption(courses), [courses])}
             placeholder={fa.global.course}
           />
-
-          <FormInput
+          <FormSelect
             {...{ errors, control }}
-            name="expected"
-            placeholder={fa.createExam.expectedNumber}
-            rules={numberValidation({
-              ...valueValidation(0, Number(examScore) || 100),
-              required: isFinal,
-            })}
+            name="contents"
+            isMulti
+            options={contentsOption}
+            placeholder={fa.createExam.content}
           />
 
           <div className="flex justify-around mt-1 w-full">

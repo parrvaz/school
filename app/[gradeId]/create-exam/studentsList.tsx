@@ -17,7 +17,6 @@ const StudentsList: React.FC<{
   const { fields, append, remove } = useFieldArray({ control, name: 'students' });
   const selectedClassId = watch('classroom')?.value;
   const studentList = watch('students');
-  const isFinal = watch('status');
   const examScore = watch('totalScore');
 
   const classStudents = useMemo(
@@ -41,7 +40,6 @@ const StudentsList: React.FC<{
   const handleAddAllStudents = (): void => {
     const newList = classStudents.map((k) => ({ name: k, score: null }));
     setValue('students', newList);
-    console.log(1, classStudents);
   };
 
   return (
@@ -70,10 +68,7 @@ const StudentsList: React.FC<{
                   {...{ errors, control }}
                   name={`students.${index}.score`}
                   placeholder={fa.createExam.score}
-                  rules={numberValidation({
-                    ...valueValidation(0, Number(examScore) || 100),
-                    required: isFinal,
-                  })}
+                  rules={numberValidation({ ...valueValidation(0, Number(examScore) || 100) })}
                 />
 
                 <i
@@ -100,6 +95,7 @@ const StudentsList: React.FC<{
           )}
 
           <Button
+            type="button"
             onClick={handleAddAllStudents}
             className="btn btn-success fixed left-96 bottom-10"
           >

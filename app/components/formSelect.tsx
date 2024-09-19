@@ -10,20 +10,21 @@ type SelectType = {
   className?: string;
   placeholder?: string;
   name: string;
+  isMulti?: boolean;
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
 };
 
 const FormSelect: React.FC<SelectType> = (props) => {
-  const { options, className, control, name, errors, rules, placeholder } = props;
+  const { options, className, control, name, errors, rules, placeholder, isMulti } = props;
   const fieldError = getNestedError(errors, name);
   return (
     <div className={`relative text-right ${className || 'w-full'}`}>
       <Controller
         {...{ control, name, rules }}
-        render={({ field }): JSX.Element => {
-          return <ReactSelect {...field} {...{ placeholder, options }} error={!!fieldError} />;
-        }}
+        render={({ field }): JSX.Element => (
+          <ReactSelect {...field} {...{ placeholder, options, isMulti }} error={!!fieldError} />
+        )}
       />
 
       {handleError(fieldError)}

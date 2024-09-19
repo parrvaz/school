@@ -19,12 +19,13 @@ const Bells: React.FC = () => {
     control,
   } = useForm<BellsFormType>({ defaultValues });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (e: BellsFormType) => console.log('submit', e),
-  });
+  //   const { mutate, isPending } = useMutation({
+  //     mutationFn: (e: BellsFormType) => console.log('submit', e),
+  //   });
   return (
     <div>
-      <form className="relative w-[20rem]" onSubmit={handleSubmit((e) => mutate(e))}>
+      <div className=""></div>
+      {/* <form className="relative w-[20rem]" onSubmit={handleSubmit((e) => mutate(e))}>
         <div className="flex gap-2">
           <FormTimePicker {...{ errors, control }} name="time" rules={{ required: true }} />
 
@@ -38,7 +39,7 @@ const Bells: React.FC = () => {
         <Button className="btn btn-primary mt-5 w-full" isLoading={isPending}>
           {fa.global.approve}
         </Button>
-      </form>
+      </form> */}
     </div>
   );
 };

@@ -124,12 +124,18 @@ export type ExamType = {
   classroom_id: number;
   expected: number;
   totalScore: number;
-  type: number;
+  type: { id: number; label: string };
   isFinal: boolean;
   isGeneral: boolean;
   id: number;
   classroom: string;
   course: string;
+  students: {
+    id: number;
+    student_id: number;
+    name: string;
+    score: number;
+  }[];
 };
 
 export type CreateExamFormType = {

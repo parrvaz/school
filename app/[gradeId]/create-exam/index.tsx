@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import {
   ClassroomType,
   CourseType,
@@ -22,6 +22,7 @@ import FormCheckbox from 'app/components/formCheckbox';
 import StudentsList from './studentsList';
 import { UpdateExamAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
+import { GradeRoute } from 'app/lib/routes';
 
 const typeOptions = [
   { value: 1, title: fa.createExam.written },
@@ -39,6 +40,7 @@ const CreateExam: React.FC<{
 }> = ({ classes, courses, students, tag, data, examTag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
+  const router = useRouter();
   const id = data?.id || undefined;
 
   const defaultValues = {
@@ -53,10 +55,14 @@ const CreateExam: React.FC<{
       : { value: data?.classroom_id || classes[0].id, label: data?.classroom || classes[0].title },
     expected: data?.expected || undefined,
     totalScore: data?.totalScore || undefined,
-    type: data?.type || 1,
+    type: data?.type.id || 1,
     isFinal: data?.isFinal || false,
     isGeneral: data?.isGeneral || false,
-    students: [],
+    students:
+      data?.students.map((k) => ({
+        name: { value: k.student_id, label: k.name },
+        score: k.score,
+      })) || [],
   };
 
   const methods = useForm<CreateExamFormType>({ defaultValues });
@@ -75,6 +81,7 @@ const CreateExam: React.FC<{
       if (ok) {
         tagRevalidate(tag);
         id && tagRevalidate(examTag);
+        id && router.push(GradeRoute(gradeId, 'exams'));
         setValue('students', []);
         setValue('contents', []);
       }
@@ -84,9 +91,6 @@ const CreateExam: React.FC<{
   useEffect(() => {
     watch('type') === 3 && setValue('totalScore', 100);
   }, [watch('type')]);
-  useEffect(() => {
-    setValue('students', []);
-  }, [watch('classroom')]);
 
   const contentsOption = useMemo(
     () =>
@@ -127,12 +131,14 @@ const CreateExam: React.FC<{
             name="classroom"
             options={useMemo(() => getOption(classes, 'title'), [classes])}
             placeholder={fa.global.classroom}
+            onChange={(): void => setValue('students', [])}
           />
           <FormSelect
             {...{ errors, control, rules }}
             name="course"
             options={useMemo(() => getOption(courses), [courses])}
             placeholder={fa.global.course}
+            onChange={(): void => setValue('contents', [])}
           />
           <FormSelect
             {...{ errors, control }}

@@ -15,6 +15,7 @@ const menu = [
   { title: 'assign', icon: 'icon-book' },
   { title: 'createExam', icon: 'icon-path' },
   { title: 'exams', icon: 'icon-receipt-item' },
+  { title: 'bells', icon: 'icon-menu-board' },
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {

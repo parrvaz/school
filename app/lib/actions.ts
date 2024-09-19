@@ -37,7 +37,7 @@ export const UpdateClassAction = async (
   id?: number
 ): Promise<boolean> => {
   const url = id ? UpdateClassUrl(gradeId, id) : CreateClassUrl(gradeId);
-  const body = { ...values, field_id: values.field.value };
+  const body = { ...values, field_id: values.field.value, floor: values.floor.toString() };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
@@ -63,7 +63,7 @@ export const UpdateStudentAction = async (
 };
 
 export const DeleteStudentAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteExamUrl(gradeId, id);
+  const url = DeleteStudentUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -122,7 +122,7 @@ export const UpdateExamAction = async (
 };
 
 export const DeleteExamAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteStudentUrl(gradeId, id);
+  const url = DeleteExamUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;

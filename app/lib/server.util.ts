@@ -12,7 +12,8 @@ export const studentTag = async (): Promise<string> => `student-show`;
 export const teacherTag = async (): Promise<string> => `teacher-show`;
 export const courseTag = async (): Promise<string> => `course-show`;
 export const assignTag = async (): Promise<string> => `assign-show`;
-export const examTag = async (id?: string): Promise<string> => `exam-show-${id || ''}`;
+export const examTag = async (): Promise<string> => `exam-show`;
+export const examIdTag = async (id?: string): Promise<string> => `exam-${id}`;
 
 export const fetchData = async <T>(
   url: string,

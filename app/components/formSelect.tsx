@@ -18,7 +18,7 @@ const FormSelect: React.FC<SelectType> = (props) => {
   const { options, className, control, name, errors, rules, placeholder } = props;
   const fieldError = getNestedError(errors, name);
   return (
-    <div className={`relative text-right ${className}`}>
+    <div className={`relative text-right ${className || 'w-full'}`}>
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => {

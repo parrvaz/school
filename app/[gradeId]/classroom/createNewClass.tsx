@@ -6,7 +6,7 @@ import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import Modal from 'app/components/modal';
 import FormInput from 'app/components/formInput';
-import { justNumber } from 'app/utils/common.util';
+import { numberValidation } from 'app/utils/common.util';
 import FormSelect from 'app/components/formSelect';
 import { ClassFormType, ClassroomType } from 'app/types/common.type';
 import { fieldsKey, getFields, UpdateClassAction } from 'app/lib/actions';
@@ -102,14 +102,14 @@ const CreateNewClass: React.FC<{
               {...{ errors, control, rules }}
               name="number"
               className="mt-8"
-              rules={{ required: true, pattern: justNumber }}
+              rules={numberValidation()}
               placeholder={fa.classroom.number}
             />
             <FormInput
               {...{ errors, control, rules }}
               name="floor"
               className="mt-8"
-              rules={{ required: true, pattern: justNumber }}
+              rules={numberValidation()}
               placeholder={fa.classroom.floor}
             />
 

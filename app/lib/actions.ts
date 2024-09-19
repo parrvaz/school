@@ -1,6 +1,7 @@
 import {
   AssignFormType,
   ClassFormType,
+  CreateExamFormType,
   FieldsType,
   ResponseType,
   StudentFormType,
@@ -9,6 +10,7 @@ import {
 import request from './request';
 import {
   CreateClassUrl,
+  CreateExamUrl,
   CreateStudentUrl,
   CreateTeacherUrl,
   DeleteClassUrl,
@@ -95,6 +97,22 @@ export const UpdateAssignmentAction = async (
     teacher_id: k.teacher?.value,
   }));
   const res: ResponseType<{ data: string }> = await request.post(url, { list });
+
+  return res.ok;
+};
+
+export const CreateExamAction = async (
+  values: CreateExamFormType,
+  gradeId: string
+): Promise<boolean> => {
+  const url = CreateExamUrl(gradeId);
+  const body = {
+    ...values,
+    classroom_id: values.classroom?.value,
+    course_id: values.course?.value,
+    students: values.students.map((k) => ({ student_id: k.name?.value, score: k.score })),
+  };
+  const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
 };

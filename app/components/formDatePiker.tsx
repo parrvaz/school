@@ -15,7 +15,7 @@ type DatePikerType = {
 const FormDatePiker: React.FC<DatePikerType> = (props) => {
   const { className, control, name, errors, rules, placeholder } = props;
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className || 'w-full'}`}>
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (

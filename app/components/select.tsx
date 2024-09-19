@@ -1,6 +1,7 @@
 import React from 'react';
 import Select, { SingleValue, components } from 'react-select';
 import { SelectOptionType } from 'app/types/common.type';
+import fa from 'app/lib/fa.json';
 
 type SelectType = {
   options: SelectOptionType[];
@@ -76,12 +77,13 @@ const ReactSelect: React.FC<SelectType> = ({ error, ...rest }) => {
       {...rest}
       components={{ IndicatorSeparator: null, Option: CustomOption, MenuList: CustomButton }}
       isRtl
+      noOptionsMessage={() => fa.global.noOption}
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,
           borderRadius: '8px',
           fontSize: 14,
-          border: '1x solid',
+          minHeight: '40px',
           borderColor: error ? '#b91c1c' : '#cbd5e1',
         }),
         // Style for the options

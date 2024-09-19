@@ -32,6 +32,7 @@ export type StudentType = {
   id: number;
   firstName: string;
   lastName: string;
+  name: string;
   classroom: string;
   nationalId: number;
   classroom_id: number;
@@ -102,5 +103,21 @@ export type AssignFormType = {
     class: { value: number; label: string } | null;
     course: { value: number; label: string } | null;
     teacher: { value: number; label: string } | null;
+  }[];
+};
+
+export type CreateExamFormType = {
+  date: string;
+  content: string;
+  course: { value: number; label: string } | null;
+  classroom: { value: number; label: string } | null;
+  expected: number;
+  totalScore: number;
+  type: number;
+  status: boolean;
+  isGeneral: boolean;
+  students: {
+    name: { value: number; label: string } | null;
+    score: number | null;
   }[];
 };

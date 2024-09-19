@@ -39,7 +39,7 @@ const GradeSelect: React.FC<{ options: { label: string; value: string }[]; tag: 
   const { mutate, isPending } = useMutation({ mutationFn: PostDelete });
 
   return (
-    <div className="w-48 absolute left-0 top-0">
+    <div className="w-64 absolute left-0 top-0">
       <ReactSelect
         options={options}
         value={activeGrade}

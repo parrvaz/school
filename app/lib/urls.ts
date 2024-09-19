@@ -37,3 +37,6 @@ export const CreateTeacherUrl = (gradeId: string): string => `/${gradeId}/teache
 export const ShowCourseUrl = (gradeId: string): string => `/${gradeId}/courses/show`;
 export const GetAssignUrl = (gradeId: string): string => `/${gradeId}/courses/classroom/show`;
 export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses/store`;
+
+// Exam ///////////////////////////////////////////
+export const CreateExamUrl = (gradeId: string): string => `/${gradeId}/exams/store`;

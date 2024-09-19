@@ -1,5 +1,6 @@
 import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
+import jalaali from 'jalaali-js';
 import fa from 'app/lib/fa.json';
 import {
   AssignFormType,
@@ -9,17 +10,27 @@ import {
   TeacherType,
 } from 'app/types/common.type';
 
-export const justNumber = { value: /^[0-9]+$/, message: fa.global.rules.justNumber };
 export const numberValidation = (otherRules?: object): object => ({
   required: true,
-  pattern: justNumber,
+  pattern: { value: /^[0-9]+$/, message: fa.global.rules.justNumber },
   ...otherRules,
 });
 
-export const faNumber = (value: string | number): string => {
+export const valueValidation = (min?: number | null, max?: number | null): object => {
+  const result: Record<string, object> = {};
+  const minMessage = `${fa.global.rules.minValue} ${min} ${fa.global.rules.minValue2}`;
+  const maxMessage = `${fa.global.rules.maxValue} ${max} ${fa.global.rules.minValue2}`;
+
+  if (typeof min === 'number') result.min = { value: min, message: minMessage };
+  if (typeof max === 'number') result.max = { value: max, message: maxMessage };
+
+  return result;
+};
+
+export const faNumber = (value: string | number, enNumber = false): string => {
   if (value === null || value === undefined) return '';
 
-  const toFaDict = {
+  const toFaDict: Record<string, string> = {
     '0': '۰',
     '1': '۱',
     '2': '۲',
@@ -30,9 +41,26 @@ export const faNumber = (value: string | number): string => {
     '7': '۷',
     '8': '۸',
     '9': '۹',
-  } as Record<string, string>;
+  };
+
+  const toEnDict: Record<string, string> = {
+    '۰': '0',
+    '۱': '1',
+    '۲': '2',
+    '۳': '3',
+    '۴': '4',
+    '۵': '5',
+    '۶': '6',
+    '۷': '7',
+    '۸': '8',
+    '۹': '9',
+  };
+
   const letters = value.toString().split('');
-  const arr = letters.map((item) => (item in toFaDict ? toFaDict[item] : item));
+  const arr = letters.map((item) =>
+    enNumber ? (item in toEnDict ? toEnDict[item] : item) : item in toFaDict ? toFaDict[item] : item
+  );
+
   return arr.join('');
 };
 
@@ -63,6 +91,9 @@ export const camelCase = (input: string): string =>
 export const convertToDate = (value: DayValue): string =>
   `${value?.year}/${value?.month}/${value?.day}`;
 
+export const convertJalaliToDate = (value: { jy: number; jm: number; jd: number }): string =>
+  `${value?.jy}/${value?.jm}/${value?.jd}`;
+
 export const convertToDayValue = (value: string): DayValue => {
   if (!value) return null;
   const date = value.split('/');
@@ -72,6 +103,12 @@ export const convertToDayValue = (value: string): DayValue => {
 export const getNestedError = (errors: any, name: string): { message: string } => {
   const path = name.split('.');
   return path.reduce((acc, key) => (acc ? acc[key] : undefined), errors);
+};
+
+export const getTody = (): string => {
+  const today = new Date();
+  const jalaliDate = jalaali.toJalaali(today);
+  return convertJalaliToDate(jalaliDate);
 };
 
 export const normalizeAssignData = (
@@ -94,3 +131,9 @@ export const normalizeAssignData = (
     }),
   };
 };
+
+export const getOption = (
+  data: { id: number; name?: string; title?: string }[],
+  key?: 'name' | 'title'
+): { value: number; label: string }[] =>
+  data.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));

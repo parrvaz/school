@@ -10,12 +10,9 @@ import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
 import { UpdateAssignmentAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
+import { getOption } from 'app/utils/common.util';
 
-const rawRow = {
-  class: null,
-  course: null,
-  teacher: null,
-};
+const rawRow = { class: null, course: null, teacher: null };
 
 const AssignList: React.FC<{
   classes: ClassroomType[];
@@ -42,18 +39,9 @@ const AssignList: React.FC<{
     onSuccess: (ok) => ok && tagRevalidate(tag),
   });
 
-  const classOptions = useMemo(
-    () => classes?.map((k) => ({ value: k.id, label: k.title })) || [],
-    [classes]
-  );
-  const teacherOptions = useMemo(
-    () => teachers?.map((k) => ({ value: k.id, label: k.name })) || [],
-    [teachers]
-  );
-  const courseOptions = useMemo(
-    () => courses?.map((k) => ({ value: k.id, label: k.name })) || [],
-    [courses]
-  );
+  const classOptions = useMemo(() => getOption(classes, 'title'), [classes]);
+  const teacherOptions = useMemo(() => getOption(teachers), [teachers]);
+  const courseOptions = useMemo(() => getOption(courses), [courses]);
 
   return (
     <div>
@@ -81,12 +69,11 @@ const AssignList: React.FC<{
               className="flex-1"
               placeholder={fa.assign.chooseTeacher}
             />
-            {fields.length > 1 && (
-              <i
-                className="icon-trash text-24 text-red70 cursor-pointer"
-                onClick={() => remove(index)}
-              />
-            )}
+
+            <i
+              className="icon-trash text-24 text-red70 cursor-pointer"
+              onClick={() => (remove(index), fields.length === 1 && append(rawRow))}
+            />
           </div>
         ))}
         <Button type="button" className="btn btn-sm btn-accent w-44" onClick={() => append(rawRow)}>

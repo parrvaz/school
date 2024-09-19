@@ -9,9 +9,9 @@ import ActionRenderer from 'app/components/actionRenderer';
 import { DeleteExamAction } from 'app/lib/actions';
 import Table from 'app/components/table';
 import { faNumber } from 'app/utils/common.util';
-import IsGeneralRenderer from './isGeneralRenderer';
 import IsFinalRenderer from './isFinalRenderer';
 import { GradeRoute } from 'app/lib/routes';
+import RenderBoolean from 'app/components/renderBoolean';
 
 const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) => {
   const emptyMessage = fa.createExam.noExam;
@@ -64,7 +64,7 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
     {
       headerName: fa.createExam.isGeneral,
       field: 'isGeneral',
-      cellRenderer: IsGeneralRenderer,
+      cellRenderer: RenderBoolean,
       width: 65,
       minWidth: 65,
       resizable: false,

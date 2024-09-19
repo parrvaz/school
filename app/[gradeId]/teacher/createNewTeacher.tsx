@@ -10,6 +10,7 @@ import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/
 import { TeacherFormType, TeacherType } from 'app/types/common.type';
 import { UpdateTeacherAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
+import FormCheckbox from 'app/components/formCheckbox';
 
 const defaultValues = {
   firstName: '',
@@ -18,6 +19,7 @@ const defaultValues = {
   personalId: '',
   degree: '',
   phone: undefined,
+  isAssistant: false,
 };
 
 const CreateNewTeacher: React.FC<{
@@ -71,7 +73,7 @@ const CreateNewTeacher: React.FC<{
             {fa.teacher[id ? 'updateTeacher' : 'newTeacher']}
           </div>
           <form
-            className="w-full px-14 flex flex-col gap-8 mt-6"
+            className="w-full px-14 flex flex-col gap-5 mt-6"
             onSubmit={handleSubmit((e) => mutate(e))}
           >
             <FormInput
@@ -110,6 +112,12 @@ const CreateNewTeacher: React.FC<{
               name="personalId"
               rtl
               placeholder={fa.teacher.personalId}
+            />
+
+            <FormCheckbox
+              {...{ control, errors }}
+              label={fa.teacher.isAssistant}
+              name="isAssistant"
             />
             <Button type="submit" className="btn btn-primary w-full" isLoading={isPending}>
               {fa.teacher[id ? 'submit' : 'submitNewTeacher']}

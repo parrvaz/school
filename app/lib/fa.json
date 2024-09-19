@@ -113,6 +113,8 @@
     "phone": "تلفن",
     "updateTeacher": "به‌روزرسانی اطلاعات معلم",
     "submit": "ثبت تغییرات",
+    "isAssistant": "کادر مدرسه",
+    "assistant": "کادر",
     "submitNewTeacher": "ثبت معلم جدید",
     "newTeacher": "ایجاد معلم جدید"
   },

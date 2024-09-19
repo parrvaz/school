@@ -80,6 +80,7 @@ export type TeacherFormType = {
   phone: number;
   personalID: string;
   degree: string;
+  isAssistant: boolean;
 };
 
 export type ContentType = {

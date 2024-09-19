@@ -7,10 +7,12 @@ import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import { DeleteTeacherAction } from 'app/lib/actions';
 import CreateNewTeacher from './createNewTeacher';
+import RenderBoolean from 'app/components/renderBoolean';
 
 const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, tag }) => {
   const [teacherData, setTeacherData] = useState<TeacherType | boolean>(false);
   const emptyMessage = fa.teacher.noTeacher;
+
   const columns = [
     {
       headerName: fa.teacher.lastName,
@@ -22,6 +24,14 @@ const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, ta
     { headerName: fa.teacher.nationalId, field: 'nationalId' },
     { headerName: fa.teacher.degree, field: 'degree' },
     { headerName: fa.teacher.personalId, field: 'personalId' },
+    {
+      headerName: fa.teacher.assistant,
+      field: 'isAssistant',
+      cellRenderer: RenderBoolean,
+      width: 60,
+      minWidth: 60,
+      resizable: false,
+    },
     {
       headerName: fa.global.action,
       cellRenderer: ActionRenderer,

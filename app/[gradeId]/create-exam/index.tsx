@@ -4,7 +4,13 @@ import React, { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { ClassroomType, CourseType, CreateExamFormType, StudentType } from 'app/types/common.type';
+import {
+  ClassroomType,
+  CourseType,
+  CreateExamFormType,
+  ExamType,
+  StudentType,
+} from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import FormRadio from 'app/components/formRadio';
 import Button from 'app/components/button';
@@ -14,7 +20,7 @@ import FormInput from 'app/components/formInput';
 import FormSelect from 'app/components/formSelect';
 import FormCheckbox from 'app/components/formCheckbox';
 import StudentsList from './studentsList';
-import { CreateExamAction } from 'app/lib/actions';
+import { UpdateExamAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 
 const typeOptions = [
@@ -28,20 +34,28 @@ const CreateExam: React.FC<{
   courses: CourseType[];
   students: StudentType[];
   tag: string;
-}> = ({ classes, courses, students, tag }) => {
+  examTag: string;
+  data?: ExamType;
+}> = ({ classes, courses, students, tag, data, examTag }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
+  const id = data?.id || undefined;
 
   const defaultValues = {
-    date: getTody(),
-    contents: [],
-    course: { value: courses[0].id, label: courses[0].name },
-    classroom: !classes.length ? null : { value: classes[0].id, label: classes[0].title },
-    expected: undefined,
-    totalScore: undefined,
-    type: 1,
-    status: false,
-    isGeneral: false,
+    date: data?.date.replace(/-/g, '/') || getTody(),
+    contents: data?.contents.map((k) => ({ value: k.id, label: k.content })) || [],
+    course: {
+      value: data?.course_id || courses[0].id,
+      label: data?.course || courses[0].name,
+    },
+    classroom: !classes.length
+      ? null
+      : { value: data?.classroom_id || classes[0].id, label: data?.classroom || classes[0].title },
+    expected: data?.expected || undefined,
+    totalScore: data?.totalScore || undefined,
+    type: data?.type || 1,
+    isFinal: data?.isFinal || false,
+    isGeneral: data?.isGeneral || false,
     students: [],
   };
 
@@ -53,13 +67,14 @@ const CreateExam: React.FC<{
     watch,
     setValue,
   } = methods;
-  const isFinal = watch('status');
+  const isFinal = watch('isFinal');
   const examScore = watch('totalScore');
   const { mutate, isPending } = useMutation({
-    mutationFn: (e: CreateExamFormType) => CreateExamAction(e, gradeId.toString()),
+    mutationFn: (e: CreateExamFormType) => UpdateExamAction(e, gradeId.toString(), id),
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
+        id && tagRevalidate(examTag);
         setValue('students', []);
         setValue('contents', []);
       }
@@ -129,7 +144,7 @@ const CreateExam: React.FC<{
 
           <div className="flex justify-around mt-1 w-full">
             <div className="flex items-center">
-              <FormCheckbox {...{ control, errors }} label={fa.createExam.isFinal} name="status" />
+              <FormCheckbox {...{ control, errors }} label={fa.createExam.isFinal} name="isFinal" />
               <div className="tooltip" data-tip={fa.createExam.isFinalInfo}>
                 <i className="icon-info-circle text-24 text-berry60" />
               </div>

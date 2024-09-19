@@ -7,4 +7,5 @@ export const RegisterRoute = (): string => `/register`;
 export const LoginRoute = (): string => `/login`;
 
 // grade /////////////////////////////////////////////////////////////////////////////////////////
-export const GradeRoute = (gradeId: string, tabName: string): string => `/${gradeId}/${tabName}/`;
+export const GradeRoute = (gradeId: string | string[], tabName: string, id?: number): string =>
+  `/${gradeId}/${tabName}/${id ? `?id=${id}` : ''}`;

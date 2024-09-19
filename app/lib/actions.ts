@@ -14,11 +14,13 @@ import {
   CreateStudentUrl,
   CreateTeacherUrl,
   DeleteClassUrl,
+  DeleteExamUrl,
   DeleteStudentUrl,
   DeleteTeacherUrl,
   FieldsUrl,
   UpdateClassUrl,
   UpdateCourseUrl,
+  UpdateExamUrl,
   UpdateStudentUrl,
   UpdateTeacherUrl,
 } from './urls';
@@ -61,7 +63,7 @@ export const UpdateStudentAction = async (
 };
 
 export const DeleteStudentAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteStudentUrl(gradeId, id);
+  const url = DeleteExamUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -101,11 +103,12 @@ export const UpdateAssignmentAction = async (
   return res.ok;
 };
 
-export const CreateExamAction = async (
+export const UpdateExamAction = async (
   values: CreateExamFormType,
-  gradeId: string
+  gradeId: string,
+  id?: number
 ): Promise<boolean> => {
-  const url = CreateExamUrl(gradeId);
+  const url = id ? UpdateExamUrl(gradeId, id) : CreateExamUrl(gradeId);
   const body = {
     ...values,
     classroom_id: values.classroom?.value,
@@ -114,6 +117,13 @@ export const CreateExamAction = async (
     students: values.students.map((k) => ({ student_id: k.name?.value, score: k.score })),
   };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
+
+  return res.ok;
+};
+
+export const DeleteExamAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = DeleteStudentUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
 };

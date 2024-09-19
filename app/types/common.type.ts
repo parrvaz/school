@@ -118,13 +118,13 @@ export type AssignFormType = {
 
 export type ExamType = {
   date: string;
-  content: string[];
+  contents: ContentType[];
   course_id: number;
   classroom_id: number;
   expected: number;
   totalScore: number;
   type: number;
-  status: boolean;
+  isFinal: boolean;
   isGeneral: boolean;
   id: number;
   classroom: string;
@@ -139,7 +139,7 @@ export type CreateExamFormType = {
   expected: number;
   totalScore: number;
   type: number;
-  status: boolean;
+  isFinal: boolean;
   isGeneral: boolean;
   students: {
     name: { value: number; label: string } | null;

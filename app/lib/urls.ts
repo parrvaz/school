@@ -40,4 +40,9 @@ export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses
 
 // Exam ///////////////////////////////////////////
 export const CreateExamUrl = (gradeId: string): string => `/${gradeId}/exams/store`;
-export const ShowExamUrl = (gradeId: string): string => `/${gradeId}/exams/show`;
+export const ShowExamUrl = (gradeId: string, id?: string): string =>
+  `/${gradeId}/exams/show${id ? `/${id}` : ''}`;
+export const DeleteExamUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/exams/delete/${id}`;
+export const UpdateExamUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/exams/update/${id}`;

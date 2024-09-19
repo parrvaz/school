@@ -29,8 +29,12 @@ const ActionRenderer: React.FC = (props: any) => {
 
   return (
     <div className="isCenter h-full">
-      <i className="icon-edit text-berry60 text-20 p-2 cursor-pointer" onClick={handleEdit} />
-      <i className="icon-trash text-red70 text-20 p-2 cursor-pointer" onClick={handleDelete} />
+      {!!setEditData && (
+        <i className="icon-edit text-berry60 text-20 p-2 cursor-pointer" onClick={handleEdit} />
+      )}
+      {deleteAction && (
+        <i className="icon-trash text-red70 text-20 p-2 cursor-pointer" onClick={handleDelete} />
+      )}
       <DeleteModal
         open={!!deleteId}
         setOpen={setDeleteId}

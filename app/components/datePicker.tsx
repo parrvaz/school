@@ -8,12 +8,13 @@ const AppDatePicker: React.FC<{
   value: string;
   onChange: (item: string) => void;
   placeholder?: string;
+  className?: string;
   error?: boolean;
-}> = ({ value, onChange, placeholder, error }) => {
+}> = ({ value, onChange, placeholder, error, className }) => {
   const { getToday } = utils('fa');
 
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <DatePicker
         locale="fa"
         value={convertToDayValue(value)}

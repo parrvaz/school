@@ -6,7 +6,6 @@ import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import FormTimePicker from 'app/components/formTimePicker';
 import { BellsFormType, BellsType } from 'app/types/common.type';
-import { UpdateBellAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 
 const rawTime = { startTime: '', endTime: '' };
@@ -26,7 +25,7 @@ const BellsTime: React.FC<{ bells: BellsType; tag: string }> = ({ bells, tag }) 
 
   console.log(bells);
   const { mutate, isPending } = useMutation({
-    mutationFn: (e: BellsFormType) => UpdateBellAction(e, gradeId.toString()),
+    mutationFn: (e: BellsFormType) => console.log(e),
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
@@ -45,7 +44,7 @@ const BellsTime: React.FC<{ bells: BellsType; tag: string }> = ({ bells, tag }) 
         {fields.map((field, index) => (
           <div className="flex flex-col items-center" key={field.id}>
             <div className="font-regular flex gap-1 items-center mb-1 w-fit text-14">
-              {fa.bells[`bell${index + 1}` as keyof typeof fa.bells]}
+              {(fa.global as any)[`bell${index + 1}` as keyof typeof fa.global]}
               {index > 1 && (
                 <i
                   onClick={() => remove(index)}

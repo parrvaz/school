@@ -22,6 +22,7 @@ import {
   DeleteStudentUrl,
   DeleteTeacherUrl,
   FieldsUrl,
+  UpdateBellUrl,
   UpdateClassUrl,
   UpdateCourseUrl,
   UpdateExamUrl,
@@ -129,6 +130,17 @@ export const DeleteExamAction = async (gradeId: string, id: number): Promise<boo
   const url = DeleteExamUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
+  return res.ok;
+};
+
+export const UpdateBellsAction = async (
+  values: BellsFormType,
+  gradeId: string,
+  isCreate: boolean
+): Promise<boolean> => {
+  const url = isCreate ? CreateBellUrl(gradeId) : UpdateBellUrl(gradeId);
+  const list = values.bells.map((key, index) => ({ ...key, order: index + 1 }));
+  const res: ResponseType<{ data: string }> = await request.post(url, { list });
   return res.ok;
 };
 

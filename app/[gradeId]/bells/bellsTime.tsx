@@ -7,25 +7,27 @@ import fa from 'app/lib/fa.json';
 import FormTimePicker from 'app/components/formTimePicker';
 import { BellsFormType, BellsType } from 'app/types/common.type';
 import { tagRevalidate } from 'app/lib/server.util';
+import { UpdateBellsAction } from 'app/lib/actions';
 
 const rawTime = { startTime: '', endTime: '' };
 
-const BellsTime: React.FC<{ bells: BellsType; tag: string }> = ({ bells, tag }) => {
+const BellsTime: React.FC<{ bells: BellsType[]; tag: string }> = ({ bells, tag }) => {
   const { gradeId } = useParams();
 
   const defaultValues = {
-    bells: [rawTime, rawTime],
+    bells: bells.length ? bells : [rawTime, rawTime],
   };
   const {
     handleSubmit,
     formState: { errors },
     control,
+    watch,
   } = useForm<BellsFormType>({ defaultValues });
   const { fields, append, remove } = useFieldArray({ control, name: 'bells' });
 
   console.log(bells);
   const { mutate, isPending } = useMutation({
-    mutationFn: (e: BellsFormType) => console.log(e),
+    mutationFn: (e: BellsFormType) => UpdateBellsAction(e, gradeId.toString(), !bells.length),
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
@@ -33,6 +35,9 @@ const BellsTime: React.FC<{ bells: BellsType; tag: string }> = ({ bells, tag }) 
     },
   });
 
+  const hasChange = JSON.stringify(bells) !== JSON.stringify(watch('bells'));
+
+  console.log(hasChange);
   return (
     <form className="relative w-fit text-end" onSubmit={handleSubmit((e) => mutate(e))}>
       <div className="mb-4 text-start">{fa.bells.setTimes}</div>
@@ -77,9 +82,13 @@ const BellsTime: React.FC<{ bells: BellsType; tag: string }> = ({ bells, tag }) 
         )}
       </div>
 
-      <Button className="btn btn-primary mt-7 w-28" isLoading={isPending}>
-        {fa.global.submit}
-      </Button>
+      {hasChange && (
+        <div className="fixed bottom-0 p-3 w-full left-0 bg-white">
+          <Button className="btn leading-5 btn-primary w-48" isLoading={isPending}>
+            {fa.bells[bells.length ? 'updateBells' : 'submitBells']}
+          </Button>
+        </div>
+      )}
     </form>
   );
 };

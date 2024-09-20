@@ -6,14 +6,14 @@ import { BellsType, ClassroomType, CourseType } from 'app/types/common.type';
 import Schedule from './schedule';
 
 const Bells: React.FC<{
-  bells: BellsType;
+  bells: BellsType[];
   tag: string;
   classes: ClassroomType[];
   courses: CourseType[];
 }> = ({ bells, tag, classes, courses }) => {
   return (
     <div>
-      {/* <BellsTime {...{ bells, tag }} /> */}
+      <BellsTime {...{ bells, tag }} />
       <Schedule {...{ classes, courses }} />
     </div>
   );

@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: fa.sidebar.bells };
 
 const BellsPage: React.FC<PageType> = async ({ params }) => {
   const [bells, classes, courses] = await Promise.all([
-    fetchData<BellsType>(ShowBellUrl(params.gradeId), await bellTag()),
+    fetchData<BellsType[]>(ShowBellUrl(params.gradeId), await bellTag()),
     fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
     fetchData<CourseType[]>(ShowCourseUrl(params?.gradeId), await courseTag()),
   ]);

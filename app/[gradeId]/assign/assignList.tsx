@@ -77,7 +77,7 @@ const AssignList: React.FC<{
           </div>
         ))}
         <Button type="button" className="btn btn-sm btn-accent w-44" onClick={() => append(rawRow)}>
-          <i className="icon-plus text-24" />
+          <i className="icon-add text-24" />
           {fa.assign.addNewRow}
         </Button>
 

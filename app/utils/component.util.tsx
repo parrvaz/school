@@ -20,7 +20,7 @@ export const TOAST_CONFIG = {
 
 export const handleError = (error: { message: string }): JSX.Element =>
   error && (
-    <div className="isCenter absolute -bottom-5 right-2 font-regular text-10 text-red80">
+    <div className="isCenter absolute -bottom-5 right-0 font-regular text-10 text-red80">
       <span className="icon-info-circle ml-1 text-12" />
       {error.message || fa.global.rules.required}
     </div>

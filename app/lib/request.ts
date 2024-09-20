@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { ApisauceInstance, create } from 'apisauce';
 import { toast } from 'react-hot-toast';
 
-const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://171.22.26.174/api';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://pishkarserver.semimnet.ir/api';
 
 // create main request configs
 const request = ((): ApisauceInstance => {

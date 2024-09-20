@@ -153,3 +153,16 @@ export type CreateExamFormType = {
     score: number | null;
   }[];
 };
+
+export type BellsType = { bells: { startTime: string; endTime: string }[] };
+export type BellsFormType = { bells: { startTime: string; endTime: string }[] };
+export type ScheduleType = {
+  [key: string]: { sat: string; sun: string; mon: string; tue: string; wed: string; thu: string };
+};
+export type ScheduleFormType = {
+  schedule: {
+    [time: string]: {
+      [day: string]: string | number;
+    };
+  };
+};

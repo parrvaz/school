@@ -84,7 +84,7 @@ const StudentsList: React.FC<{
               className="btn btn-sm btn-accent w-60 mt-5"
               onClick={() => append({ name: null, score: null })}
             >
-              <i className="icon-plus text-24" />
+              <i className="icon-add text-24" />
               {fa.createExam.addNewStudent}
             </Button>
           ) : (

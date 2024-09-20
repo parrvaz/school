@@ -76,7 +76,7 @@ const CreateNewStudent: React.FC<{
   return (
     <div className="flex justify-end mt-6">
       <Button onClick={(): void => setStudentData(true)} className="btn btn-primary">
-        <i className="icon-plus text-32" />
+        <i className="icon-add text-32" />
         {fa.student.newStudent}
       </Button>
 

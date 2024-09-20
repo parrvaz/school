@@ -1,16 +1,20 @@
 import {
   AssignFormType,
+  BellsFormType,
   ClassFormType,
   CreateExamFormType,
   FieldsType,
   ResponseType,
+  ScheduleFormType,
   StudentFormType,
   TeacherFormType,
 } from 'app/types/common.type';
 import request from './request';
 import {
+  CreateBellUrl,
   CreateClassUrl,
   CreateExamUrl,
+  CreateScheduleUrl,
   CreateStudentUrl,
   CreateTeacherUrl,
   DeleteClassUrl,
@@ -126,4 +130,17 @@ export const DeleteExamAction = async (gradeId: string, id: number): Promise<boo
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
+};
+
+export const UpdateScheduleAction = async (
+  values: ScheduleFormType,
+  gradeId: string
+): Promise<boolean> => {
+  const url = CreateScheduleUrl(gradeId);
+  console.log('action', values);
+  const list = Object.keys(values.schedule).map((key) => ({}));
+  // const res: ResponseType<{ data: string }> = await request.post(url, { list });
+
+  return true;
+  // return res.ok;
 };

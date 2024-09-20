@@ -7,6 +7,8 @@ import {
   AssignType,
   ClassroomType,
   CourseType,
+  ScheduleFormType,
+  ScheduleType,
   TeacherType,
 } from 'app/types/common.type';
 
@@ -137,3 +139,25 @@ export const getOption = (
   key?: 'name' | 'title'
 ): { value: number; label: string }[] =>
   data.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
+
+export const convertArrayToSchedule = (arr: { order: number }[]): ScheduleType => {
+  const schedule: ScheduleType = {};
+
+  arr.forEach((item) => {
+    schedule[item.order] = { sat: '', sun: '', mon: '', tue: '', wed: '', thu: '' };
+  });
+
+  return schedule;
+};
+
+export const mapFormData = (formData: ScheduleFormType['schedule']) => {
+  return Object.keys(formData).map((order) => ({
+    order,
+    sat: formData[order]?.sat || '',
+    sun: formData[order]?.sun || '',
+    mon: formData[order]?.mon || '',
+    tue: formData[order]?.tue || '',
+    wed: formData[order]?.wed || '',
+    thu: formData[order]?.thu || '',
+  }));
+};

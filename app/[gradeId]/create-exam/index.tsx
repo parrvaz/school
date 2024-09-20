@@ -43,7 +43,6 @@ const CreateExam: React.FC<{
   const router = useRouter();
   const id = data?.id || undefined;
 
-  console.log(data);
   const defaultValues = {
     date: data?.date.replace(/-/g, '/') || getTody(),
     contents: data?.contents.map((k) => ({ value: k.id, label: k.content })) || [],

@@ -21,7 +21,8 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
   const [examData, setExamData] = useState<ExamType | boolean>(false);
 
   useEffect(() => {
-    if (typeof examData !== 'boolean') router.push(GradeRoute(gradeId, 'create-exam', examData.id));
+    if (typeof examData !== 'boolean')
+      router.push(GradeRoute(gradeId, 'create-exam', `?id={examData.id}`));
   }, [examData]);
 
   const typeFormatter = (params: ValueFormatterParams): string =>

@@ -1,4 +1,5 @@
 import {
+  AbsentsListType,
   AssignFormType,
   BellsFormType,
   ClassFormType,
@@ -146,12 +147,25 @@ export const UpdateBellsAction = async (
 
 export const UpdateScheduleAction = async (
   values: ScheduleFormType,
+  gradeId: string,
+  classId: number
+): Promise<boolean> => {
+  const url = CreateScheduleUrl(gradeId, classId);
+  console.log('action', values);
+  // const res: ResponseType<{ data: string }> = await request.post(url, values);
+
+  return true;
+  // return res.ok;
+};
+
+export const PostAbsentsAction = async (
+  values: AbsentsListType[],
   gradeId: string
 ): Promise<boolean> => {
-  const url = CreateScheduleUrl(gradeId);
-  console.log('action', values);
-  const list = Object.keys(values.schedule).map((key) => ({}));
-  // const res: ResponseType<{ data: string }> = await request.post(url, { list });
+  // const url = CreateScheduleUrl(gradeId, classId);
+  const body = values.filter((k) => k.isAbsent).map((k) => k.student_id);
+  console.log('action', body, gradeId);
+  // const res: ResponseType<{ data: string }> = await request.post(url, values);
 
   return true;
   // return res.ok;

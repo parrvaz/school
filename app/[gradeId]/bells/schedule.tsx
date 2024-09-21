@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CellClickedEvent } from 'ag-grid-community';
+import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { ClassroomType, CourseType, ScheduleFormType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
@@ -9,7 +10,6 @@ import Button from 'app/components/button';
 import CellRenderer from './cellRenderer';
 import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
 import CourseModal from './courseModal';
-import { useMutation } from '@tanstack/react-query';
 import { tagRevalidate } from 'app/lib/server.util';
 import { UpdateScheduleAction } from 'app/lib/actions';
 
@@ -28,7 +28,8 @@ const Schedule: React.FC<{ classes: ClassroomType[]; courses: CourseType[] }> = 
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (e: ScheduleFormType) => UpdateScheduleAction(e, gradeId.toString()),
+    mutationFn: (e: ScheduleFormType) =>
+      UpdateScheduleAction(e, gradeId.toString(), selectedClassId),
     onSuccess: (ok) => {
       if (ok) {
         // tagRevalidate(tag);
@@ -53,9 +54,17 @@ const Schedule: React.FC<{ classes: ClassroomType[]; courses: CourseType[] }> = 
 
   const data = mapFormData(watch('schedule'));
 
+  const keys = {
+    sat: '1',
+    sun: '2',
+    mon: '3',
+    tue: '4',
+    wed: '5',
+    thu: '6',
+  };
   const onSelectLesson = (course: CourseType): void => {
     setValue(`schedule.${lessonData.order}.${lessonData.day}`, course.name);
-    setValue(`schedule.${lessonData.order}.${lessonData.day}Id`, course.id);
+    setValue(`schedule.${lessonData.order}.${keys[lessonData.day]}`, course.id);
     setLessonData(defaultLessonData);
   };
 

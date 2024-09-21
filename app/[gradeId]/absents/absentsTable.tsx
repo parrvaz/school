@@ -2,48 +2,92 @@
 
 import React, { useState } from 'react';
 import AppDatePicker from 'app/components/datePicker';
-import ReactSelect from 'app/components/select';
 import Table from 'app/components/table';
-import { ClassroomType } from 'app/types/common.type';
-import { getOption, getTody } from 'app/utils/common.util';
+import { getTody } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
+import { ValueFormatterParams } from 'ag-grid-community';
 
-const AbsentsTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
+const AbsentsTable: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(getTody());
-  const [selectedClass, setSelectedClass] = useState({
-    value: classes[0]?.id,
-    label: classes[0]?.title,
-  });
+
   const data = [
     {
-      student: 'علی',
-      student_id: 1,
-      fatherPhone: '09234234323',
-      bells: { bell1: true, bell2: true, bell3: true, bell4: false, bell5: true, bell6: true },
+      classroom: 'as',
+      classroom_id: 12,
+      students: [
+        {
+          student: 'علی',
+          student_id: 1,
+          fatherPhone: '09234234323',
+          bells: {
+            bell1: { reporter: 'sss', status: 'absent' },
+            bell2: { reporter: 'sss', status: 'absent' },
+          },
+        },
+        {
+          student: 'بثی علی',
+          student_id: 3,
+          fatherPhone: '09234234323',
+          bells: {
+            bell1: { reporter: 'aaa', status: 'notRegistered' },
+            bell2: { reporter: 'aaa', status: 'absent' },
+          },
+        },
+      ],
     },
     {
-      student: 'ییب علی',
-      student_id: 2,
-      fatherPhone: '09234234323',
-      bells: { bell1: false, bell2: false, bell3: true, bell4: false, bell5: true, bell6: true },
-    },
-    {
-      student: 'بثی علی',
-      student_id: 3,
-      fatherPhone: '09234234323',
-      bells: { bell1: true, bell2: true, bell3: true, bell4: true, bell5: true, bell6: true },
+      classroom: 'bb',
+      classroom_id: 13,
+      students: [
+        {
+          student: 'ddd',
+          student_id: 22,
+          fatherPhone: '09234234323',
+          bells: {
+            bell1: { reporter: 'ddd', status: 'present' },
+            bell2: { reporter: 'dddd', status: 'present' },
+          },
+        },
+        {
+          student: 'sds علی',
+          student_id: 23,
+          fatherPhone: '09234234323',
+          bells: {
+            bell1: { reporter: 'eee', status: 'present' },
+            bell2: { reporter: 'sss', status: 'present' },
+          },
+        },
+      ],
     },
   ];
-  const bells = Object.keys(data[0].bells);
+
+  const rowData = data.flatMap((classroom) => [
+    {
+      classroom: classroom.classroom,
+      classroom_id: classroom.classroom_id,
+      fatherPhone: '', // Empty for classroom row
+      student: classroom.classroom, // Classroom name displayed
+      bells: classroom.students[0].bells, // Empty bells for classroom row
+    },
+    ...classroom.students.map((student) => ({
+      classroom: '',
+      classroom_id: '',
+      fatherPhone: student.fatherPhone,
+      student: student.student,
+      bells: student.bells,
+    })),
+  ]);
+  const bells = Object.keys(data[0].students[0].bells);
 
   const columns = [
     {
       headerName: fa.absents.studentName,
       field: 'student',
-      pinned: 'right',
       lockPosition: 'right',
       minWidth: 110,
+      colSpan: (params: ValueFormatterParams) =>
+        params.data.classroom ? Object.keys(params.data.bells).length + 2 : 1,
     },
     ...bells.map((bell) => ({
       headerName: fa.global[bell as keyof typeof fa.global],
@@ -51,25 +95,32 @@ const AbsentsTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
       cellRenderer: AbsentStatus,
       cellRendererParams: { bell },
     })),
-    // { headerName: fa.global.sun, field: 'sun', cellRenderer: RenderBoolean },
-    // { headerName: fa.global.mon, field: 'mon', cellRenderer: RenderBoolean },
-    // { headerName: fa.global.tue, field: 'tue', cellRenderer: RenderBoolean },
-    // { headerName: fa.global.wed, field: 'wed', cellRenderer: RenderBoolean },
-    // { headerName: fa.global.thu, field: 'thu', cellRenderer: RenderBoolean },
     { headerName: fa.absents.fatherPhone, field: 'fatherPhone', minWidth: 130 },
   ];
+
   return (
     <div>
       <div className="flex gap-3 mx-auto mb-6">
-        <ReactSelect
-          className="w-52"
-          value={selectedClass}
-          onChange={(e: any) => setSelectedClass(e)} // eslint-disable-line
-          options={getOption(classes, 'title')}
-        />
         <AppDatePicker className="w-52" value={selectedDate} onChange={setSelectedDate} />
       </div>
-      <Table {...{ columns, data }} className="h-full w-full" />
+      <div className="">
+        {['absentReporter', 'presentReporter', 'notRegistered'].map((key) => (
+          <div className="font-light text-12 text-berry80 flex items-center">
+            <i className="icon-info-circle text-16 ml-1" />
+            {fa.absents[key as keyof typeof fa.absents]}
+          </div>
+        ))}
+      </div>
+      <Table
+        {...{ columns }}
+        data={rowData}
+        getRowStyle={(params) =>
+          params.data.classroom
+            ? { backgroundColor: '#3730a3', fontWeight: 'bold', color: '#fff' }
+            : undefined
+        }
+        className="h-full w-full"
+      />
     </div>
   );
 };

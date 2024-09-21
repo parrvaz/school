@@ -105,6 +105,7 @@ const ReactSelect: React.FC<SelectType> = ({ error, ...rest }) => {
         // Style for the container that wraps the options
         menu: (baseStyles) => ({
           ...baseStyles,
+          zIndex: 3,
           padding: '0px 6px', // Add padding to the container
           borderRadius: '8px', // Add border radius to the container
         }),

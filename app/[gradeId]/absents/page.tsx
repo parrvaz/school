@@ -9,7 +9,7 @@ import AbsentsTable from './absentsTable';
 export const metadata: Metadata = { title: fa.sidebar.absents };
 
 const AbsentsPage: React.FC<PageType> = async ({ params }) => {
-  const [students, classes] = await Promise.all([
+  const data = await Promise.all([
     fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), await studentTag()),
     fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
   ]);

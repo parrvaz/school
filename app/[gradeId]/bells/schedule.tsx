@@ -18,6 +18,7 @@ import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
 import CourseModal from './courseModal';
 import { UpdateScheduleAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
+import AddLessonModal from './addLessonModal';
 
 const Schedule: React.FC<{
   classes: ClassroomType[];
@@ -25,8 +26,9 @@ const Schedule: React.FC<{
   setShowBells: (status: boolean) => void;
   schedules: ScheduleDataType[];
   scheduleTag: string;
+  coursesTag: string;
   bells: BellsType[];
-}> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells }) => {
+}> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells, coursesTag }) => {
   const { gradeId } = useParams();
   const defaultLessonData = { order: null, day: '' };
   const [selectedClassId, setSelectedClassId] = useState(classes[0].id);
@@ -56,8 +58,11 @@ const Schedule: React.FC<{
     {
       headerName: fa.bells.bells,
       field: 'order',
+      width: 95,
+      minWidth: 95,
+      resizable: false,
       valueFormatter: ({ value }: { value: number }) =>
-        fa.bells[`bell${value}` as keyof typeof fa.bells],
+        fa.global[`bell${value}` as keyof typeof fa.global],
     },
     { headerName: fa.global.sat, field: 'sat', cellRenderer: CellRenderer },
     { headerName: fa.global.sun, field: 'sun', cellRenderer: CellRenderer },
@@ -70,7 +75,7 @@ const Schedule: React.FC<{
 
   const keys = { sat: '1', sun: '2', mon: '3', tue: '4', wed: '5', thu: '6', fri: '7' };
   const onSelectLesson = (course: CourseType): void => {
-    setValue(`schedule.${lessonData.order}.${lessonData.day}`, course.name);
+    setValue(`schedule.${lessonData.order}.${lessonData.day}`, course.id ? course.name : '');
     setValue(
       `schedule.${lessonData.order}.${keys[lessonData.day as keyof typeof keys]}`,
       course.id
@@ -99,7 +104,7 @@ const Schedule: React.FC<{
           ))}
         </div>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-16 font-regular mr-2">{fa.bells.weekTime}</div>
           <Button
@@ -109,14 +114,14 @@ const Schedule: React.FC<{
             {fa.bells.changeTimes}
           </Button>
         </div>
-        <form className="text-end" onSubmit={handleSubmit((e) => mutate(e))}>
+        <form className="relative text-end" onSubmit={handleSubmit((e) => mutate(e))}>
           <Table
             {...{ columns }}
             data={mapFormData(watch('schedule'))}
             onCellClicked={onCellClicked}
             className="h-full w-full"
           />
-          <Button isLoading={isPending} className="btn btn-primary mt-3">
+          <Button isLoading={isPending} className="btn absolute left-0 -bottom-16 btn-primary mt-3">
             {fa.bells.setClassSchedule}
           </Button>
 
@@ -126,6 +131,7 @@ const Schedule: React.FC<{
             {...{ courses, onSelectLesson }}
           />
         </form>
+        <AddLessonModal {...{ courses, coursesTag }} />
       </div>
     </div>
   );

@@ -5,7 +5,6 @@ const AbsentStatus: React.FC<{
   bell: string;
 }> = ({ value, bell }) => {
   const { status, reporter } = value[bell];
-  console.log(value[bell]);
   return (
     <div
       className={`h-full pr-1 ${status === 'absent' ? 'bg-red10 text-red80' : status === 'present' ? 'text-green80 bg-green10' : 'text-sun80 bg-sun20'}`}

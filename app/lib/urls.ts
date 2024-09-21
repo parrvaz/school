@@ -56,6 +56,9 @@ export const ShowBellUrl = (gradeId: string): string => `/${gradeId}/bells/show`
 export const ShowSchedulesUrl = (gradeId: string): string => `/${gradeId}/schedules/show`;
 export const CreateScheduleUrl = (gradeId: string, classId: number): string =>
   `/${gradeId}/schedules/store/${classId}`;
+export const CreateCourseUrl = (gradeId: string): string => `/${gradeId}/school/courses/store`;
+export const DeleteCourseUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/courses/delete/${id}`;
 
 // Absents ///////////////////////////////////////////
 export const PostAbsentsUrl = (gradeId: string): string => `/${gradeId}/absents/store`;

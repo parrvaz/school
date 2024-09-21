@@ -94,12 +94,10 @@ export type ContentType = {
 };
 
 export type CourseType = {
-  contents: ContentType[];
-  factor: number;
-  grade_id: number;
-  id: number;
+  contents?: ContentType[];
+  id: number | null;
   name: string;
-  type: string;
+  isUser?: boolean;
 };
 
 export type AssignType = {
@@ -177,7 +175,7 @@ export type ScheduleDataType = { classroom: string; classroom_id: number; schedu
 export type ScheduleFormType = {
   schedule: {
     [time: string]: {
-      [day: string]: string | number;
+      [day: string]: string | number | null;
     };
   };
 };

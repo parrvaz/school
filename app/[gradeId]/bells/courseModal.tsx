@@ -13,7 +13,7 @@ const CourseModal: React.FC<{
     <Modal open={open} setOpen={setOpen} id="choose-course">
       <div className="font-bold text-berry100 text-center">{fa.bells.chooseCourse}</div>
       <div className="flex flex-wrap justify-center gap-2 mt-6">
-        {courses.map((k) => (
+        {[...courses, { id: null, name: fa.bells.empty }].map((k) => (
           <div
             onClick={(): void => onSelectLesson(k)}
             key={k.id}

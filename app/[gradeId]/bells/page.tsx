@@ -17,16 +17,17 @@ export const metadata: Metadata = { title: fa.sidebar.bells };
 const BellsPage: React.FC<PageType> = async ({ params }) => {
   const bellsTag = await bellTag();
   const scheduleTag = await schedulesTag();
+  const coursesTag = await courseTag();
   const [schedules, bells, classes, courses] = await Promise.all([
     fetchData<ScheduleDataType[]>(ShowSchedulesUrl(params.gradeId), scheduleTag),
     fetchData<BellsType[]>(ShowBellUrl(params.gradeId), bellsTag),
     fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
-    fetchData<CourseType[]>(ShowCourseUrl(params?.gradeId), await courseTag()),
+    fetchData<CourseType[]>(ShowCourseUrl(params?.gradeId), coursesTag),
   ]);
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.bells}</h1>
-      <Bells {...{ classes, bells, courses, schedules, bellsTag, scheduleTag }} />
+      <Bells {...{ classes, bells, courses, schedules, bellsTag, scheduleTag, coursesTag }} />
     </div>
   );
 };

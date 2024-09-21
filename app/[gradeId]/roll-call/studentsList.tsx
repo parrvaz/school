@@ -35,8 +35,6 @@ const StudentsList: React.FC<{
     [classId, students]
   );
 
-  console.log(students, data);
-
   const route = (dateValue: string, bell?: string, classValue?: string): string =>
     GradeRoute(gradeId, 'roll-call', `?bellId=${bell}&classId=${classValue}&date=${dateValue}`);
 

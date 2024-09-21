@@ -15,12 +15,14 @@ import request from './request';
 import {
   CreateBellUrl,
   CreateClassUrl,
+  CreateCourseUrl,
   CreateExamUrl,
   CreateScheduleUrl,
   CreateStudentUrl,
   CreateTeacherUrl,
   DeleteBellUrl,
   DeleteClassUrl,
+  DeleteCourseUrl,
   DeleteExamUrl,
   DeleteStudentUrl,
   DeleteTeacherUrl,
@@ -165,7 +167,20 @@ export const UpdateScheduleAction = async (
 ): Promise<boolean> => {
   const url = CreateScheduleUrl(gradeId, classId);
   const res: ResponseType<{ data: string }> = await request.post(url, values);
-  console.log('action', values, res);
+
+  return res.ok;
+};
+
+export const CreateCourseAction = async (name: string, gradeId: string): Promise<boolean> => {
+  const url = CreateCourseUrl(gradeId);
+  const res: ResponseType<{ data: string }> = await request.post(url, { name });
+
+  return res.ok;
+};
+
+export const DeleteCourseAction = async (id: number, gradeId: string): Promise<boolean> => {
+  const url = DeleteCourseUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
 };

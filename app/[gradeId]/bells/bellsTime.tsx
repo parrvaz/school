@@ -30,7 +30,6 @@ const BellsTime: React.FC<{
   } = useForm<BellsFormType>({ defaultValues });
   const { fields, append } = useFieldArray({ control, name: 'bells' });
 
-  console.log(bells);
   const { mutate, isPending } = useMutation({
     mutationFn: (e: BellsFormType) => UpdateBellsAction(e, gradeId.toString(), !bells.length),
     onSuccess: (data) => {

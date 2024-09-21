@@ -26,26 +26,29 @@ const BellsTime: React.FC<{
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm<BellsFormType>({ defaultValues });
   const { fields, append } = useFieldArray({ control, name: 'bells' });
 
   console.log(bells);
   const { mutate, isPending } = useMutation({
     mutationFn: (e: BellsFormType) => UpdateBellsAction(e, gradeId.toString(), !bells.length),
-    onSuccess: (ok) => {
-      if (ok) {
+    onSuccess: (data) => {
+      console.log('xxxx', data);
+      if (typeof data !== 'boolean') {
         tagRevalidate(tag);
+        reset({ bells: data.map((k) => ({ ...k, bellId: k.id })) });
       }
     },
   });
   const { mutate: DeleteMutate } = useMutation({
     mutationFn: (e: number) => DeleteBellsAction(e, gradeId.toString()),
     onMutate: (id: number) => setLoadingId(id),
-    onSuccess: (ok) => {
+    onSuccess: (data) => {
       setLoadingId(null);
-      if (ok) {
+      if (typeof data !== 'boolean') {
         tagRevalidate(tag);
-        console.log('sss', bells);
+        reset({ bells: data.map((k) => ({ ...k, bellId: k.id })) });
       }
     },
   });

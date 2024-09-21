@@ -2,6 +2,7 @@ import {
   AbsentsListType,
   AssignFormType,
   BellsFormType,
+  BellsType,
   ClassFormType,
   CreateExamFormType,
   FieldsType,
@@ -140,18 +141,21 @@ export const UpdateBellsAction = async (
   values: BellsFormType,
   gradeId: string,
   isCreate: boolean
-): Promise<boolean> => {
+): Promise<BellsType[] | boolean> => {
   const url = isCreate ? CreateBellUrl(gradeId) : UpdateBellUrl(gradeId);
   const list = values.bells.map((key, index) => ({ ...key, order: index + 1 }));
-  const res: ResponseType<{ data: string }> = await request.post(url, { list });
-  return res.ok;
+  const res: ResponseType<{ data: BellsType[] }> = await request.post(url, { list });
+
+  return res.data?.data || res.ok;
 };
 
-export const DeleteBellsAction = async (id: number, gradeId: string): Promise<boolean | number> => {
+export const DeleteBellsAction = async (
+  id: number,
+  gradeId: string
+): Promise<BellsType[] | boolean> => {
   const url = DeleteBellUrl(gradeId, id);
-  const res: ResponseType<{ data: string }> = await request.post(url);
-  console.log('action', res);
-  return res.ok;
+  const res: ResponseType<{ data: BellsType[] }> = await request.post(url);
+  return res.data?.data || res.ok;
 };
 
 export const UpdateScheduleAction = async (
@@ -163,8 +167,7 @@ export const UpdateScheduleAction = async (
   const res: ResponseType<{ data: string }> = await request.post(url, values);
   console.log('action', values, res);
 
-  return true;
-  // return res.ok;
+  return res.ok;
 };
 
 export const PostAbsentsAction = async (

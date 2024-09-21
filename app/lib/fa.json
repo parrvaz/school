@@ -166,6 +166,9 @@
     "chooseCourse": "درس مورد نظر را انتخاب کنید",
     "submitBells": "ثبت ساعات کلاس",
     "updateBells": "به‌روزرسانی ساعات کلاس",
+    "returnToWeek": "بازگشت به برنامه هفتگی",
+    "changeTimes": "تغییر ساعت کلاس‌ها",
+    "setClassSchedule": "ثبت برنامه هفتگی کلاس",
     "": "",
     "newBell": "زنگ جدید"
   },

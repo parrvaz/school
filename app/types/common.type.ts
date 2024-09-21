@@ -154,7 +154,13 @@ export type CreateExamFormType = {
   }[];
 };
 
-export type BellsType = { startTime: string; endTime: string; order?: number; id?: number };
+export type BellsType = {
+  startTime: string;
+  endTime: string;
+  order?: number;
+  bellId?: number;
+  id?: number;
+};
 export type BellsFormType = { bells: BellsType[] };
 export type ScheduleType = {
   [key: string]: { sat: string; sun: string; mon: string; tue: string; wed: string; thu: string };

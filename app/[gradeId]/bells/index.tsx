@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import BellsTime from './bellsTime';
 import { BellsType, ClassroomType, CourseType } from 'app/types/common.type';
 import Schedule from './schedule';
@@ -11,10 +11,14 @@ const Bells: React.FC<{
   classes: ClassroomType[];
   courses: CourseType[];
 }> = ({ bells, tag, classes, courses }) => {
+  const [showBells, setShowBells] = useState(!bells.length);
   return (
     <div>
-      <BellsTime {...{ bells, tag }} />
-      <Schedule {...{ classes, courses }} />
+      {showBells ? (
+        <BellsTime {...{ bells, tag, setShowBells }} />
+      ) : (
+        <Schedule {...{ classes, courses, setShowBells }} />
+      )}
     </div>
   );
 };

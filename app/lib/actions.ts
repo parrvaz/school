@@ -18,6 +18,7 @@ import {
   CreateScheduleUrl,
   CreateStudentUrl,
   CreateTeacherUrl,
+  DeleteBellUrl,
   DeleteClassUrl,
   DeleteExamUrl,
   DeleteStudentUrl,
@@ -145,14 +146,21 @@ export const UpdateBellsAction = async (
   return res.ok;
 };
 
+export const DeleteBellsAction = async (id: number, gradeId: string): Promise<boolean | number> => {
+  const url = DeleteBellUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
+  console.log('action', res);
+  return res.ok;
+};
+
 export const UpdateScheduleAction = async (
   values: ScheduleFormType,
   gradeId: string,
   classId: number
 ): Promise<boolean> => {
   const url = CreateScheduleUrl(gradeId, classId);
-  console.log('action', values);
-  // const res: ResponseType<{ data: string }> = await request.post(url, values);
+  const res: ResponseType<{ data: string }> = await request.post(url, values);
+  console.log('action', values, res);
 
   return true;
   // return res.ok;

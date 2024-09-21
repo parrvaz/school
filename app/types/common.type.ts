@@ -160,6 +160,7 @@ export type BellsType = {
   id?: number;
 };
 export type WeekType = {
+  order?: number;
   sat: string;
   sun: string;
   mon: string;

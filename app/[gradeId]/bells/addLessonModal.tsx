@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import { CourseType } from 'app/types/common.type';
 import Modal from 'app/components/modal';
-import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
 import { tagRevalidate } from 'app/lib/server.util';
-import { useParams } from 'next/navigation';
 import { CreateCourseAction, DeleteCourseAction } from 'app/lib/actions';
 import FormInput from 'app/components/formInput';
 
@@ -50,7 +50,6 @@ const AddLessonModal: React.FC<{ courses: CourseType[]; coursesTag: string }> = 
     },
   });
 
-  console.log(errors, isPending);
   return (
     <>
       <Button

@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ValueFormatterParams } from 'ag-grid-community';
 import AppDatePicker from 'app/components/datePicker';
 import Table from 'app/components/table';
 import { getTody } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
-import { ValueFormatterParams } from 'ag-grid-community';
 
 const AbsentsTable: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(getTody());
@@ -105,7 +105,7 @@ const AbsentsTable: React.FC = () => {
       </div>
       <div className="">
         {['absentReporter', 'presentReporter', 'notRegistered'].map((key) => (
-          <div className="font-light text-12 text-berry80 flex items-center">
+          <div key={key} className="font-light text-12 text-berry80 flex items-center">
             <i className="icon-info-circle text-16 ml-1" />
             {fa.absents[key as keyof typeof fa.absents]}
           </div>

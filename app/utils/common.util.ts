@@ -151,7 +151,7 @@ export const convertArrayToSchedule = (arr: BellsType[]): ScheduleType => {
   return schedule;
 };
 
-export const mapFormData = (formData: ScheduleFormType['schedule']) => {
+export const mapFormData = (formData: ScheduleFormType['schedule']): object[] => {
   return Object.keys(formData).map((order) => ({
     order,
     sat: formData[order]?.sat || '',

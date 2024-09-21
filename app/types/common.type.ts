@@ -161,10 +161,19 @@ export type BellsType = {
   bellId?: number;
   id?: number;
 };
-export type BellsFormType = { bells: BellsType[] };
-export type ScheduleType = {
-  [key: string]: { sat: string; sun: string; mon: string; tue: string; wed: string; thu: string };
+export type WeekType = {
+  sat: string;
+  sun: string;
+  mon: string;
+  tue: string;
+  wed: string;
+  thu: string;
+  fri: string;
 };
+export type BellsFormType = { bells: BellsType[] };
+export type ScheduleType = { [key: string]: WeekType };
+export type ScheduleDataType = { classroom: string; classroom_id: number; schedule: ScheduleType };
+
 export type ScheduleFormType = {
   schedule: {
     [time: string]: {

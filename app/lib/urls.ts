@@ -53,6 +53,7 @@ export const UpdateBellUrl = (gradeId: string): string => `/${gradeId}/bells/upd
 export const DeleteBellUrl = (gradeId: string, bellId: number): string =>
   `/${gradeId}/bells/delete/${bellId}`;
 export const ShowBellUrl = (gradeId: string): string => `/${gradeId}/bells/show`;
+export const ShowSchedulesUrl = (gradeId: string): string => `/${gradeId}/schedules/show`;
 export const CreateScheduleUrl = (gradeId: string, classId: number): string =>
   `/${gradeId}/schedules/store/${classId}`;
 

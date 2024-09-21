@@ -5,6 +5,7 @@ import fa from 'app/lib/fa.json';
 import {
   AssignFormType,
   AssignType,
+  BellsType,
   ClassroomType,
   CourseType,
   ScheduleFormType,
@@ -140,11 +141,11 @@ export const getOption = (
 ): { value: number; label: string }[] =>
   data.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
 
-export const convertArrayToSchedule = (arr: { order: number }[]): ScheduleType => {
+export const convertArrayToSchedule = (arr: BellsType[]): ScheduleType => {
   const schedule: ScheduleType = {};
 
   arr.forEach((item) => {
-    schedule[item.order] = { sat: '', sun: '', mon: '', tue: '', wed: '', thu: '' };
+    schedule[item.order || 0] = { sat: '', sun: '', mon: '', tue: '', wed: '', thu: '', fri: '' };
   });
 
   return schedule;

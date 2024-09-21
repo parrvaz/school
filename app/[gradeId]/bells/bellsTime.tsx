@@ -13,9 +13,9 @@ const rawTime = { startTime: '', endTime: '' };
 
 const BellsTime: React.FC<{
   bells: BellsType[];
-  tag: string;
+  bellsTag: string;
   setShowBells: (status: boolean) => void;
-}> = ({ bells, tag, setShowBells }) => {
+}> = ({ bells, bellsTag, setShowBells }) => {
   const { gradeId } = useParams();
   const [loadingId, setLoadingId] = useState<number | null>(null);
 
@@ -35,7 +35,7 @@ const BellsTime: React.FC<{
     mutationFn: (e: BellsFormType) => UpdateBellsAction(e, gradeId.toString(), !bells.length),
     onSuccess: (data) => {
       if (typeof data !== 'boolean') {
-        tagRevalidate(tag);
+        tagRevalidate(bellsTag);
         reset({ bells: data.map((k) => ({ ...k, bellId: k.id })) });
       }
     },
@@ -46,7 +46,7 @@ const BellsTime: React.FC<{
     onSuccess: (data) => {
       setLoadingId(null);
       if (typeof data !== 'boolean') {
-        tagRevalidate(tag);
+        tagRevalidate(bellsTag);
         reset({ bells: data.map((k) => ({ ...k, bellId: k.id })) });
       }
     },
@@ -100,7 +100,7 @@ const BellsTime: React.FC<{
       </div>
 
       <div className="gap-2 flex mt-7">
-        <Button className="btn leading-5 btn-primary w-48" isLoading={isPending}>
+        <Button className="btn leading-5 btn-primary w-56" isLoading={isPending}>
           {fa.bells[bells.length ? 'updateBells' : 'submitBells']}
         </Button>
         {!!bells.length && (

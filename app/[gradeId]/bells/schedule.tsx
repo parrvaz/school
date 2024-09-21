@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CellClickedEvent } from 'ag-grid-community';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { ClassroomType, CourseType, ScheduleFormType } from 'app/types/common.type';
+import {
+  BellsType,
+  ClassroomType,
+  CourseType,
+  ScheduleDataType,
+  ScheduleFormType,
+} from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import Button from 'app/components/button';
@@ -11,30 +17,39 @@ import CellRenderer from './cellRenderer';
 import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
 import CourseModal from './courseModal';
 import { UpdateScheduleAction } from 'app/lib/actions';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const Schedule: React.FC<{
   classes: ClassroomType[];
   courses: CourseType[];
   setShowBells: (status: boolean) => void;
-}> = ({ classes, courses, setShowBells }) => {
+  schedules: ScheduleDataType[];
+  scheduleTag: string;
+  bells: BellsType[];
+}> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells }) => {
   const { gradeId } = useParams();
   const defaultLessonData = { order: null, day: '' };
   const [selectedClassId, setSelectedClassId] = useState(classes[0].id);
   const [lessonData, setLessonData] = useState(defaultLessonData);
-  const bells = [{ order: 1 }, { order: 2 }, { order: 3 }];
+  const selectedSchedule = useMemo(
+    () => schedules.find((k) => k.classroom_id === selectedClassId),
+    [selectedClassId, schedules]
+  );
 
-  const { handleSubmit, setValue, watch } = useForm<ScheduleFormType>({
-    defaultValues: { schedule: convertArrayToSchedule(bells) },
+  const { handleSubmit, setValue, watch, reset } = useForm<ScheduleFormType>({
+    defaultValues: { schedule: {} },
   });
+
+  useEffect(() => {
+    // if we have 5 bells but schedule has 3 bells we should add other bells
+    const newData = { ...convertArrayToSchedule(bells), ...selectedSchedule?.schedule };
+    reset({ schedule: newData });
+  }, [selectedSchedule]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: ScheduleFormType) =>
       UpdateScheduleAction(e, gradeId.toString(), selectedClassId),
-    onSuccess: (ok) => {
-      if (ok) {
-        // tagRevalidate(tag);
-      }
-    },
+    onSuccess: (ok) => ok && tagRevalidate(scheduleTag),
   });
 
   const columns = [
@@ -52,8 +67,6 @@ const Schedule: React.FC<{
     { headerName: fa.global.thu, field: 'thu', cellRenderer: CellRenderer },
     { headerName: fa.global.fri, field: 'fri', cellRenderer: CellRenderer },
   ];
-
-  const data = mapFormData(watch('schedule'));
 
   const keys = { sat: '1', sun: '2', mon: '3', tue: '4', wed: '5', thu: '6', fri: '7' };
   const onSelectLesson = (course: CourseType): void => {
@@ -97,7 +110,12 @@ const Schedule: React.FC<{
           </Button>
         </div>
         <form className="text-end" onSubmit={handleSubmit((e) => mutate(e))}>
-          <Table {...{ columns, data }} onCellClicked={onCellClicked} className="h-full w-full" />
+          <Table
+            {...{ columns }}
+            data={mapFormData(watch('schedule'))}
+            onCellClicked={onCellClicked}
+            className="h-full w-full"
+          />
           <Button isLoading={isPending} className="btn btn-primary mt-3">
             {fa.bells.setClassSchedule}
           </Button>

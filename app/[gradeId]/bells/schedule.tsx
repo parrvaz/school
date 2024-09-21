@@ -10,7 +10,6 @@ import Button from 'app/components/button';
 import CellRenderer from './cellRenderer';
 import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
 import CourseModal from './courseModal';
-import { tagRevalidate } from 'app/lib/server.util';
 import { UpdateScheduleAction } from 'app/lib/actions';
 
 const Schedule: React.FC<{ classes: ClassroomType[]; courses: CourseType[] }> = ({
@@ -50,21 +49,18 @@ const Schedule: React.FC<{ classes: ClassroomType[]; courses: CourseType[] }> = 
     { headerName: fa.global.tue, field: 'tue', cellRenderer: CellRenderer },
     { headerName: fa.global.wed, field: 'wed', cellRenderer: CellRenderer },
     { headerName: fa.global.thu, field: 'thu', cellRenderer: CellRenderer },
+    { headerName: fa.global.fri, field: 'fri', cellRenderer: CellRenderer },
   ];
 
   const data = mapFormData(watch('schedule'));
 
-  const keys = {
-    sat: '1',
-    sun: '2',
-    mon: '3',
-    tue: '4',
-    wed: '5',
-    thu: '6',
-  };
+  const keys = { sat: '1', sun: '2', mon: '3', tue: '4', wed: '5', thu: '6', fri: '7' };
   const onSelectLesson = (course: CourseType): void => {
     setValue(`schedule.${lessonData.order}.${lessonData.day}`, course.name);
-    setValue(`schedule.${lessonData.order}.${keys[lessonData.day]}`, course.id);
+    setValue(
+      `schedule.${lessonData.order}.${keys[lessonData.day as keyof typeof keys]}`,
+      course.id
+    );
     setLessonData(defaultLessonData);
   };
 

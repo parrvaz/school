@@ -173,4 +173,4 @@ export type ScheduleFormType = {
   };
 };
 
-export type AbsentsListType = { student_id: number; name: string; isAbsent: boolean };
+export type AbsentsListType = { id: number; name: string; isAbsent: boolean };

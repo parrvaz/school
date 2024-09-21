@@ -24,6 +24,7 @@ import {
   DeleteStudentUrl,
   DeleteTeacherUrl,
   FieldsUrl,
+  PostAbsentsUrl,
   UpdateBellUrl,
   UpdateClassUrl,
   UpdateCourseUrl,
@@ -167,14 +168,17 @@ export const UpdateScheduleAction = async (
 };
 
 export const PostAbsentsAction = async (
-  values: AbsentsListType[],
+  values: { list: AbsentsListType[]; bellId: string; classId: string; date: string },
   gradeId: string
 ): Promise<boolean> => {
-  // const url = CreateScheduleUrl(gradeId, classId);
-  const body = values.filter((k) => k.isAbsent).map((k) => k.student_id);
-  console.log('action', body, gradeId);
-  // const res: ResponseType<{ data: string }> = await request.post(url, values);
+  const url = PostAbsentsUrl(gradeId);
+  const body = {
+    date: values.date,
+    bell_id: values.bellId,
+    classroom_id: values.classId,
+    students: values.list.filter((k) => k.isAbsent).map((k) => k.id),
+  };
+  const res: ResponseType<{ data: string }> = await request.post(url, body);
 
-  return true;
-  // return res.ok;
+  return res.ok;
 };

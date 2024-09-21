@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { CellClickedEvent } from 'ag-grid-community';
 import { useMutation } from '@tanstack/react-query';
 import ReactSelect from 'app/components/select';
-import { AbsentsListType, BellsType, ClassroomType } from 'app/types/common.type';
+import { AbsentsListType, BellsType, ClassroomType, StudentType } from 'app/types/common.type';
 import { getOption, getTody } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import { GradeRoute } from 'app/lib/routes';
@@ -15,27 +15,27 @@ import Table from 'app/components/table';
 import Button from 'app/components/button';
 import { PostAbsentsAction } from 'app/lib/actions';
 
-const data = [
-  { student_id: 1, name: 'sdf', isAbsent: false },
-  { student_id: 2, name: 'sdf df', isAbsent: false },
-  { student_id: 3, name: 'sdf fwe', isAbsent: false },
-];
-
 const StudentsList: React.FC<{
   bells: BellsType[];
   classes: ClassroomType[];
+  students: StudentType[];
   bellId: string;
   classId: string;
   date: string;
-}> = ({ bells, classes, bellId, classId, date }) => {
+}> = ({ bells, classes, bellId, classId, date, students }) => {
   const router = useRouter();
   const { gradeId } = useParams();
+  const emptyMessage = fa.bells.noStudent;
   const [list, setList] = useState<AbsentsListType[]>([]);
+  const data = useMemo(
+    () =>
+      students
+        .filter((k) => k.classroom_id === Number(classId))
+        .map((k) => ({ id: k.id, name: k.name, isAbsent: false })),
+    [classId, students]
+  );
 
-  // const { data } = useQuery({
-  //   queryKey: fieldsKey(gradeId.toString()),
-  //   queryFn: () => getFields(gradeId.toString()),
-  // });
+  console.log(students, data);
 
   const route = (dateValue: string, bell?: string, classValue?: string): string =>
     GradeRoute(gradeId, 'roll-call', `?bellId=${bell}&classId=${classValue}&date=${dateValue}`);
@@ -67,14 +67,14 @@ const StudentsList: React.FC<{
   const onCellClicked = (params: CellClickedEvent): void => {
     if (params.colDef.field === 'isAbsent') {
       const updatedData = list.map((row) =>
-        row.student_id === params.data.student_id ? { ...row, isAbsent: !row.isAbsent } : row
+        row.id === params.data.id ? { ...row, isAbsent: !row.isAbsent } : row
       );
       setList(updatedData);
     }
   };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => PostAbsentsAction(list, gradeId.toString()),
+    mutationFn: () => PostAbsentsAction({ list, date, bellId, classId }, gradeId.toString()),
     onSuccess: (ok) => {
       if (ok) {
         // tagRevalidate(tag);
@@ -100,7 +100,12 @@ const StudentsList: React.FC<{
         <AppDatePicker value={date} onChange={(e) => router.push(route(e, bellId, classId))} />
       </div>
 
-      <Table {...{ columns }} data={list} onCellClicked={onCellClicked} className="h-full w-full" />
+      <Table
+        {...{ columns, emptyMessage }}
+        data={list}
+        onCellClicked={onCellClicked}
+        className="h-full w-full"
+      />
 
       <Button onClick={() => mutate()} isLoading={isPending} className="btn btn-primary w-28 mt-5">
         {fa.global.submit}

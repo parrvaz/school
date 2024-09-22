@@ -68,5 +68,6 @@ export const ShowAbsentsUrl = (gradeId: string, date: string): string =>
 // Messages ///////////////////////////////////////////
 export const InboxMessageUrl = (gradeId: string): string => `/${gradeId}/messages/inbox`;
 export const SendMessageUrl = (gradeId: string): string => `/${gradeId}/messages/send`;
+export const SentMessagesUrl = (gradeId: string): string => `/${gradeId}/messages/sentMessages`;
 export const MarkAsReadUrl = (gradeId: string, id: number): string =>
   `/${gradeId}/messages/markAsRead/${id}`;

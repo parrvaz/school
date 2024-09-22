@@ -7,6 +7,7 @@ import { InboxMessageUrl } from 'app/lib/urls';
 import { MessagesType, PageType } from 'app/types/common.type';
 import { GradeRoute } from 'app/lib/routes';
 import Inbox from './inbox';
+import SendMessage from './sendMessage';
 
 export const metadata: Metadata = { title: fa.sidebar.messages };
 
@@ -30,7 +31,8 @@ const MessagesPage: React.FC<PageType> = async ({ params, searchParams }) => {
         ))}
       </div>
 
-      <Inbox {...{ inbox }} />
+      {/* <Inbox {...{ inbox }} /> */}
+      <SendMessage />
     </div>
   );
 };

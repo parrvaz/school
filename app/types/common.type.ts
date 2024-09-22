@@ -191,3 +191,11 @@ export type MessagesType = {
   body: string;
   isRead: boolean;
 };
+
+export type SendMessageFormType = {
+  type: { value: number; label: string };
+  subject: string;
+  body: string;
+  audience: { value: number; label: string }[];
+  recipients: { value: number; label: string }[];
+};

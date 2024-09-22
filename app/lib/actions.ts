@@ -8,6 +8,7 @@ import {
   FieldsType,
   ResponseType,
   ScheduleFormType,
+  SendMessageFormType,
   StudentFormType,
   TeacherFormType,
 } from 'app/types/common.type';
@@ -29,6 +30,7 @@ import {
   FieldsUrl,
   MarkAsReadUrl,
   PostAbsentsUrl,
+  SendMessageUrl,
   UpdateBellUrl,
   UpdateClassUrl,
   UpdateCourseUrl,
@@ -204,8 +206,18 @@ export const PostAbsentsAction = async (
 
 export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = MarkAsReadUrl(gradeId, id);
-  console.log('action', id);
   const res: ResponseType<{ data: string }> = await request.post(url);
+
+  return res.ok;
+};
+
+export const SendMessageAction = async (
+  values: SendMessageFormType,
+  gradeId: string
+): Promise<boolean> => {
+  const url = SendMessageUrl(gradeId);
+  const body = { ...values, recipients: values.recipients.map((k) => k.value) };
+  const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
 };

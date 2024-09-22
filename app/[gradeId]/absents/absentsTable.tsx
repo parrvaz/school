@@ -1,66 +1,71 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { ValueFormatterParams } from 'ag-grid-community';
+import { useParams, useRouter } from 'next/navigation';
 import AppDatePicker from 'app/components/datePicker';
 import Table from 'app/components/table';
-import { getTody } from 'app/utils/common.util';
+import { convertToGregorian, getTody } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
+import { GradeRoute } from 'app/lib/routes';
 
-const AbsentsTable: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState(getTody());
+const AbsentsTable: React.FC<{ jalaliDate: string; data }> = ({ data, jalaliDate }) => {
+  const router = useRouter();
+  const { gradeId } = useParams();
+  const emptyMessage = fa.absents.noAbsents;
 
-  const data = [
-    {
-      classroom: 'as',
-      classroom_id: 12,
-      students: [
-        {
-          student: 'علی',
-          student_id: 1,
-          fatherPhone: '09234234323',
-          bells: {
-            bell1: { reporter: 'sss', status: 'absent' },
-            bell2: { reporter: 'sss', status: 'absent' },
-          },
-        },
-        {
-          student: 'بثی علی',
-          student_id: 3,
-          fatherPhone: '09234234323',
-          bells: {
-            bell1: { reporter: 'aaa', status: 'notRegistered' },
-            bell2: { reporter: 'aaa', status: 'absent' },
-          },
-        },
-      ],
-    },
-    {
-      classroom: 'bb',
-      classroom_id: 13,
-      students: [
-        {
-          student: 'ddd',
-          student_id: 22,
-          fatherPhone: '09234234323',
-          bells: {
-            bell1: { reporter: 'ddd', status: 'present' },
-            bell2: { reporter: 'dddd', status: 'present' },
-          },
-        },
-        {
-          student: 'sds علی',
-          student_id: 23,
-          fatherPhone: '09234234323',
-          bells: {
-            bell1: { reporter: 'eee', status: 'present' },
-            bell2: { reporter: 'sss', status: 'present' },
-          },
-        },
-      ],
-    },
-  ];
+  console.log(data);
+  // const data = [
+  //   {
+  //     classroom: 'as',
+  //     classroom_id: 12,
+  //     students: [
+  //       {
+  //         student: 'علی',
+  //         student_id: 1,
+  //         fatherPhone: '09234234323',
+  //         bells: {
+  //           bell1: { reporter: 'sss', status: 'absent' },
+  //           bell2: { reporter: 'sss', status: 'absent' },
+  //         },
+  //       },
+  //       {
+  //         student: 'بثی علی',
+  //         student_id: 3,
+  //         fatherPhone: '09234234323',
+  //         bells: {
+  //           bell1: { reporter: 'aaa', status: 'notRegistered' },
+  //           bell2: { reporter: 'aaa', status: 'absent' },
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     classroom: 'bb',
+  //     classroom_id: 13,
+  //     students: [
+  //       {
+  //         student: 'ddd',
+  //         student_id: 22,
+  //         fatherPhone: '09234234323',
+  //         bells: {
+  //           bell1: { reporter: 'ddd', status: 'present' },
+  //           bell2: { reporter: 'dddd', status: 'present' },
+  //         },
+  //       },
+  //       {
+  //         student: 'sds علی',
+  //         student_id: 23,
+  //         fatherPhone: '09234234323',
+  //         bells: {
+  //           bell1: { reporter: 'eee', status: 'present' },
+  //           bell2: { reporter: 'sss', status: 'present' },
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const rowData = data.flatMap((classroom) => [
     {
@@ -78,7 +83,7 @@ const AbsentsTable: React.FC = () => {
       bells: student.bells,
     })),
   ]);
-  const bells = Object.keys(data[0].students[0].bells);
+  const bells = Object.keys(data[0]?.students[0].bells || {});
 
   const columns = [
     {
@@ -98,10 +103,17 @@ const AbsentsTable: React.FC = () => {
     { headerName: fa.absents.fatherPhone, field: 'fatherPhone', minWidth: 130 },
   ];
 
+  console.log(rowData);
   return (
     <div>
       <div className="flex gap-3 mx-auto mb-6">
-        <AppDatePicker className="w-52" value={selectedDate} onChange={setSelectedDate} />
+        <AppDatePicker
+          className="w-52"
+          value={jalaliDate}
+          onChange={(date) =>
+            router.push(GradeRoute(gradeId, 'absents', `?date=${convertToGregorian(date)}`))
+          }
+        />
       </div>
       <div className="">
         {['absentReporter', 'presentReporter', 'notRegistered'].map((key) => (
@@ -112,7 +124,7 @@ const AbsentsTable: React.FC = () => {
         ))}
       </div>
       <Table
-        {...{ columns }}
+        {...{ columns, emptyMessage }}
         data={rowData}
         getRowStyle={(params) =>
           params.data.classroom

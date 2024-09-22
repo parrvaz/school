@@ -182,3 +182,12 @@ export type ScheduleFormType = {
 };
 
 export type AbsentsListType = { id: number; name: string; isAbsent: boolean };
+
+export type MessagesType = {
+  id: number;
+  sender_id: number;
+  sender: string;
+  subject: string;
+  body: string;
+  isRead: boolean;
+};

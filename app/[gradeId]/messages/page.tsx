@@ -1,20 +1,36 @@
 import React from 'react';
+import Link from 'next/link';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
-// import { fetchData, studentTag } from 'app/lib/server.util';
-// import { ShowStudentUrl } from 'app/lib/urls';
-import { PageType } from 'app/types/common.type';
+import { fetchData } from 'app/lib/server.util';
+import { InboxMessageUrl } from 'app/lib/urls';
+import { MessagesType, PageType } from 'app/types/common.type';
+import { GradeRoute } from 'app/lib/routes';
+import Inbox from './inbox';
 
 export const metadata: Metadata = { title: fa.sidebar.messages };
 
-const MessagesPage: React.FC<PageType> = async () => {
-  // const [data] = await Promise.all([
-  //   fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), await studentTag()),
-  // ]);
+const MessagesPage: React.FC<PageType> = async ({ params, searchParams }) => {
+  const activeTab = searchParams?.tab || 'inbox';
+  const [inbox] = await Promise.all([fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId))]);
 
+  const tabs = ['inbox', 'sentMessages', 'sendMessage'];
   return (
     <div className="">
-      <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.messages}</h1>
+      <div role="tablist" className="tabs tabs-boxed w-fit bg-white">
+        {tabs.map((tab) => (
+          <Link
+            href={GradeRoute(params.gradeId, 'messages', `?tab=${tab}`)}
+            key={tab}
+            role="tab"
+            className={`${activeTab === tab ? 'tab-active' : ''} tab`}
+          >
+            {fa.messages[tab as keyof typeof fa.messages]}
+          </Link>
+        ))}
+      </div>
+
+      <Inbox {...{ inbox }} />
     </div>
   );
 };

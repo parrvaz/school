@@ -16,18 +16,19 @@ export const examTag = async (): Promise<string> => `exam-show`;
 export const examIdTag = async (id?: string): Promise<string> => `exam-${id}`;
 export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
+export const absentsTag = async (): Promise<string> => `absents-show`;
 
 export const fetchData = async <T>(
   url: string,
-  tag: string,
+  tag?: string,
   method: 'GET' | 'POST' | 'DELETE' = 'GET',
   body: Record<string, any> | null = null // eslint-disable-line
 ): Promise<T> => {
+  const next = { tags: [tag || ''] };
+  const cache = !tag ? 'no-store' : 'force-cache';
   const token = cookies().get('token')?.value || '';
   const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
-  // const revalidate = tag === (await courseTag()) ? 60 * 60 * 24 : (false as const);
-  const next = { tags: [tag] };
-  const requestOptions: RequestInit = { method, headers, next, cache: 'force-cache' };
+  const requestOptions: RequestInit = { method, headers, next, cache };
 
   if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
   const res = await fetch(baseURL + url, requestOptions);

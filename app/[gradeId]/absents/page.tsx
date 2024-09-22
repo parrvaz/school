@@ -1,23 +1,28 @@
 import React from 'react';
+import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
-import { classroomTag, fetchData, studentTag } from 'app/lib/server.util';
-import { ShowClassUrl, ShowStudentUrl } from 'app/lib/urls';
-import { ClassroomType, PageType, StudentType } from 'app/types/common.type';
+import { fetchData } from 'app/lib/server.util';
+import { ShowAbsentsUrl } from 'app/lib/urls';
+import { PageType, StudentType } from 'app/types/common.type';
 import AbsentsTable from './absentsTable';
+import { convertToJalali, getTody } from 'app/utils/common.util';
+import { GradeRoute } from 'app/lib/routes';
 
 export const metadata: Metadata = { title: fa.sidebar.absents };
 
-const AbsentsPage: React.FC<PageType> = async ({ params }) => {
-  const data = await Promise.all([
-    fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), await studentTag()),
-    fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
-  ]);
+const AbsentsPage: React.FC<PageType> = async ({ params, searchParams }) => {
+  const date = searchParams?.date;
+  const jalaliDate = convertToJalali(date || '');
+
+  if (!date) redirect(GradeRoute(params.gradeId, 'absents', `?date=${getTody(true)}`));
+
+  const data = await fetchData<StudentType[]>(ShowAbsentsUrl(params.gradeId, date));
 
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.absents}</h1>
-      <AbsentsTable {...{ students, classes }} />
+      <AbsentsTable {...{ data, jalaliDate }} />
     </div>
   );
 };

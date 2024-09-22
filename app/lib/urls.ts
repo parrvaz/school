@@ -62,3 +62,10 @@ export const DeleteCourseUrl = (gradeId: string, id: number): string =>
 
 // Absents ///////////////////////////////////////////
 export const PostAbsentsUrl = (gradeId: string): string => `/${gradeId}/absents/store`;
+export const ShowAbsentsUrl = (gradeId: string, date: string): string =>
+  `/${gradeId}/absents/show/?date=${date}`;
+
+// Messages ///////////////////////////////////////////
+export const InboxMessageUrl = (gradeId: string): string => `/${gradeId}/messages/inbox`;
+export const MarkAsReadUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/messages/markAsRead/${id}`;

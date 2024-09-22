@@ -27,6 +27,7 @@ import {
   DeleteStudentUrl,
   DeleteTeacherUrl,
   FieldsUrl,
+  MarkAsReadUrl,
   PostAbsentsUrl,
   UpdateBellUrl,
   UpdateClassUrl,
@@ -197,6 +198,14 @@ export const PostAbsentsAction = async (
     students: values.list.filter((k) => k.isAbsent).map((k) => k.id),
   };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
+
+  return res.ok;
+};
+
+export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = MarkAsReadUrl(gradeId, id);
+  console.log('action', id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
 };

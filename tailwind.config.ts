@@ -1,7 +1,10 @@
 module.exports = {
-  content: ['./components/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
-    boxShadow: {},
+    boxShadow: {
+      btn: '0px 1px 2px rgba(0, 0, 0, 0.12)',
+      note: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1)',
+    },
     colors: {
       black05: '#f8fafc',
       black10: '#f1f5f9',

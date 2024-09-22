@@ -97,6 +97,23 @@ export const convertToDate = (value: DayValue): string =>
 export const convertJalaliToDate = (value: { jy: number; jm: number; jd: number }): string =>
   `${value?.jy}/${value?.jm}/${value?.jd}`;
 
+export const convertToJalali = (value: string): string => {
+  const [year, month, day] = value.split('/').map(Number);
+
+  // Convert Gregorian date to Jalali
+  const { jy, jm, jd } = jalaali.toJalaali(year, month, day);
+  return `${jy}/${jm}/${jd}`;
+};
+
+export const convertToGregorian = (jalaliDate: string): string => {
+  const [jy, jm, jd] = jalaliDate.split('/').map(Number);
+
+  // Convert Jalali date to Gregorian
+  const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
+
+  return `${gy}/${gm.toString().padStart(2, '0')}/${gd.toString().padStart(2, '0')}`;
+};
+
 export const convertToDayValue = (value: string): DayValue => {
   if (!value) return null;
   const date = value.split('/');
@@ -108,10 +125,12 @@ export const getNestedError = (errors: any, name: string): { message: string } =
   return path.reduce((acc, key) => (acc ? acc[key] : undefined), errors);
 };
 
-export const getTody = (): string => {
+export const getTody = (notPersian = false): string => {
   const today = new Date();
   const jalaliDate = jalaali.toJalaali(today);
-  return convertJalaliToDate(jalaliDate);
+  return notPersian
+    ? today.toISOString().slice(0, 10).replace(/-/g, '/')
+    : convertJalaliToDate(jalaliDate);
 };
 
 export const normalizeAssignData = (

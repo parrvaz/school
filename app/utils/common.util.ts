@@ -125,12 +125,17 @@ export const getNestedError = (errors: any, name: string): { message: string } =
   return path.reduce((acc, key) => (acc ? acc[key] : undefined), errors);
 };
 
-export const getTody = (notPersian = false): string => {
+export const getTody = (notPersian = false, week = false): string => {
   const today = new Date();
   const jalaliDate = jalaali.toJalaali(today);
-  return notPersian
-    ? today.toISOString().slice(0, 10).replace(/-/g, '/')
-    : convertJalaliToDate(jalaliDate);
+  const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const dayName = daysOfWeek[today.getDay()];
+
+  return week
+    ? dayName
+    : notPersian
+      ? today.toISOString().slice(0, 10).replace(/-/g, '/')
+      : convertJalaliToDate(jalaliDate);
 };
 
 export const normalizeAssignData = (

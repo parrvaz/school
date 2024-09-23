@@ -8,6 +8,7 @@ import fa from 'app/lib/fa.json';
 import NoData from 'app/components/noDate';
 import { ReadMessageAction } from 'app/lib/actions';
 import { revalidatePage } from 'app/lib/server.util';
+import Message from 'app/components/message';
 
 const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
   const { gradeId } = useParams();
@@ -26,21 +27,14 @@ const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
         <div className="min-h-52 max-h-[calc(100vh-12rem)] overflow-auto bg-white rounded-lg flex flex-col">
           {inbox.length ? (
             inbox.map((item) => (
-              <div
-                key={item.id}
+              <Message
+                message={item}
                 onClick={() => {
                   setSelectedMessage(item);
                   !item.isRead && mutate(item.id);
                 }}
-                className={`px-3 cursor-pointer py-1 duration-300 hover:bg-black20 ${item.id === selectedMessage?.id ? 'bg-berry20' : !item.isRead ? 'font-bold  bg-black10' : 'font-regular bg-white'}`}
-              >
-                <div className="overflow-hidden mb-0.5 text-14 whitespace-nowrap text-ellipsis">
-                  {item.sender}
-                </div>
-                <div className="text-13 overflow-hidden whitespace-nowrap text-ellipsis">
-                  {item.subject}
-                </div>
-              </div>
+                isActive={item.id === selectedMessage?.id}
+              />
             ))
           ) : (
             <div className="font-light text-16 m-auto">{fa.messages.noMessage}</div>

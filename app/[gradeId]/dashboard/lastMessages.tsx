@@ -9,7 +9,7 @@ const LastMessages: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
       <div className="font-regular text-16 mb-2 px-3">{fa.dashboard.lastMessages}</div>
       <div className="">
         {inbox.slice(0, 3).map((k) => (
-          <Message message={k} />
+          <Message key={k.id} message={k} />
         ))}
       </div>
     </div>

@@ -28,6 +28,7 @@ const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
           {inbox.length ? (
             inbox.map((item) => (
               <Message
+                key={item.id}
                 message={item}
                 onClick={() => {
                   setSelectedMessage(item);

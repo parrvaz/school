@@ -1,5 +1,5 @@
-import { MessagesType } from 'app/types/common.type';
 import React from 'react';
+import { MessagesType } from 'app/types/common.type';
 
 const Message: React.FC<{ message: MessagesType; onClick?: () => void; isActive?: boolean }> = ({
   message,

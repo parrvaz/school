@@ -2,18 +2,15 @@ import React from 'react';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
 import { fetchData } from 'app/lib/server.util';
-import { InboxMessageUrl, SentMessagesUrl } from 'app/lib/urls';
+import { InboxMessageUrl } from 'app/lib/urls';
 import { MessagesType, PageType } from 'app/types/common.type';
 import Absents from './absents';
 import LastMessages from './lastMessages';
 
 export const metadata: Metadata = { title: fa.sidebar.dashboard };
 
-const MessagesPage: React.FC<PageType> = async ({ params }) => {
-  const [inbox, sentMessages] = await Promise.all([
-    fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId)),
-    fetchData<MessagesType[]>(SentMessagesUrl(params.gradeId)),
-  ]);
+const DashboardPage: React.FC<PageType> = async ({ params }) => {
+  const [inbox] = await Promise.all([fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId))]);
 
   return (
     <div className="">
@@ -21,7 +18,7 @@ const MessagesPage: React.FC<PageType> = async ({ params }) => {
       <div className="flex gap-3">
         <div className="flex-grow-1">
           <Absents />
-          <LastMessages />
+          <LastMessages inbox={inbox} />
         </div>
         <div className="flex-grow-3">2</div>
       </div>
@@ -29,4 +26,4 @@ const MessagesPage: React.FC<PageType> = async ({ params }) => {
   );
 };
 
-export default MessagesPage;
+export default DashboardPage;

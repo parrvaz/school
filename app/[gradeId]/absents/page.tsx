@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
 import { fetchData } from 'app/lib/server.util';
 import { ShowAbsentsUrl } from 'app/lib/urls';
-import { PageType, StudentType } from 'app/types/common.type';
+import { AbsentsType, PageType } from 'app/types/common.type';
 import AbsentsTable from './absentsTable';
 import { convertToJalali, getTody } from 'app/utils/common.util';
 import { GradeRoute } from 'app/lib/routes';
@@ -17,7 +17,7 @@ const AbsentsPage: React.FC<PageType> = async ({ params, searchParams }) => {
   if (!date) redirect(GradeRoute(params.gradeId, 'absents', `?date=${getTody(true)}`));
   const jalaliDate = convertToJalali(date || '');
 
-  const data = await fetchData<StudentType[]>(ShowAbsentsUrl(params.gradeId, date));
+  const data = await fetchData<AbsentsType[]>(ShowAbsentsUrl(params.gradeId, date));
 
   return (
     <div className="">

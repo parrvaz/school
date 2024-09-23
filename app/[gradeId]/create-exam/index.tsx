@@ -95,8 +95,8 @@ const CreateExam: React.FC<{
   const contentsOption = useMemo(
     () =>
       courses
-        .find((k) => k.id === watch('course.value'))
-        ?.contents.map((k) => ({ value: k.id, label: k.content })) || [],
+        ?.find((k) => k.id === watch('course.value'))
+        ?.contents?.map((k) => ({ value: k.id, label: k.content })) || [],
     [watch('course')]
   );
 

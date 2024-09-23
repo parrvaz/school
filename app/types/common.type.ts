@@ -99,7 +99,7 @@ export type ContentType = {
 
 export type CourseType = {
   contents?: ContentType[];
-  id: number | null;
+  id: number;
   name: string;
   isUser?: boolean;
 };
@@ -183,6 +183,17 @@ export type ScheduleFormType = {
       [day: string]: string | number | null;
     };
   };
+};
+
+export type AbsentsType = {
+  classroom_id: number;
+  classroom: string;
+  students: {
+    student_id: number;
+    student: string;
+    fatherPhone: string;
+    bells: Record<number, { status: string; reporter: string }>;
+  }[];
 };
 
 export type AbsentsListType = { id: number; name: string; isAbsent: boolean };

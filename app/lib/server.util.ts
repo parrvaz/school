@@ -36,7 +36,6 @@ export const fetchData = async <T>(
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());
 
-  console.log(1, tag, res.status);
   const data = await res.json();
 
   return data.data as T;

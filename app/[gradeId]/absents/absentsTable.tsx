@@ -5,67 +5,19 @@ import { ValueFormatterParams } from 'ag-grid-community';
 import { useParams, useRouter } from 'next/navigation';
 import AppDatePicker from 'app/components/datePicker';
 import Table from 'app/components/table';
-import { convertToGregorian, getTody } from 'app/utils/common.util';
+import { convertToGregorian } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
 import { GradeRoute } from 'app/lib/routes';
+import { AbsentsType } from 'app/types/common.type';
 
-const AbsentsTable: React.FC<{ jalaliDate: string; data }> = ({ data, jalaliDate }) => {
+const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
+  data,
+  jalaliDate,
+}) => {
   const router = useRouter();
   const { gradeId } = useParams();
   const emptyMessage = fa.absents.noAbsents;
-
-  console.log(data);
-  // const data = [
-  //   {
-  //     classroom: 'as',
-  //     classroom_id: 12,
-  //     students: [
-  //       {
-  //         student: 'علی',
-  //         student_id: 1,
-  //         fatherPhone: '09234234323',
-  //         bells: {
-  //           bell1: { reporter: 'sss', status: 'absent' },
-  //           bell2: { reporter: 'sss', status: 'absent' },
-  //         },
-  //       },
-  //       {
-  //         student: 'بثی علی',
-  //         student_id: 3,
-  //         fatherPhone: '09234234323',
-  //         bells: {
-  //           bell1: { reporter: 'aaa', status: 'notRegistered' },
-  //           bell2: { reporter: 'aaa', status: 'absent' },
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     classroom: 'bb',
-  //     classroom_id: 13,
-  //     students: [
-  //       {
-  //         student: 'ddd',
-  //         student_id: 22,
-  //         fatherPhone: '09234234323',
-  //         bells: {
-  //           bell1: { reporter: 'ddd', status: 'present' },
-  //           bell2: { reporter: 'dddd', status: 'present' },
-  //         },
-  //       },
-  //       {
-  //         student: 'sds علی',
-  //         student_id: 23,
-  //         fatherPhone: '09234234323',
-  //         bells: {
-  //           bell1: { reporter: 'eee', status: 'present' },
-  //           bell2: { reporter: 'sss', status: 'present' },
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
 
   const rowData = data.flatMap((classroom) => [
     {
@@ -103,7 +55,6 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data }> = ({ data, jalaliDate
     { headerName: fa.absents.fatherPhone, field: 'fatherPhone', minWidth: 130 },
   ];
 
-  console.log(rowData);
   return (
     <div>
       <div className="flex gap-3 mx-auto mb-6">

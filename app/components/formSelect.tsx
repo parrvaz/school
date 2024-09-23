@@ -11,14 +11,15 @@ type SelectType = {
   placeholder?: string;
   name: string;
   isMulti?: boolean;
+  isDisabled?: boolean;
+  hasSelectAll?: boolean;
   onChange?: () => void;
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
 };
 
 const FormSelect: React.FC<SelectType> = (props) => {
-  const { options, className, control, name, errors, rules, placeholder, isMulti, onChange } =
-    props;
+  const { className, control, name, errors, rules, onChange, ...rest } = props;
   const fieldError = getNestedError(errors, name);
   return (
     <div className={`relative text-right ${className || 'w-full'}`}>
@@ -31,7 +32,7 @@ const FormSelect: React.FC<SelectType> = (props) => {
               field.onChange(e);
               onChange?.();
             }}
-            {...{ placeholder, options, isMulti }}
+            {...rest}
             error={!!fieldError}
           />
         )}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { handleError } from 'app/utils/component.util';
+import Checkbox from './checkbox';
 
 type CheckboxType = {
   errors?: any; // eslint-disable-line
@@ -19,17 +20,7 @@ const FormCheckbox: React.FC<CheckboxType> = (props) => {
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={(e) => field.onChange(e)}
-                className="checkbox ml-2 checkbox-primary"
-              />
-              <span className="label-text">{label}</span>
-            </label>
-          </div>
+          <Checkbox checked={field.value} onChange={(e) => field.onChange(e)} label={label} />
         )}
       />
 

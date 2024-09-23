@@ -40,6 +40,8 @@ export type StudentType = {
   isOnlyChild: boolean;
   address: string;
   phone: number;
+  user_id: number;
+  parent_id: number;
   socialMediaID: string;
   numberOfGlasses: string;
   isLeftHand: boolean;
@@ -64,6 +66,7 @@ export type StudentFormType = {
 
 export type TeacherType = {
   id: number;
+  user_id: number;
   firstName: string;
   lastName: string;
   nationalId: number;
@@ -71,6 +74,7 @@ export type TeacherType = {
   degree: string;
   personalId: number;
   user_grade_id: number;
+  isAssistant: boolean;
 };
 
 export type TeacherFormType = {
@@ -196,6 +200,6 @@ export type SendMessageFormType = {
   type: { value: number; label: string };
   subject: string;
   body: string;
-  audience: { value: number; label: string }[];
+  roll: { value: number; label: string }[];
   recipients: { value: number; label: string }[];
 };

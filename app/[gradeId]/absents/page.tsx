@@ -13,9 +13,9 @@ export const metadata: Metadata = { title: fa.sidebar.absents };
 
 const AbsentsPage: React.FC<PageType> = async ({ params, searchParams }) => {
   const date = searchParams?.date;
-  const jalaliDate = convertToJalali(date || '');
 
   if (!date) redirect(GradeRoute(params.gradeId, 'absents', `?date=${getTody(true)}`));
+  const jalaliDate = convertToJalali(date || '');
 
   const data = await fetchData<StudentType[]>(ShowAbsentsUrl(params.gradeId, date));
 

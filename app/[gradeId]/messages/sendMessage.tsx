@@ -1,18 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { useParams, usePathname } from 'next/navigation';
 import FormSelect from 'app/components/formSelect';
+import { revalidatePage } from 'app/lib/server.util';
 import fa from 'app/lib/fa.json';
 import FormInput from 'app/components/formInput';
 import Button from 'app/components/button';
-import { useMutation } from '@tanstack/react-query';
-import { revalidatePage } from 'app/lib/server.util';
-import { useParams, usePathname } from 'next/navigation';
 import { SendMessageFormType } from 'app/types/common.type';
 import { SendMessageAction } from 'app/lib/actions';
 
-const SendMessage: React.FC = () => {
+const SendMessage: React.FC<{ options: Record<number, { value: number; label: string }[]> }> = ({
+  options,
+}) => {
   const rules = { required: true };
   const path = usePathname();
   const { gradeId } = useParams();
@@ -22,46 +24,48 @@ const SendMessage: React.FC = () => {
     formState: { errors },
     control,
     reset,
+    watch,
   } = useForm<SendMessageFormType>({
-    defaultValues: { type: undefined, subject: '', body: '', audience: [], recipients: [] },
+    defaultValues: { type: undefined, subject: '', body: '', roll: [], recipients: [] },
   });
-  const typeOptions = [
-    { value: 1, label: 'aa' },
-    { value: 2, label: 'bb' },
+  // const typeOptions = [
+  //   { value: 1, label: 'aa' },
+  //   { value: 2, label: 'bb' },
+  // ];
+  const rollOptions = [
+    { value: 1, label: fa.messages.students },
+    { value: 2, label: fa.messages.parents },
+    { value: 3, label: fa.messages.teachers },
+    { value: 4, label: fa.messages.assistant },
   ];
-  const audienceOptions = [
-    { value: 1, label: 'ززسی' },
-    { value: 2, label: 'بیس یس' },
-  ];
-  const recipientsOptions = [
-    { value: 1, label: 'cccc' },
-    { value: 2, label: 'bbdcd' },
-  ];
+  const recipientsOptions = useMemo(
+    () =>
+      watch('roll')
+        .map((k) => options[k.value])
+        .flat(),
+    [watch('roll')]
+  );
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: SendMessageFormType) => SendMessageAction(e, gradeId.toString()),
     onSuccess: (ok) => ok && (revalidatePage(path), reset()),
   });
+
   return (
     <form onSubmit={handleSubmit((e) => mutate(e))}>
       <div className="flex gap-2 mt-10 max-w-[50rem]">
         <FormSelect
           {...{ errors, control, rules }}
-          name="type"
-          options={typeOptions}
-          placeholder={fa.messages.type}
-        />
-        <FormSelect
-          {...{ errors, control, rules }}
-          name="audience"
+          name="roll"
           isMulti
-          options={audienceOptions}
-          placeholder={fa.messages.audience}
+          options={rollOptions}
+          placeholder={fa.messages.roll}
         />
         <FormSelect
           {...{ errors, control, rules }}
           name="recipients"
           isMulti
+          isDisabled={!watch('roll').length}
           options={recipientsOptions}
           placeholder={fa.messages.recipients}
         />

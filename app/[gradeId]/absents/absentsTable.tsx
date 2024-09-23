@@ -95,7 +95,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data }> = ({ data, jalaliDate
         params.data.classroom ? Object.keys(params.data.bells).length + 2 : 1,
     },
     ...bells.map((bell) => ({
-      headerName: fa.global[bell as keyof typeof fa.global],
+      headerName: fa.global[`bell${bell}` as keyof typeof fa.global],
       field: 'bells',
       cellRenderer: AbsentStatus,
       cellRendererParams: { bell },

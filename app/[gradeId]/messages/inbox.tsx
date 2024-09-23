@@ -32,7 +32,7 @@ const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
                   setSelectedMessage(item);
                   !item.isRead && mutate(item.id);
                 }}
-                className={`px-3 cursor-pointer py-1 duration-300 hover:shadow-note ${item.id === selectedMessage?.id ? 'bg-berry20' : !item.isRead ? 'font-bold  bg-black10' : 'font-regular bg-white'}`}
+                className={`px-3 cursor-pointer py-1 duration-300 hover:bg-black20 ${item.id === selectedMessage?.id ? 'bg-berry20' : !item.isRead ? 'font-bold  bg-black10' : 'font-regular bg-white'}`}
               >
                 <div className="overflow-hidden mb-0.5 text-14 whitespace-nowrap text-ellipsis">
                   {item.sender}

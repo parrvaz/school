@@ -15,10 +15,10 @@ import Table from 'app/components/table';
 import Button from 'app/components/button';
 import CellRenderer from './cellRenderer';
 import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
-import CourseModal from './courseModal';
 import { UpdateScheduleAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import AddLessonModal from './addLessonModal';
+import CourseModal from 'app/components/courseModal';
 
 const Schedule: React.FC<{
   classes: ClassroomType[];

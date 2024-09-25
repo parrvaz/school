@@ -19,6 +19,7 @@ const menu = [
   { title: 'absents', icon: 'icon-personalcard' },
   { title: 'rollCall', icon: 'icon-task' },
   { title: 'messages', icon: 'icon-message' },
+  { title: 'setCalendar', icon: 'icon-calendar' },
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {

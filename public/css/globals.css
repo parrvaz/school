@@ -77,3 +77,51 @@ body {
 .placeholder-rtl::placeholder {
   text-align: right;
 }
+
+.rbc-allday-cell {
+  display: none;
+}
+
+.rbc-header {
+  border-left: none !important;
+  border-bottom: rgb(241, 243, 244) 1px solid !important;
+}
+.rbc-time-header-content {
+  border-left: none !important;
+}
+
+.rbc-time-content {
+  border-top: none !important;
+}
+
+.rbc-timeslot-group {
+  border-bottom: rgb(241, 243, 244) 1px solid !important;
+}
+
+.rbc-time-slot {
+  border-top: none !important;
+  background: #fff;
+}
+.rbc-time-content {
+  border-left: rgb(241, 243, 244) 1px solid !important;
+}
+.rbc-time-gutter .rbc-timeslot-group {
+  border-bottom: none !important;
+  transform: translateY(-10px);
+}
+
+.rbc-event-label {
+  display: none !important;
+}
+
+.rbc-day-slot .rbc-events-container {
+  margin-right: 0 !important;
+}
+.rbc-day-slot .rbc-event {
+  border: none !important;
+  padding: 0;
+}
+
+.rbc-time-content > * + * > * {
+  border-left: rgb(241, 243, 244) 1px solid !important;
+}

@@ -138,6 +138,17 @@ export const getTody = (notPersian = false, week = false): string => {
       : convertJalaliToDate(jalaliDate);
 };
 
+export const dateToHour = (dateStr: string): string => {
+  const date = new Date(dateStr);
+
+  // Get hours and minutes
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  // Format to "H:MM"
+  return faNumber(`${hours}:${minutes}`);
+};
+
 export const normalizeAssignData = (
   data: AssignType[],
   courses: CourseType[],

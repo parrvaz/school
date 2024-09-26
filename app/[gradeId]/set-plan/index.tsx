@@ -10,7 +10,6 @@ import PlanNameModal from './planNameModal';
 import ChangeClassModal from './changeClassModal';
 import Actions from './actions';
 import PlanButtons from './planButtons';
-import { pl } from 'date-fns/locale';
 
 const SetCalendar: React.FC<{
   students: StudentType[];

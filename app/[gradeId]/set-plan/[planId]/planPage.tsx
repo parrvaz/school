@@ -11,19 +11,21 @@ import { CourseType, PlanDataType, PlanPageType } from 'app/types/common.type';
 import MyCalendar from 'app/components/appCalendar';
 import { UpdatePlanAction } from 'app/lib/actions';
 import { GradeRoute } from 'app/lib/routes';
+import { tagRevalidate } from 'app/lib/server.util';
 
 type PlanFormType = { name: string };
 
 const PlanPage: React.FC<{
   courses: CourseType[];
   data: PlanPageType;
-}> = ({ data, courses }) => {
+  tag: string;
+}> = ({ data, courses, tag }) => {
   const rules = { required: true };
   const router = useRouter();
   const { gradeId, planId } = useParams();
   const [events, setEvents] = useState<PlanDataType[]>(data?.plan || []);
 
-  const defaultValues = { name: data?.name };
+  const defaultValues = { name: data?.title || '' };
   const {
     handleSubmit,
     formState: { errors },
@@ -35,6 +37,7 @@ const PlanPage: React.FC<{
       UpdatePlanAction(name, events, gradeId.toString(), planId.toString()),
     onSuccess: (ok) => {
       if (ok) {
+        tagRevalidate(tag);
         router.push(GradeRoute(gradeId, 'set-plan'));
       }
     },

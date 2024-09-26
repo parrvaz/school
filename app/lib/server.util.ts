@@ -17,6 +17,7 @@ export const examIdTag = async (id?: string): Promise<string> => `exam-${id}`;
 export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;
+export const plansTag = async (): Promise<string> => `plans-show`;
 
 export const fetchData = async <T>(
   url: string,

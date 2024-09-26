@@ -10,5 +10,5 @@ export const LoginRoute = (): string => `/login`;
 export const GradeRoute = (
   gradeId: string | string[],
   tabName: string,
-  searchParams?: string
+  searchParams?: string | number
 ): string => `/${gradeId}/${tabName}/${searchParams || ''}`;

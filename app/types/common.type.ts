@@ -226,4 +226,10 @@ export type PlanDataType = {
   title: string;
   course_id: number;
 };
-export type PlanPageType = { name: string; plan: PlanDataType[] };
+export type PlanPageType = {
+  title: string;
+  id: number;
+  classroom_id: number;
+  plan: PlanDataType[];
+};
+export type PlansType = { id: number; classroom_id: number; classroom: string; title: string };

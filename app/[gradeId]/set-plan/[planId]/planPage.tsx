@@ -57,7 +57,7 @@ const PlanPage: React.FC<{
 
       <Button
         type="submit"
-        className="btn btn-primary w-32 fixed right-64 bottom-4"
+        className="btn btn-primary fixed right-64 bottom-4"
         isLoading={isPending}
       >
         {fa.global.submit}

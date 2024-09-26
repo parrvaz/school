@@ -285,7 +285,7 @@ export const handleDuplicatePlan = (
   const target = data[targetIndex];
   if (!target) return;
 
-  const newPlan = { id: target.id, title, isDuplicate: true };
+  const newPlan = { ...target, title, isDuplicate: true, students: [] };
   const updatedData = [...data];
 
   // Insert the new object at the specific index after the original

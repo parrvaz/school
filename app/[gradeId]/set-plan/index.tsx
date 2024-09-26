@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ClassroomType, PlansType, SelectOptionType, StudentType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
-import { getOption, handleDuplicatePlan } from 'app/utils/common.util';
+import { faNumber, getOption, handleDuplicatePlan } from 'app/utils/common.util';
 import ReactSelect from 'app/components/select';
 import StudentsModal from './studentsModal';
 import PlanNameModal from './planNameModal';
 import ChangeClassModal from './changeClassModal';
 import Actions from './actions';
 import PlanButtons from './planButtons';
+import { pl } from 'date-fns/locale';
 
 const SetCalendar: React.FC<{
   students: StudentType[];
@@ -22,7 +23,7 @@ const SetCalendar: React.FC<{
   const [selectedPlan, setSelectedPlan] = useState<PlansType | null>(null);
   const [openPlanNameModal, setOpenPlanNameModal] = useState<number | null>(null);
   const [classModalId, setClassModalId] = useState<{
-    id: number;
+    name: string;
     newClass: SelectOptionType;
   } | null>(null);
   const studentsWithPlan = data
@@ -30,16 +31,24 @@ const SetCalendar: React.FC<{
     .flat()
     .map((k) => k?.id || 0);
 
+  const noPlanStudents = students.length - studentsWithPlan.length;
+
   const hasChange = JSON.stringify(data) !== JSON.stringify(plans);
 
-  const handleSelectClass = (id: number, option: SelectOptionType | null): void => {
+  useEffect(() => {
+    setData(plans);
+  }, [plans]);
+
+  console.log(plans, data);
+
+  const handleSelectClass = (name: string, option: SelectOptionType | null): void => {
     const newClass = { classroom: option?.label, classroom_id: Number(option?.value) };
-    const newData = data.map((k) => (k.id === id ? { ...k, ...newClass, students: [] } : k));
+    const newData = data.map((k) => (k.title === name ? { ...k, ...newClass, students: [] } : k));
     setData(newData);
   };
 
   const handleChangeStudents = (newPlan: PlansType): void => {
-    const newData = data.map((k) => (k.id === newPlan.id ? newPlan : k));
+    const newData = data.map((k) => (k.title === newPlan.title ? newPlan : k));
     setData(newData);
   };
 
@@ -65,9 +74,9 @@ const SetCalendar: React.FC<{
 
               <ReactSelect
                 onChange={(e) => {
-                  e.value !== plan.classroom_id && plan.students?.length
-                    ? setClassModalId({ newClass: e, id: plan.id })
-                    : handleSelectClass(plan.id, e);
+                  e.label !== plan.classroom && plan.students?.length
+                    ? setClassModalId({ newClass: e, name: plan.title })
+                    : handleSelectClass(plan.title, e);
                 }}
                 value={{
                   value: Number(plan?.classroom_id),
@@ -90,6 +99,11 @@ const SetCalendar: React.FC<{
         )}
       </div>
 
+      {!!noPlanStudents && (
+        <div className="font-light text-12 text-sun70 mt-1">
+          {faNumber(noPlanStudents)} {fa.plan.noPlanStudents}
+        </div>
+      )}
       <PlanButtons {...{ tag, data, hasChange }} onClear={() => setData(plans)} />
 
       <StudentsModal
@@ -103,7 +117,7 @@ const SetCalendar: React.FC<{
         setId={setOpenPlanNameModal}
       />
       <ChangeClassModal
-        onYes={(value) => handleSelectClass(Number(value?.id), value?.newClass || null)}
+        onYes={(value) => handleSelectClass(value?.name || '', value?.newClass || null)}
         info={classModalId}
         setInfo={setClassModalId}
       />

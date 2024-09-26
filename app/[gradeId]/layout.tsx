@@ -20,6 +20,7 @@ const menu = [
   { title: 'rollCall', icon: 'icon-task' },
   { title: 'messages', icon: 'icon-message' },
   { title: 'setPlan', icon: 'icon-calendar' },
+  { title: 'study', icon: 'icon-timer' },
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {

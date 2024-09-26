@@ -4,7 +4,7 @@ import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
 import { SelectOptionType } from 'app/types/common.type';
 
-type infoType = { id: number; newClass: SelectOptionType } | null;
+type infoType = { name: string; newClass: SelectOptionType } | null;
 
 const ChangeClassModal: React.FC<{
   info: infoType;

@@ -32,7 +32,6 @@ const SetCalendar: React.FC<{
 
   const hasChange = JSON.stringify(data) !== JSON.stringify(plans);
 
-  console.log(plans);
   const handleSelectClass = (id: number, option: SelectOptionType | null): void => {
     const newClass = { classroom: option?.label, classroom_id: Number(option?.value) };
     const newData = data.map((k) => (k.id === id ? { ...k, ...newClass, students: [] } : k));

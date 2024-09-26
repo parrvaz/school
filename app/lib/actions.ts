@@ -234,8 +234,6 @@ export const UpdatePlanAction = async (
   planId: string
 ): Promise<boolean> => {
   const url = planId === 'new' ? CreatePlanUrl(gradeId) : UpdatePlanUrl(gradeId, planId);
-  const body = { title, plan };
-  console.log(body, url);
   const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
 
   return res.ok;

@@ -78,5 +78,5 @@ export const UpdatePlanUrl = (gradeId: string, planId: string): string =>
   `/${gradeId}/plans/update/${planId}`;
 export const ShowPlanUrl = (gradeId: string, planId: string): string =>
   `/${gradeId}/plans/show/${planId}`;
-export const ShowAllPlansUrl = (gradeId: string): string => `/${gradeId}/plans/show/`;
-export const AssignPlansUrl = (gradeId: string): string => `/${gradeId}/plans/assign/`;
+export const ShowAllPlansUrl = (gradeId: string): string => `/${gradeId}/plans/show`;
+export const AssignPlansUrl = (gradeId: string): string => `/${gradeId}/plans/assign`;

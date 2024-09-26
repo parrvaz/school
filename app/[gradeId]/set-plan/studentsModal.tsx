@@ -19,7 +19,6 @@ const StudentsModal: React.FC<{
     (k) => !(studentsWithPlan.includes(k.id) && !planStudentsId.includes(k.id))
   );
 
-  console.log(showStudents);
   const allSelected = showStudents.every((student) => selectedId.includes(student.id));
   const someSelected =
     showStudents.some((student) => selectedId.includes(student.id)) && !allSelected;

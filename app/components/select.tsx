@@ -7,8 +7,8 @@ type SelectType = {
   options: SelectOptionType[];
   className?: string;
   placeholder?: string;
-  value?: SelectOptionType;
-  onChange: (value: SingleValue<SelectOptionType>) => void;
+  value?: SingleValue<SelectOptionType>;
+  onChange?: (value: SingleValue<SelectOptionType>) => void;
   onDelete?: (option: SelectOptionType) => void;
   onEdit?: (option: SelectOptionType) => void;
   onAdd?: () => void;

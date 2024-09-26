@@ -71,3 +71,10 @@ export const SendMessageUrl = (gradeId: string): string => `/${gradeId}/messages
 export const SentMessagesUrl = (gradeId: string): string => `/${gradeId}/messages/sentMessages`;
 export const MarkAsReadUrl = (gradeId: string, id: number): string =>
   `/${gradeId}/messages/markAsRead/${id}`;
+
+// Plan ///////////////////////////////////////////
+export const CreatePlanUrl = (gradeId: string): string => `/${gradeId}/plans/store`;
+export const UpdatePlanUrl = (gradeId: string, planId: string): string =>
+  `/${gradeId}/plans/update/${planId}`;
+export const ShowPlanUrl = (gradeId: string, planId: string): string =>
+  `/${gradeId}/plans/show/${planId}`;

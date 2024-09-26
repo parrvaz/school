@@ -1,6 +1,7 @@
 import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import jalaali from 'jalaali-js';
+import { ValueFormatterParams } from 'ag-grid-community';
 import fa from 'app/lib/fa.json';
 import {
   AssignFormType,
@@ -8,6 +9,8 @@ import {
   BellsType,
   ClassroomType,
   CourseType,
+  EventPlanType,
+  PlanDataType,
   ScheduleFormType,
   ScheduleType,
   TeacherType,
@@ -149,6 +152,8 @@ export const dateToHour = (dateStr: string): string => {
   return faNumber(`${hours}:${minutes}`);
 };
 
+export const dashFormatter = (params: ValueFormatterParams): string => params.value || '-';
+
 export const normalizeAssignData = (
   data: AssignType[],
   courses: CourseType[],
@@ -196,4 +201,75 @@ export const mapFormData = (formData: ScheduleFormType['schedule']): object[] =>
     wed: formData[order]?.wed || '',
     thu: formData[order]?.thu || '',
   }));
+};
+
+export const formatDateToDayTime = (
+  startTime: Date,
+  endTime: Date,
+  title: string,
+  course_id: number
+): PlanDataType => {
+  const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
+  // Get the day from the startTime
+  const day = days[startTime?.getDay()];
+
+  // Format hours and minutes
+  const formatTime = (date: Date): string => {
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  return {
+    course_id,
+    title,
+    day,
+    start: formatTime(startTime),
+    end: formatTime(endTime),
+  };
+};
+
+export const formatEventData = (events: EventPlanType[]): PlanDataType[] => {
+  return events.map((event) => {
+    const { start, end, title, course_id } = event;
+    return formatDateToDayTime(start, end, title, course_id);
+  });
+};
+
+export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
+  const daysOfWeek = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']; // Week starts on Saturday
+
+  // Get the current date
+  const today = new Date();
+
+  // Find the index of the day from the input
+  const dayIndex = daysOfWeek.indexOf(data.day);
+
+  // Calculate how many days to subtract to get to the last Saturday
+  const currentDayIndex = today.getDay(); // 0 is Sunday, 6 is Saturday
+  const daysUntilLastSaturday = (currentDayIndex + 1) % 7; // Adjusting to match our week starting from Saturday
+
+  // Calculate the start of the week (Saturday)
+  const startOfWeek = new Date(today.setDate(today.getDate() - daysUntilLastSaturday + dayIndex));
+
+  // Extract start time and end time from the input data
+  const [startHours, startMinutes] = data.start.split(':').map(Number);
+  const [endHours, endMinutes] = data.end.split(':').map(Number);
+
+  // Create startTime and endTime based on the startOfWeek
+  const startTime = new Date(startOfWeek);
+  startTime.setHours(startHours, startMinutes, 0, 0); // Set hours and minutes
+
+  const endTime = new Date(startOfWeek);
+  endTime.setHours(endHours, endMinutes, 0, 0); // Set hours and minutes
+
+  return { start: startTime, end: endTime, title: data.title, course_id: data.course_id };
+};
+
+export const revertEventData = (events: PlanDataType[]): EventPlanType[] => {
+  return events.map((event) => {
+    const { title, day, start, end, course_id } = event;
+    return revertToDateTimes({ day, start, end, title, course_id });
+  });
 };

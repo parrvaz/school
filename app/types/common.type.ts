@@ -47,6 +47,9 @@ export type StudentType = {
   isLeftHand: boolean;
   religion: string;
   specialDisease: string;
+  planName: string;
+  plan_id: number;
+  planDate: string;
 };
 
 export type StudentFormType = {
@@ -214,3 +217,13 @@ export type SendMessageFormType = {
   roll: { value: number; label: string }[];
   recipients: { value: number; label: string }[];
 };
+
+export type EventPlanType = { title: string; start: Date; end: Date; course_id: number };
+export type PlanDataType = {
+  day: string;
+  start: string;
+  end: string;
+  title: string;
+  course_id: number;
+};
+export type PlanPageType = { name: string; plan: PlanDataType[] };

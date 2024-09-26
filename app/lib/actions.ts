@@ -6,6 +6,7 @@ import {
   ClassFormType,
   CreateExamFormType,
   FieldsType,
+  PlanDataType,
   ResponseType,
   ScheduleFormType,
   SendMessageFormType,
@@ -18,6 +19,7 @@ import {
   CreateClassUrl,
   CreateCourseUrl,
   CreateExamUrl,
+  CreatePlanUrl,
   CreateScheduleUrl,
   CreateStudentUrl,
   CreateTeacherUrl,
@@ -35,6 +37,7 @@ import {
   UpdateClassUrl,
   UpdateCourseUrl,
   UpdateExamUrl,
+  UpdatePlanUrl,
   UpdateStudentUrl,
   UpdateTeacherUrl,
 } from './urls';
@@ -218,6 +221,20 @@ export const SendMessageAction = async (
   const url = SendMessageUrl(gradeId);
   const body = { ...values, recipients: values.recipients.map((k) => k.value) };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
+
+  return res.ok;
+};
+
+export const UpdatePlanAction = async (
+  title: string,
+  plan: PlanDataType[],
+  gradeId: string,
+  planId: string
+): Promise<boolean> => {
+  const url = planId === 'new' ? CreatePlanUrl(gradeId) : UpdatePlanUrl(gradeId, planId);
+  const body = { title, plan };
+  console.log(body, url);
+  const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
 
   return res.ok;
 };

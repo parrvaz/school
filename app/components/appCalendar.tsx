@@ -2,15 +2,20 @@ import React, { useCallback, useState } from 'react';
 import { Calendar, dateFnsLocalizer, SlotInfo, Views } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { CourseType } from 'app/types/common.type';
+import { CourseType, EventPlanType, PlanDataType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
-import { dateToHour, faNumber } from 'app/utils/common.util';
+import {
+  dateToHour,
+  faNumber,
+  formatDateToDayTime,
+  revertEventData,
+  revertToDateTimes,
+} from 'app/utils/common.util';
 import CourseModal from './courseModal';
 
-type EventType = { title: string; start: Date; end: Date };
 type CustomEventProps = {
-  event: EventType;
-  onRemoveEvent: (event: EventType) => void;
+  event: EventPlanType;
+  onRemoveEvent: (event: EventPlanType) => void;
 };
 
 const locales = { 'en-US': require('date-fns/locale/en-US') };
@@ -43,17 +48,28 @@ const CustomHeader = ({ label }: { label: string }): JSX.Element => {
   );
 };
 
-const MyCalendar: React.FC<{ courses: CourseType[] }> = ({ courses }) => {
-  const [events, setEvents] = useState<EventType[]>([]);
+const MyCalendar: React.FC<{
+  courses: CourseType[];
+  setEvents: any;
+  events: PlanDataType[];
+}> = ({ courses, events, setEvents }) => {
   const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null);
 
-  const handleRemoveEvent = (eventToRemove: EventType): void =>
-    setEvents((prevEvents) => prevEvents.filter((event) => event !== eventToRemove));
+  const handleRemoveEvent = (eventToRemove: EventPlanType): void => {
+    setEvents((prevEvents: PlanDataType[]) =>
+      prevEvents.filter(
+        (event) => JSON.stringify(revertToDateTimes(event)) !== JSON.stringify(eventToRemove)
+      )
+    );
+  };
 
   const onSelectLesson = (course: CourseType): void => {
     if (course && selectedSlot) {
       const { start, end } = selectedSlot;
-      setEvents((prevEvents) => [...prevEvents, { title: course.name, start, end }]);
+      setEvents((prevEvents: PlanDataType[]) => [
+        ...prevEvents,
+        formatDateToDayTime(start, end, course.name, course.id),
+      ]);
       setSelectedSlot(null); // Clear selected slot
     }
   };
@@ -66,7 +82,7 @@ const MyCalendar: React.FC<{ courses: CourseType[] }> = ({ courses }) => {
     <div className=" ltr">
       <Calendar
         localizer={localizer}
-        events={events}
+        events={revertEventData(events)}
         startAccessor="start"
         endAccessor="end"
         defaultView={Views.WEEK}

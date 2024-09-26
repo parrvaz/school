@@ -19,6 +19,7 @@ const StudentsModal: React.FC<{
     (k) => !(studentsWithPlan.includes(k.id) && !planStudentsId.includes(k.id))
   );
 
+  console.log(showStudents);
   const allSelected = showStudents.every((student) => selectedId.includes(student.id));
   const someSelected =
     showStudents.some((student) => selectedId.includes(student.id)) && !allSelected;
@@ -63,15 +64,19 @@ const StudentsModal: React.FC<{
         {fa.plan.choosePlan} {selectedPlan?.title} {fa.plan.forClass} {selectedPlan?.classroom}
       </div>
 
-      <div className="border-b border-b-black20 pb-2 mb-2 mt-5">
-        <Checkbox
-          className="w-fit"
-          label={fa.global.selectAll}
-          checked={allSelected}
-          indeterminate={someSelected}
-          onChange={handleSelectAll}
-        />
-      </div>
+      {showStudents.length ? (
+        <div className="border-b border-b-black20 pb-2 mb-2 mt-5">
+          <Checkbox
+            className="w-fit"
+            label={fa.global.selectAll}
+            checked={allSelected}
+            indeterminate={someSelected}
+            onChange={handleSelectAll}
+          />
+        </div>
+      ) : (
+        <div className="mt-8">{fa.plan.allStudentsHasPlan}</div>
+      )}
       <div className="grid grid-cols-4 ">
         {showStudents.map((k) => (
           <Checkbox
@@ -91,7 +96,7 @@ const StudentsModal: React.FC<{
           <i className="icon-info-circle ml-1 text-16" /> {fa.plan.showStudents}
         </div>
         <Button onClick={handleSubmit} className="btn btn-primary w-44">
-          {fa.global.submit}
+          {showStudents.length ? fa.global.submit : fa.global.return}
         </Button>
       </div>
     </Modal>

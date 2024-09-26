@@ -10,14 +10,16 @@ export const metadata: Metadata = { title: fa.sidebar.setPlan };
 
 const CreatePlan: React.FC<PageType> = async ({ params }) => {
   const [data, courses] = await Promise.all([
-    fetchData<PlanPageType>(ShowPlanUrl(params.gradeId, params.planId)),
+    params.planId === 'new'
+      ? null
+      : fetchData<PlanPageType>(ShowPlanUrl(params.gradeId, params.planId)),
     fetchData<CourseType[]>(ShowCourseUrl(params.gradeId), await courseTag()),
   ]);
 
   return (
     <div className="relative pb-11">
-      <h1 className="font-bold text-berry100 text-24 mb-10">
-        {data?.title ? fa.plan.updatePlane + ' ' + data.title : fa.plan.createNewPlan}
+      <h1 className="font-bold text-berry100 w-[calc(100%-18rem)] text-24 mb-10">
+        {!!data ? fa.plan.updatePlane + ' ' + data.title : fa.plan.createNewPlan}
       </h1>
       <PlanPage {...{ data, courses }} tag={await plansTag()} />
     </div>

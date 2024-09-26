@@ -7,6 +7,7 @@ import {
   CreateExamFormType,
   FieldsType,
   PlanDataType,
+  PlansType,
   ResponseType,
   ScheduleFormType,
   SendMessageFormType,
@@ -237,4 +238,31 @@ export const UpdatePlanAction = async (
   const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
 
   return res.ok;
+};
+
+export const UpdatePlanListAction = async (
+  data: PlansType[],
+  gradeId: string
+): Promise<boolean> => {
+  const dat = [
+    {
+      id: 1,
+      classroom: 'sdf',
+      isDuplicate: true,
+      students: [
+        { value: 1, name: 'sdf' },
+        { value: 2, name: 'sdf' },
+      ],
+      classroom_id: null,
+      title: 'فارسی 1',
+    },
+  ];
+  console.log('submit', data);
+  // const url = planId === 'new' ? CreatePlanUrl(gradeId) : UpdatePlanUrl(gradeId, planId);
+  // const body = { title, plan };
+  // console.log(body, url);
+  // const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
+
+  // return res.ok;
+  return true;
 };

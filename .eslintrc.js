@@ -3,12 +3,11 @@ module.exports = {
   // Use Next.js ESLint config as the base
   extends: [
     'next', // Includes Next.js specific rules
-    'next/core-web-vitals', // Enforces Core Web Vitals best practices
     'plugin:@typescript-eslint/recommended', // TypeScript-specific linting rules
     'plugin:prettier/recommended', // Integrates Prettier with ESLint
     'plugin:react/recommended', // React-specific linting rules
   ],
-  plugins: ['@typescript-eslint', 'prettier', 'react', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'prettier', 'react'],
   rules: {
     // Enforce Prettier rules
     'prettier/prettier': 'error',

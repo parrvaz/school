@@ -11,6 +11,7 @@ import {
   CourseType,
   EventPlanType,
   PlanDataType,
+  PlansType,
   ScheduleFormType,
   ScheduleType,
   TeacherType,
@@ -272,4 +273,22 @@ export const revertEventData = (events: PlanDataType[]): EventPlanType[] => {
     const { title, day, start, end, course_id } = event;
     return revertToDateTimes({ day, start, end, title, course_id });
   });
+};
+
+export const handleDuplicatePlan = (
+  data: PlansType[],
+  setData: (plan: PlansType[]) => void,
+  id: number,
+  title: string
+): void => {
+  const targetIndex = data.findIndex((k) => k.id === id);
+  const target = data[targetIndex];
+  if (!target) return;
+
+  const newPlan = { id: target.id, title, isDuplicate: true };
+  const updatedData = [...data];
+
+  // Insert the new object at the specific index after the original
+  updatedData.splice(targetIndex + 1, 0, newPlan);
+  setData(updatedData);
 };

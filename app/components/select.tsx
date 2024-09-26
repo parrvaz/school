@@ -1,5 +1,5 @@
 import React from 'react';
-import Select, { SingleValue, components } from 'react-select';
+import Select, { components } from 'react-select';
 import { SelectOptionType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 
@@ -7,13 +7,14 @@ type SelectType = {
   options: SelectOptionType[];
   className?: string;
   placeholder?: string;
-  value?: SingleValue<SelectOptionType>;
-  onChange?: (value: SingleValue<SelectOptionType>) => void;
+  value?: any;
+  onChange?: (value: any) => void;
   onDelete?: (option: SelectOptionType) => void;
   onEdit?: (option: SelectOptionType) => void;
   onAdd?: () => void;
   addMessage?: string;
   error?: boolean;
+  isMulti?: boolean;
 };
 
 // eslint-disable-next-line prettier/prettier

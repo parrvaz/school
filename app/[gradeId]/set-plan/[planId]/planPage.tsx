@@ -17,7 +17,7 @@ type PlanFormType = { name: string };
 
 const PlanPage: React.FC<{
   courses: CourseType[];
-  data: PlanPageType;
+  data: PlanPageType | null;
   tag: string;
 }> = ({ data, courses, tag }) => {
   const rules = { required: true };
@@ -48,7 +48,7 @@ const PlanPage: React.FC<{
       <FormInput
         {...{ errors, control, rules }}
         name="name"
-        className="w-44 mb-4"
+        className="w-44 mb-5"
         rtl
         placeholder={fa.plan.planName}
       />

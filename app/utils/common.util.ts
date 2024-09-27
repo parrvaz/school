@@ -14,6 +14,7 @@ import {
   PlansType,
   ScheduleFormType,
   ScheduleType,
+  StudyType,
   TeacherType,
 } from 'app/types/common.type';
 
@@ -204,16 +205,10 @@ export const mapFormData = (formData: ScheduleFormType['schedule']): object[] =>
   }));
 };
 
-export const formatDateToDayTime = (
-  startTime: Date,
-  endTime: Date,
-  title: string,
-  course_id: number
-): PlanDataType => {
+export const formatDateToDayTime = (data: EventPlanType): PlanDataType => {
+  const { start, end } = data;
   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-
-  // Get the day from the startTime
-  const day = days[startTime?.getDay()];
+  const day = days[start?.getDay()];
 
   // Format hours and minutes
   const formatTime = (date: Date): string => {
@@ -222,21 +217,11 @@ export const formatDateToDayTime = (
     return `${hours}:${minutes}`;
   };
 
-  return {
-    course_id,
-    title,
-    day,
-    start: formatTime(startTime),
-    end: formatTime(endTime),
-  };
+  return { ...data, day, start: formatTime(start), end: formatTime(end) };
 };
 
-export const formatEventData = (events: EventPlanType[]): PlanDataType[] => {
-  return events.map((event) => {
-    const { start, end, title, course_id } = event;
-    return formatDateToDayTime(start, end, title, course_id);
-  });
-};
+export const formatEventData = (events: EventPlanType[]): PlanDataType[] =>
+  events.map((event) => formatDateToDayTime(event));
 
 export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
   const daysOfWeek = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']; // Week starts on Saturday
@@ -265,15 +250,11 @@ export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
   const endTime = new Date(startOfWeek);
   endTime.setHours(endHours, endMinutes, 0, 0); // Set hours and minutes
 
-  return { start: startTime, end: endTime, title: data.title, course_id: data.course_id };
+  return { ...data, start: startTime, end: endTime };
 };
 
-export const revertEventData = (events: PlanDataType[]): EventPlanType[] => {
-  return events.map((event) => {
-    const { title, day, start, end, course_id } = event;
-    return revertToDateTimes({ day, start, end, title, course_id });
-  });
-};
+export const revertEventData = (events: PlanDataType[]): EventPlanType[] =>
+  events.map((event) => revertToDateTimes(event));
 
 export const handleDuplicatePlan = (
   data: PlansType[],
@@ -292,3 +273,112 @@ export const handleDuplicatePlan = (
   updatedData.splice(targetIndex + 1, 0, newPlan);
   setData(updatedData);
 };
+
+const jalaliMonthNames = [
+  'فروردین',
+  'اردیبهشت',
+  'خرداد',
+  'تیر',
+  'مرداد',
+  'شهریور',
+  'مهر',
+  'آبان',
+  'آذر',
+  'دی',
+  'بهمن',
+  'اسفند',
+];
+
+export const convertToJalaliLabel = (date: Date, label: string): string => {
+  // Use a regular expression to capture the month and the day range
+  const regex = /^([A-Za-z]+)\s+(\d+)\s+–\s+([A-Za-z]+)?\s*(\d+)$/;
+  const match = label.match(regex);
+
+  if (!match) {
+    throw new Error('Invalid label format');
+  }
+
+  // Extracting the necessary values from the match
+  const startMonthName = match[1]; // First month (e.g., 'September')
+  const startDay = match[2]; // Start day (e.g., '21')
+  const endMonthName = match[3] || startMonthName; // End month (e.g., 'October' or the same as start)
+  const endDay = match[4]; // End day (e.g., '04' or '27')
+
+  // Get the current year from the provided date
+  const year = date.getFullYear();
+
+  // Create Date objects for the start and end days using the extracted month(s) and year
+  const startDate = new Date(`${startMonthName} ${startDay}, ${year}`);
+  const endDate = new Date(`${endMonthName} ${endDay}, ${year}`);
+
+  // Convert both start and end dates to Jalali
+  const jalaliStart = jalaali.toJalaali(startDate);
+  const jalaliEnd = jalaali.toJalaali(endDate);
+
+  // Get the Jalali month names
+  const startMonth = jalaliMonthNames[jalaliStart.jm - 1];
+  const endMonth = jalaliMonthNames[jalaliEnd.jm - 1];
+
+  // If the months are the same, return a single month, else return both
+  return startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
+};
+
+export const formatJalaliDateTimeRange = (data: EventPlanType): StudyType => {
+  const { start, end, course_id, title, isFix } = data;
+  // Create Date objects from the ISO strings
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // Extract Jalali date components
+  const jalaliStart = jalaali.toJalaali(startDate);
+
+  // Format the Jalali date
+  const formattedDate = `${jalaliStart.jy}/${jalaliStart.jm}/${jalaliStart.jd}`;
+
+  // Extract hours and minutes for start and end times
+  const startHours = startDate.getHours();
+  const startMinutes = startDate.getMinutes();
+  const endHours = endDate.getHours();
+  const endMinutes = endDate.getMinutes();
+
+  // Format the times, ensuring two-digit minutes
+  const formattedStartTime = `${startHours}:${startMinutes.toString().padStart(2, '0')}`;
+  const formattedEndTime = `${endHours}:${endMinutes.toString().padStart(2, '0')}`;
+  const date = `${formattedDate} ${formattedStartTime}-${formattedEndTime}`;
+
+  // Combine date and time range
+  return { course_id, title, isFix, date };
+};
+
+export const revertJalaliDateTimeRangeToDate = (data: StudyType): EventPlanType => {
+  // Split the input string into date and time range
+  const [jalaliDate, timeRange] = data.date.split(' ');
+  const [startTime, endTime] = timeRange.split('-');
+
+  // Extract Jalali year, month, and day from the date string
+  const [jy, jm, jd] = jalaliDate.split('/').map(Number);
+
+  // Convert Jalali date to Gregorian
+  const gregorianDate = jalaali.toGregorian(jy, jm, jd);
+
+  // Create Date objects for start and end times using local time
+  const startDate = new Date(
+    gregorianDate.gy,
+    gregorianDate.gm - 1,
+    gregorianDate.gd,
+    ...startTime.split(':').map(Number)
+  );
+
+  const endDate = new Date(
+    gregorianDate.gy,
+    gregorianDate.gm - 1,
+    gregorianDate.gd,
+    ...endTime.split(':').map(Number)
+  );
+
+  // Return the Date objects
+  return { ...data, start: startDate, end: endDate };
+};
+
+export const revertJalaliDateTime = (events: StudyType[]): EventPlanType[] =>
+  events.map((event) => revertJalaliDateTimeRangeToDate(event));

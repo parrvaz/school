@@ -1,17 +1,18 @@
+import { CourseType, EventPlanType, StudyType } from 'app/types/common.type';
 import React, { useCallback, useState } from 'react';
-import { Calendar, dateFnsLocalizer, SlotInfo, Views } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer, HeaderProps, SlotInfo, Views } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
+import jalaali from 'jalaali-js';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { CourseType, EventPlanType, PlanDataType } from 'app/types/common.type';
-import fa from 'app/lib/fa.json';
+import CourseModal from './courseModal';
 import {
   dateToHour,
   faNumber,
-  formatDateToDayTime,
-  revertEventData,
-  revertToDateTimes,
+  formatJalaliDateTimeRange,
+  revertJalaliDateTime,
 } from 'app/utils/common.util';
-import CourseModal from './courseModal';
+import fa from 'app/lib/fa.json';
+import CustomToolbar from './customToolbar';
 
 type CustomEventProps = {
   event: EventPlanType;
@@ -26,6 +27,18 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
+
+const CustomHeader = ({ label, date }: HeaderProps): JSX.Element => {
+  const day = fa.global[label.slice(3).toLowerCase() as keyof typeof fa.global];
+  return (
+    <div className="pt-2 pb-1">
+      <div className="w-full text-black70 font-light text-11 mb-1">
+        {typeof day === 'string' ? day : ''}
+      </div>
+      <div className="font-bold text-16">{faNumber(jalaali.toJalaali(date).jd)}</div>
+    </div>
+  );
+};
 
 const CustomEvent: React.FC<CustomEventProps> = ({ event, onRemoveEvent }) => (
   <div className={`${event?.isFix ? 'bg-green30' : 'bg-berry50'} rtl h-full px-2`}>
@@ -44,59 +57,57 @@ const CustomEvent: React.FC<CustomEventProps> = ({ event, onRemoveEvent }) => (
   </div>
 );
 
-const CustomHeader = ({ label }: { label: string }): JSX.Element => {
-  const day = fa.global[label.slice(3).toLowerCase() as keyof typeof fa.global];
-  return (
-    <div className="w-full text-black70 font-regular text-14 pt-3 pb-1">
-      {typeof day === 'string' ? day : ''}
-    </div>
-  );
-};
-
-const MyCalendar: React.FC<{
+const StudyCalendar: React.FC<{
   courses: CourseType[];
   setEvents: any;
-  events: PlanDataType[];
+  events: StudyType[];
 }> = ({ courses, events, setEvents }) => {
   const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null);
-
-  const handleRemoveEvent = (eventToRemove: EventPlanType): void => {
-    setEvents((prevEvents: PlanDataType[]) =>
-      prevEvents.filter(
-        (event) => JSON.stringify(revertToDateTimes(event)) !== JSON.stringify(eventToRemove)
-      )
-    );
-  };
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const onSelectLesson = (course: CourseType): void => {
     if (course && selectedSlot) {
       const { start, end } = selectedSlot;
-      setEvents((prevEvents: PlanDataType[]) => [
+      console.log(
+        22,
+        formatJalaliDateTimeRange({ start, end, title: course.name, course_id: course.id })
+      );
+      setEvents((prevEvents: StudyType[]) => [
         ...prevEvents,
-        formatDateToDayTime({ start, end, title: course.name, course_id: course.id }),
+        formatJalaliDateTimeRange({ start, end, title: course.name, course_id: course.id }),
       ]);
       setSelectedSlot(null); // Clear selected slot
     }
+  };
+
+  const handleRemoveEvent = (eventToRemove: EventPlanType): void => {
+    setEvents((prevEvents: StudyType[]) =>
+      prevEvents.filter((event) => JSON.stringify(event) !== JSON.stringify(eventToRemove))
+    );
   };
 
   const slotGroupPropGetter = useCallback(
     () => ({ style: { minHeight: 50, fontSize: 12, fontFamily: 'IRANSans_Light' } }),
     []
   );
+
   return (
     <div className=" ltr">
       <Calendar
         localizer={localizer}
-        events={revertEventData(events)}
+        events={revertJalaliDateTime(events)}
         startAccessor="start"
         endAccessor="end"
         defaultView={Views.WEEK}
         views={['week']}
-        toolbar={false}
         className="bg-white rounded-2xl overflow-hidden"
         selectable
+        date={currentDate} // Controlled date state
+        onNavigate={(newDate) => setCurrentDate(newDate)}
         timeslots={4}
         step={15}
+        toolbar
+        dayLayoutAlgorithm="no-overlap"
         slotGroupPropGetter={slotGroupPropGetter}
         onSelectSlot={(slotInfo: SlotInfo) => setSelectedSlot(slotInfo)}
         formats={{
@@ -108,9 +119,11 @@ const MyCalendar: React.FC<{
           },
         }}
         components={{
-          header: ({ label }: { label: string }) => <CustomHeader label={label} />, // Use the custom header
+          header: CustomHeader,
+          toolbar: CustomToolbar,
           event: (eventProps) => {
-            return <CustomEvent {...eventProps} onRemoveEvent={handleRemoveEvent} />;
+            const customEventProps = { ...eventProps, event: eventProps.event as EventPlanType };
+            return <CustomEvent {...customEventProps} onRemoveEvent={handleRemoveEvent} />;
           },
         }}
       />
@@ -124,4 +137,4 @@ const MyCalendar: React.FC<{
   );
 };
 
-export default MyCalendar;
+export default StudyCalendar;

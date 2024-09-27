@@ -25,6 +25,7 @@ const PlanPage: React.FC<{
   const { gradeId, planId } = useParams();
   const [events, setEvents] = useState<PlanDataType[]>(data?.plan || []);
 
+  console.log(data);
   const defaultValues = { name: data?.title || '' };
   const {
     handleSubmit,

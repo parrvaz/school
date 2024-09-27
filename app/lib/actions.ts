@@ -12,6 +12,7 @@ import {
   ScheduleFormType,
   SendMessageFormType,
   StudentFormType,
+  StudyType,
   TeacherFormType,
 } from 'app/types/common.type';
 import request from './request';
@@ -247,4 +248,13 @@ export const UpdatePlanListAction = async (
   const res: ResponseType<{ data: string }> = await request.post(url, { data });
 
   return res.ok;
+};
+
+export const UpdateStudyAction = async (data: StudyType[], gradeId: string): Promise<boolean> => {
+  console.log('submit', data, gradeId);
+  // const url = AssignPlansUrl(gradeId);
+  // const res: ResponseType<{ data: string }> = await request.post(url, { data });
+
+  return true;
+  // return res.ok;
 };

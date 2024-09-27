@@ -218,13 +218,20 @@ export type SendMessageFormType = {
   recipients: { value: number; label: string }[];
 };
 
-export type EventPlanType = { title: string; start: Date; end: Date; course_id: number };
+export type EventPlanType = {
+  title: string;
+  start: Date;
+  end: Date;
+  course_id: number;
+  isFix?: boolean;
+};
 export type PlanDataType = {
   day: string;
   start: string;
   end: string;
   title: string;
   course_id: number;
+  isFix?: boolean;
 };
 export type PlanPageType = {
   title: string;
@@ -239,4 +246,17 @@ export type PlansType = {
   title: string;
   isDuplicate?: boolean;
   students?: StudentType[];
+};
+
+export type StudyType = {
+  date: string;
+  title: string;
+  course_id: number;
+  isFix?: boolean;
+};
+
+export type StudyPageType = {
+  title: string;
+  id: number;
+  plan: StudyType[];
 };

@@ -96,11 +96,19 @@ export const camelCase = (input: string): string =>
     .split(/[-_ ]/)
     .reduce((cur, acc) => cur + acc[0].toUpperCase() + acc.substring(1));
 
-export const convertToDate = (value: DayValue): string =>
-  `${value?.year}/${value?.month}/${value?.day}`;
+export const convertToDate = (value: DayValue): string => {
+  if (!value) return '';
+  const month = value?.month < 10 ? '0' + value?.month : value?.month;
+  const day = value?.day < 10 ? '0' + value?.day : value?.day;
+  return `${value?.year}/${month}/${day}`;
+};
 
-export const convertJalaliToDate = (value: { jy: number; jm: number; jd: number }): string =>
-  `${value?.jy}/${value?.jm}/${value?.jd}`;
+export const convertJalaliToDate = (value: { jy: number; jm: number; jd: number }): string => {
+  if (!value) return '';
+  const month = value?.jm < 10 ? '0' + value?.jm : value?.jm;
+  const day = value?.jd < 10 ? '0' + value?.jd : value?.jd;
+  return `${value?.jy}/${month}/${day}`;
+};
 
 export const convertToJalali = (value: string): string => {
   const [year, month, day] = value.split('/').map(Number);
@@ -252,6 +260,9 @@ export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
 
   return { ...data, start: startTime, end: endTime };
 };
+
+export const examTypeFormatter = (params: ValueFormatterParams): string =>
+  fa.createExam[params.value.label as keyof typeof fa.createExam];
 
 export const revertEventData = (events: PlanDataType[]): EventPlanType[] =>
   events.map((event) => revertToDateTimes(event));

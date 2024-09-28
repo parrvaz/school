@@ -8,7 +8,7 @@ import fa from 'app/lib/fa.json';
 import ActionRenderer from 'app/components/actionRenderer';
 import { DeleteExamAction } from 'app/lib/actions';
 import Table from 'app/components/table';
-import { faNumber } from 'app/utils/common.util';
+import { examTypeFormatter, faNumber } from 'app/utils/common.util';
 import IsFinalRenderer from './isFinalRenderer';
 import { GradeRoute } from 'app/lib/routes';
 import RenderBoolean from 'app/components/renderBoolean';
@@ -25,9 +25,6 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
       router.push(GradeRoute(gradeId, 'create-exam', `?id=${examData.id}`));
   }, [examData]);
 
-  const typeFormatter = (params: ValueFormatterParams): string =>
-    fa.createExam[params.value.label as keyof typeof fa.createExam];
-
   const columns = [
     {
       headerName: fa.global.date,
@@ -42,7 +39,7 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
     {
       headerName: fa.createExam.type,
       field: 'type',
-      valueFormatter: typeFormatter,
+      valueFormatter: examTypeFormatter,
       width: 90,
       minWidth: 90,
       resizable: false,

@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { CourseType, StudyPageType, StudyType } from 'app/types/common.type';
 import StudyCalendar from 'app/components/studyCalendar';
-import { useMutation } from '@tanstack/react-query';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
-import { useParams } from 'next/navigation';
 import { UpdateStudyAction } from 'app/lib/actions';
 
 const Study: React.FC<{ data: StudyPageType | null; courses: CourseType[] }> = ({

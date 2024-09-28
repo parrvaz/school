@@ -1,10 +1,10 @@
-import { convertToJalaliLabel } from 'app/utils/common.util';
 import React from 'react';
-import { Navigate, ToolbarProps } from 'react-big-calendar';
+import { Navigate } from 'react-big-calendar';
+import { convertToJalaliLabel } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import Button from './button';
 
-const CustomToolbar: React.FC<ToolbarProps> = ({ label, onNavigate, onView, date }) => {
+const CustomToolbar: React.FC<any> = ({ label, onNavigate, date }) => {
   return (
     <div className="flex py-2 px-6 items-center justify-between">
       {/* Navigation Buttons */}

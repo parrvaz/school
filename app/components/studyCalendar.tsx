@@ -1,9 +1,9 @@
-import { CourseType, EventPlanType, StudyType } from 'app/types/common.type';
 import React, { useCallback, useState } from 'react';
 import { Calendar, dateFnsLocalizer, HeaderProps, SlotInfo, Views } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import jalaali from 'jalaali-js';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { CourseType, EventPlanType, StudyType } from 'app/types/common.type';
 import CourseModal from './courseModal';
 import {
   dateToHour,
@@ -68,10 +68,6 @@ const StudyCalendar: React.FC<{
   const onSelectLesson = (course: CourseType): void => {
     if (course && selectedSlot) {
       const { start, end } = selectedSlot;
-      console.log(
-        22,
-        formatJalaliDateTimeRange({ start, end, title: course.name, course_id: course.id })
-      );
       setEvents((prevEvents: StudyType[]) => [
         ...prevEvents,
         formatJalaliDateTimeRange({ start, end, title: course.name, course_id: course.id }),

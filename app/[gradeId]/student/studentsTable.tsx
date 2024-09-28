@@ -21,6 +21,7 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
       field: 'lastName',
       pinned: 'right',
       lockPosition: 'right',
+      minWidth: 100,
     },
     { headerName: fa.student.firstName, field: 'firstName' },
     { headerName: fa.student.classroom, field: 'classroom' },

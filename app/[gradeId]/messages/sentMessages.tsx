@@ -18,7 +18,7 @@ const SentMessages: React.FC<{ sentMessages: MessagesType[] }> = ({ sentMessages
               <div
                 key={item.id}
                 onClick={() => setSelectedMessage(item)}
-                className={`px-3 cursor-pointer py-2 duration-300 font-regular hover:bg-black20 hover:shadow-note ${item.id === selectedMessage?.id ? 'bg-berry20' : 'bg-white'}`}
+                className={`px-3 cursor-pointer border-b border-b-black20 py-2 duration-300 font-regular hover:bg-black20 hover:shadow-note ${item.id === selectedMessage?.id ? 'bg-berry20' : 'bg-white'}`}
               >
                 <div className="text-14 overflow-hidden whitespace-nowrap text-ellipsis">
                   {item.subject}

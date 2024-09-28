@@ -7,13 +7,11 @@ import React, { useEffect } from 'react';
 import fa from 'app/lib/fa.json';
 import FormInput from './formInput';
 import Button from './button';
-import { GradeType, ResponseType } from 'app/types/common.type';
-import request from 'app/lib/request';
-import { CreateGradeUrl, UpdateGradeUrl } from 'app/lib/urls';
+import { GradeFormType, GradeType } from 'app/types/common.type';
 import { GradeRoute } from 'app/lib/routes';
 import FormSelect from './formSelect';
-
-type FormType = { title: string; grade: { label: string; value: number } };
+import { PostCreateGrade } from 'app/lib/actions';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const gradeOptions = [
   { label: fa.global.grade10, value: 10 },
@@ -21,7 +19,7 @@ const gradeOptions = [
   { label: fa.global.grade12, value: 12 },
 ];
 
-const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
+const CreateGradeForm: React.FC<{ grades: GradeType[]; tag: string }> = ({ grades, tag }) => {
   const rules = { required: true };
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,22 +32,21 @@ const CreateGradeForm: React.FC<{ grades: GradeType[] }> = ({ grades }) => {
     formState: { errors },
     control,
     reset,
-  } = useForm<FormType>({ defaultValues: { title: '', grade: undefined } });
-
-  const PostCreateGrade = async (value: FormType): Promise<boolean> => {
-    const body = { title: value.title, grade_id: value.grade.value };
-    const url = id ? UpdateGradeUrl(id) : CreateGradeUrl();
-    const res: ResponseType<{ data: GradeType }> = await request.post(url, body);
-    if (res.ok) router.replace(GradeRoute(res.data?.data.code || '', 'dashboard'));
-
-    return true;
-  };
+  } = useForm<GradeFormType>({ defaultValues: { title: '', grade: undefined } });
 
   useEffect(() => {
     targetGrade && reset({ title: targetGrade.title, grade: targetOption });
   }, []);
 
-  const { mutate, isPending } = useMutation({ mutationFn: PostCreateGrade });
+  const { mutate, isPending } = useMutation({
+    mutationFn: (e: GradeFormType) => PostCreateGrade(e, id || ''),
+    onSuccess: (code) => {
+      if (code) {
+        tagRevalidate(tag);
+        router.replace(GradeRoute(code, 'dashboard'));
+      }
+    },
+  });
   return (
     <div className="isCenter h-screen  bg-berry10  ">
       <div className="flex flex-col w-[34rem] px-20 items-center rounded-2xl border-2  border-white md:bg-white50">

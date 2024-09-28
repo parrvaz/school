@@ -55,52 +55,50 @@ const StudentsList: React.FC<{
       ) : (
         <div className="relative">
           <div className="flex flex-col gap-5">
-            {fields.map((field, index) => (
-              <div className="flex gap-2 items-center" key={field.id}>
-                <FormSelect
-                  {...{ errors, control }}
-                  name={`students.${index}.name`}
-                  options={studentOptions}
-                  placeholder={fa.global.studentName}
-                  rules={{ required: true }}
-                />
-                <FormInput
-                  {...{ errors, control }}
-                  name={`students.${index}.score`}
-                  placeholder={fa.createExam.score}
-                  rules={numberValidation({ ...valueValidation(0, Number(examScore) || 100) })}
-                />
+            {fields.length ? (
+              fields.map((field, index) => (
+                <div className="flex gap-2 items-center" key={field.id}>
+                  <FormSelect
+                    {...{ errors, control }}
+                    name={`students.${index}.name`}
+                    options={studentOptions}
+                    placeholder={fa.global.studentName}
+                    rules={{ required: true }}
+                  />
+                  <FormInput
+                    {...{ errors, control }}
+                    name={`students.${index}.score`}
+                    placeholder={fa.createExam.score}
+                    rules={numberValidation({ ...valueValidation(0, Number(examScore) || 100) })}
+                  />
 
-                <i
-                  className="icon-trash text-24 text-red70 cursor-pointer"
-                  onClick={() => remove(index)}
-                />
+                  <i
+                    className="icon-trash text-24 text-red70 cursor-pointer"
+                    onClick={() => remove(index)}
+                  />
+                </div>
+              ))
+            ) : (
+              <div className="bg-white p-3 rounded-lg font-regular text-14 text-bla7">
+                {fa.createExam.noStudentChoose}
               </div>
-            ))}
+            )}
           </div>
-          {studentList.length < classStudents.length ? (
-            <Button
-              type="button"
-              className="btn btn-sm btn-accent w-60 mt-5"
-              onClick={() => append({ name: null, score: null })}
-            >
-              <i className="icon-add text-24" />
-              {fa.createExam.addNewStudent}
-            </Button>
-          ) : (
-            <div className="text-green70 flex items-center text-12 mt-5">
-              <i className="icon-verify text-18 ml-1" />
-              {fa.createExam.allAdded}
-            </div>
-          )}
+          <div className=" flex items-center gap-2 mt-6">
+            {studentList.length < classStudents.length && (
+              <Button
+                type="button"
+                className="btn btn-sm btn-primary btn-outline w-44"
+                onClick={() => append({ name: null, score: null })}
+              >
+                {fa.createExam.addNewStudent}
+              </Button>
+            )}
 
-          <Button
-            type="button"
-            onClick={handleAddAllStudents}
-            className="btn btn-success fixed left-96 bottom-10"
-          >
-            {fa.createExam.fillStudents}
-          </Button>
+            <Button type="button" onClick={handleAddAllStudents} className="btn btn-sm btn-ghost">
+              {fa.createExam.fillStudents}
+            </Button>
+          </div>
         </div>
       )}
     </div>

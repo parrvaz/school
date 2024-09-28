@@ -31,7 +31,7 @@ const Schedule: React.FC<{
 }> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells, coursesTag }) => {
   const { gradeId } = useParams();
   const defaultLessonData = { order: null, day: '' };
-  const [selectedClassId, setSelectedClassId] = useState(classes[0].id);
+  const [selectedClassId, setSelectedClassId] = useState(classes[0]?.id);
   const [lessonData, setLessonData] = useState(defaultLessonData);
   const selectedSchedule = useMemo(
     () => schedules.find((k) => k.classroom_id === selectedClassId),
@@ -93,15 +93,19 @@ const Schedule: React.FC<{
       <div className="w-52">
         <div className="text-16 font-regular mr-2 mb-1">{fa.bells.classList}</div>
         <div className="max-h-96 bg-white flex flex-col gap-1 rounded-2xl p-2">
-          {classes.map((k) => (
-            <div
-              key={k.id}
-              onClick={(): void => setSelectedClassId(k.id)}
-              className={`${k.id === selectedClassId ? 'bg-berry30 hover:bg-berry30' : 'hover:bg-berry10'} py-2  duration-300 cursor-pointer font-light text-14 px-2 rounded-lg`}
-            >
-              <div className="">{k.title}</div>
-            </div>
-          ))}
+          {classes.length ? (
+            classes.map((k) => (
+              <div
+                key={k.id}
+                onClick={(): void => setSelectedClassId(k.id)}
+                className={`${k.id === selectedClassId ? 'bg-berry30 hover:bg-berry30' : 'hover:bg-berry10'} py-2  duration-300 cursor-pointer font-light text-14 px-2 rounded-lg`}
+              >
+                <div className="">{k.title}</div>
+              </div>
+            ))
+          ) : (
+            <div className="text-14 text-black70 font-light p-1">{fa.global.noClass}</div>
+          )}
         </div>
       </div>
       <div className="flex-1 flex flex-col">

@@ -14,7 +14,7 @@ import { tagRevalidate } from 'app/lib/server.util';
 
 const defaultValues = {
   title: '',
-  field: undefined,
+  field: null,
   floor: undefined,
   number: undefined,
 };

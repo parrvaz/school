@@ -19,6 +19,7 @@ const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, ta
       field: 'lastName',
       pinned: 'right',
       lockPosition: 'right',
+      minWidth: 100,
     },
     { headerName: fa.teacher.firstName, field: 'firstName' },
     { headerName: fa.teacher.nationalId, field: 'nationalId' },

@@ -46,37 +46,47 @@ const AssignList: React.FC<{
   return (
     <div>
       <form className="flex flex-col gap-6 pb-20" onSubmit={handleSubmit((e) => mutate(e))}>
-        {fields.map((field, index) => (
-          <div className="flex gap-2 items-center" key={field.id}>
-            <FormSelect
-              {...{ errors, control, rules }}
-              name={`assignments.${index}.class`}
-              options={classOptions}
-              className="flex-1"
-              placeholder={fa.assign.chooseClass}
-            />
-            <FormSelect
-              {...{ errors, control, rules }}
-              name={`assignments.${index}.course`}
-              options={courseOptions}
-              className="flex-1"
-              placeholder={fa.assign.chooseCourse}
-            />
-            <FormSelect
-              {...{ errors, control, rules }}
-              name={`assignments.${index}.teacher`}
-              options={teacherOptions}
-              className="flex-1"
-              placeholder={fa.assign.chooseTeacher}
-            />
+        {fields.length ? (
+          fields.map((field, index) => (
+            <div className="flex gap-2 items-center" key={field.id}>
+              <FormSelect
+                {...{ errors, control, rules }}
+                name={`assignments.${index}.class`}
+                options={classOptions}
+                className="flex-1"
+                placeholder={fa.assign.chooseClass}
+              />
+              <FormSelect
+                {...{ errors, control, rules }}
+                name={`assignments.${index}.course`}
+                options={courseOptions}
+                className="flex-1"
+                placeholder={fa.assign.chooseCourse}
+              />
+              <FormSelect
+                {...{ errors, control, rules }}
+                name={`assignments.${index}.teacher`}
+                options={teacherOptions}
+                className="flex-1"
+                placeholder={fa.assign.chooseTeacher}
+              />
 
-            <i
-              className="icon-trash text-24 text-red70 cursor-pointer"
-              onClick={() => (remove(index), fields.length === 1 && append(rawRow))}
-            />
+              <i
+                className="icon-trash text-24 text-red70 cursor-pointer"
+                onClick={() => (remove(index), fields.length === 1 && append(rawRow))}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="bg-white p-3 text-black70 text-14 font-light rounded-lg">
+            {fa.global.noData}
           </div>
-        ))}
-        <Button type="button" className="btn btn-sm btn-accent w-44" onClick={() => append(rawRow)}>
+        )}
+        <Button
+          type="button"
+          className="btn btn-sm btn-primary btn-outline w-44"
+          onClick={() => append(rawRow)}
+        >
           <i className="icon-add text-24" />
           {fa.assign.addNewRow}
         </Button>

@@ -25,7 +25,7 @@ const defaultValues = {
   religion: '',
   specialDisease: '',
   address: '',
-  classroom: undefined,
+  classroom: null,
 };
 
 const CreateNewStudent: React.FC<{

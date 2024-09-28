@@ -10,6 +10,7 @@ export type PageType = {
 export type SelectOptionType = { value: string | number; label: string };
 export type GradeType = { code: string; title: string; grade_id: number };
 export type FieldsType = { id: number; title: string };
+export type GradeFormType = { title: string; grade: { label: string; value: number } };
 
 export type ClassroomType = {
   id: number;
@@ -23,7 +24,7 @@ export type ClassroomType = {
 
 export type ClassFormType = {
   title: string;
-  field: { label: string; value: number };
+  field: { label: string; value: number } | null;
   floor: number;
   number: string;
 };
@@ -64,7 +65,7 @@ export type StudentFormType = {
   religion: string;
   specialDisease: string;
   address: string;
-  classroom: { label: string; value: number };
+  classroom: { label: string; value: number } | null;
 };
 
 export type TeacherType = {

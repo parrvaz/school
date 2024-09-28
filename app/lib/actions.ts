@@ -6,6 +6,8 @@ import {
   ClassFormType,
   CreateExamFormType,
   FieldsType,
+  GradeFormType,
+  GradeType,
   PlanDataType,
   PlansType,
   ResponseType,
@@ -16,38 +18,19 @@ import {
   TeacherFormType,
 } from 'app/types/common.type';
 import request from './request';
-import {
-  AssignPlansUrl,
-  CreateBellUrl,
-  CreateClassUrl,
-  CreateCourseUrl,
-  CreateExamUrl,
-  CreatePlanUrl,
-  CreateScheduleUrl,
-  CreateStudentUrl,
-  CreateTeacherUrl,
-  DeleteBellUrl,
-  DeleteClassUrl,
-  DeleteCourseUrl,
-  DeleteExamUrl,
-  DeleteStudentUrl,
-  DeleteTeacherUrl,
-  FieldsUrl,
-  MarkAsReadUrl,
-  PostAbsentsUrl,
-  SendMessageUrl,
-  UpdateBellUrl,
-  UpdateClassUrl,
-  UpdateCourseUrl,
-  UpdateExamUrl,
-  UpdatePlanUrl,
-  UpdateStudentUrl,
-  UpdateTeacherUrl,
-} from './urls';
+import * as api from './urls';
+
+export const PostCreateGrade = async (value: GradeFormType, id?: string): Promise<string> => {
+  const body = { title: value.title, grade_id: value.grade.value };
+  const url = id ? api.UpdateGradeUrl(id) : api.CreateGradeUrl();
+  const res: ResponseType<{ data: GradeType }> = await request.post(url, body);
+
+  return res.data?.data.code || '';
+};
 
 export const fieldsKey = (id: string): string[] => ['fields', id];
 export const getFields = async (id: string): Promise<FieldsType[] | null> => {
-  const res: ResponseType<{ data: FieldsType[] }> = await request.get(FieldsUrl(id));
+  const res: ResponseType<{ data: FieldsType[] }> = await request.get(api.FieldsUrl(id));
   return res.data?.data || null;
 };
 
@@ -56,15 +39,15 @@ export const UpdateClassAction = async (
   gradeId: string,
   id?: number
 ): Promise<boolean> => {
-  const url = id ? UpdateClassUrl(gradeId, id) : CreateClassUrl(gradeId);
-  const body = { ...values, field_id: values.field.value, floor: values.floor.toString() };
+  const url = id ? api.UpdateClassUrl(gradeId, id) : api.CreateClassUrl(gradeId);
+  const body = { ...values, field_id: values.field?.value, floor: values.floor.toString() };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
 };
 
 export const DeleteClassAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteClassUrl(gradeId, id);
+  const url = api.DeleteClassUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -75,15 +58,15 @@ export const UpdateStudentAction = async (
   gradeId: string,
   id?: number
 ): Promise<boolean> => {
-  const url = id ? UpdateStudentUrl(gradeId, id) : CreateStudentUrl(gradeId);
-  const body = { ...values, classroom_id: values.classroom.value };
+  const url = id ? api.UpdateStudentUrl(gradeId, id) : api.CreateStudentUrl(gradeId);
+  const body = { ...values, classroom_id: values.classroom?.value };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
 };
 
 export const DeleteStudentAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteStudentUrl(gradeId, id);
+  const url = api.DeleteStudentUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -94,7 +77,7 @@ export const UpdateTeacherAction = async (
   gradeId: string,
   id?: number
 ): Promise<boolean> => {
-  const url = id ? UpdateTeacherUrl(gradeId, id) : CreateTeacherUrl(gradeId);
+  const url = id ? api.UpdateTeacherUrl(gradeId, id) : api.CreateTeacherUrl(gradeId);
   const body = { ...values };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
@@ -102,7 +85,7 @@ export const UpdateTeacherAction = async (
 };
 
 export const DeleteTeacherAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteTeacherUrl(gradeId, id);
+  const url = api.DeleteTeacherUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -112,7 +95,7 @@ export const UpdateAssignmentAction = async (
   values: AssignFormType,
   gradeId: string
 ): Promise<boolean> => {
-  const url = UpdateCourseUrl(gradeId);
+  const url = api.UpdateCourseUrl(gradeId);
   const list = values.assignments.map((k) => ({
     classroom_id: k.class?.value,
     course_id: k.course?.value,
@@ -128,7 +111,7 @@ export const UpdateExamAction = async (
   gradeId: string,
   id?: number
 ): Promise<boolean> => {
-  const url = id ? UpdateExamUrl(gradeId, id) : CreateExamUrl(gradeId);
+  const url = id ? api.UpdateExamUrl(gradeId, id) : api.CreateExamUrl(gradeId);
   const body = {
     ...values,
     classroom_id: values.classroom?.value,
@@ -142,7 +125,7 @@ export const UpdateExamAction = async (
 };
 
 export const DeleteExamAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = DeleteExamUrl(gradeId, id);
+  const url = api.DeleteExamUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -153,7 +136,7 @@ export const UpdateBellsAction = async (
   gradeId: string,
   isCreate: boolean
 ): Promise<BellsType[] | boolean> => {
-  const url = isCreate ? CreateBellUrl(gradeId) : UpdateBellUrl(gradeId);
+  const url = isCreate ? api.CreateBellUrl(gradeId) : api.UpdateBellUrl(gradeId);
   const list = values.bells.map((key, index) => ({ ...key, order: index + 1 }));
   const res: ResponseType<{ data: BellsType[] }> = await request.post(url, { list });
 
@@ -164,7 +147,7 @@ export const DeleteBellsAction = async (
   id: number,
   gradeId: string
 ): Promise<BellsType[] | boolean> => {
-  const url = DeleteBellUrl(gradeId, id);
+  const url = api.DeleteBellUrl(gradeId, id);
   const res: ResponseType<{ data: BellsType[] }> = await request.post(url);
   return res.data?.data || res.ok;
 };
@@ -174,21 +157,21 @@ export const UpdateScheduleAction = async (
   gradeId: string,
   classId: number
 ): Promise<boolean> => {
-  const url = CreateScheduleUrl(gradeId, classId);
+  const url = api.CreateScheduleUrl(gradeId, classId);
   const res: ResponseType<{ data: string }> = await request.post(url, values);
 
   return res.ok;
 };
 
 export const CreateCourseAction = async (name: string, gradeId: string): Promise<boolean> => {
-  const url = CreateCourseUrl(gradeId);
+  const url = api.CreateCourseUrl(gradeId);
   const res: ResponseType<{ data: string }> = await request.post(url, { name });
 
   return res.ok;
 };
 
 export const DeleteCourseAction = async (id: number, gradeId: string): Promise<boolean> => {
-  const url = DeleteCourseUrl(gradeId, id);
+  const url = api.DeleteCourseUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -198,7 +181,7 @@ export const PostAbsentsAction = async (
   values: { list: AbsentsListType[]; bellId: string; classId: string; date: string },
   gradeId: string
 ): Promise<boolean> => {
-  const url = PostAbsentsUrl(gradeId);
+  const url = api.PostAbsentsUrl(gradeId);
   const body = {
     date: values.date,
     bell_id: values.bellId,
@@ -211,7 +194,7 @@ export const PostAbsentsAction = async (
 };
 
 export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {
-  const url = MarkAsReadUrl(gradeId, id);
+  const url = api.MarkAsReadUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
@@ -221,7 +204,7 @@ export const SendMessageAction = async (
   values: SendMessageFormType,
   gradeId: string
 ): Promise<boolean> => {
-  const url = SendMessageUrl(gradeId);
+  const url = api.SendMessageUrl(gradeId);
   const body = { ...values, recipients: values.recipients.map((k) => k.value) };
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
@@ -234,7 +217,7 @@ export const UpdatePlanAction = async (
   gradeId: string,
   planId: string
 ): Promise<boolean> => {
-  const url = planId === 'new' ? CreatePlanUrl(gradeId) : UpdatePlanUrl(gradeId, planId);
+  const url = planId === 'new' ? api.CreatePlanUrl(gradeId) : api.UpdatePlanUrl(gradeId, planId);
   const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
 
   return res.ok;
@@ -244,7 +227,7 @@ export const UpdatePlanListAction = async (
   data: PlansType[],
   gradeId: string
 ): Promise<boolean> => {
-  const url = AssignPlansUrl(gradeId);
+  const url = api.AssignPlansUrl(gradeId);
   const res: ResponseType<{ data: string }> = await request.post(url, { data });
 
   return res.ok;

@@ -194,6 +194,7 @@ export type ScheduleFormType = {
 export type AbsentsType = {
   classroom_id: number;
   classroom: string;
+  count: number;
   students: {
     student_id: number;
     student: string;

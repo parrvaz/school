@@ -14,6 +14,7 @@ import AbsentsRenderer from './absentsRenderer';
 import Table from 'app/components/table';
 import Button from 'app/components/button';
 import { PostAbsentsAction } from 'app/lib/actions';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const StudentsList: React.FC<{
   bells: BellsType[];
@@ -22,10 +23,11 @@ const StudentsList: React.FC<{
   bellId: string;
   classId: string;
   date: string;
-}> = ({ bells, classes, bellId, classId, date, students }) => {
+  tag: string;
+}> = ({ bells, classes, bellId, classId, date, students, tag }) => {
   const router = useRouter();
   const { gradeId } = useParams();
-  const emptyMessage = fa.bells.noStudent;
+  const emptyMessage = !bells.length ? fa.bells.noBell : fa.bells.noStudent;
   const [list, setList] = useState<AbsentsListType[]>([]);
   const data = useMemo(
     () =>
@@ -49,7 +51,8 @@ const StudentsList: React.FC<{
   );
 
   useEffect(() => {
-    router.push(route(getTody(), bells[0].id?.toString(), classes[0]?.id.toString()));
+    bells.length &&
+      router.push(route(getTody(), bells[0]?.id?.toString(), classes[0]?.id.toString()));
   }, []);
 
   useEffect(() => {
@@ -75,7 +78,7 @@ const StudentsList: React.FC<{
     mutationFn: () => PostAbsentsAction({ list, date, bellId, classId }, gradeId.toString()),
     onSuccess: (ok) => {
       if (ok) {
-        // tagRevalidate(tag);
+        tagRevalidate(tag);
       }
     },
   });
@@ -86,16 +89,22 @@ const StudentsList: React.FC<{
         <ReactSelect
           className="w-48"
           options={classOptions}
+          placeholder={fa.global.chooseClass}
           value={classOptions.find((k) => k.value === Number(classId))}
           onChange={(e) => router.push(route(date, bellId, e?.value.toString()))}
         />
         <ReactSelect
           className="w-32"
+          placeholder={fa.global.chooseBell}
           options={bellsOption}
           value={bellsOption.find((k) => k.value === Number(bellId))}
           onChange={(e) => router.push(route(date, e?.value.toString(), classId))}
         />
-        <AppDatePicker value={date} onChange={(e) => router.push(route(e, bellId, classId))} />
+        <AppDatePicker
+          placeholder={fa.global.date}
+          value={date}
+          onChange={(e) => router.push(route(e, bellId, classId))}
+        />
       </div>
 
       <Table

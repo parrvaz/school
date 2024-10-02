@@ -35,6 +35,7 @@ const Study: React.FC<{
   const { mutate, isPending } = useMutation({
     mutationFn: (event: StudyType) => CreateStudyAction(event, gradeId.toString()),
   });
+
   return (
     <div className="relative pb-8">
       <ReactSelect

@@ -5,6 +5,8 @@ import { getTody } from 'app/utils/common.util';
 import Table from 'app/components/table';
 
 const Schedule: React.FC<{ schedules: ScheduleDataType[] }> = ({ schedules }) => {
+  const emptyMessage = fa.global.noPlan;
+
   const data = schedules.map((k) => ({
     classroom: k.classroom,
     ...Object.keys(k.schedule).reduce((acc: any, val) => {
@@ -28,7 +30,7 @@ const Schedule: React.FC<{ schedules: ScheduleDataType[] }> = ({ schedules }) =>
   return (
     <div className="">
       <div className="font-bold text-14 mb-1">{fa.dashboard.classesSchedule}</div>
-      <Table {...{ columns, data }} className="h-full w-full" />
+      <Table {...{ columns, data, emptyMessage }} className="h-full w-full" />
     </div>
   );
 };

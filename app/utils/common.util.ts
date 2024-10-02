@@ -351,7 +351,6 @@ export const formatJalaliDateTimeRange = (data: EventPlanType): StudyType => {
   const startMinutes = startDate.getMinutes();
   const endHours = endDate.getHours();
   const endMinutes = endDate.getMinutes();
-  console.log(44, startDate, startHours.toString().padStart(2, '0'));
   // Format the times, ensuring two-digit minutes
   const formattedStartTime = `${startHours.toString().padStart(2, '0')}:${startMinutes.toString().padStart(2, '0')}`;
   const formattedEndTime = `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;

@@ -2,7 +2,7 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
-import { fetchData } from 'app/lib/server.util';
+import { absentsTag, fetchData } from 'app/lib/server.util';
 import { ShowAbsentsUrl } from 'app/lib/urls';
 import { AbsentsType, PageType } from 'app/types/common.type';
 import AbsentsTable from './absentsTable';
@@ -17,7 +17,10 @@ const AbsentsPage: React.FC<PageType> = async ({ params, searchParams }) => {
   if (!date) redirect(GradeRoute(params.gradeId, 'absents', `?date=${getTody()}`));
   const jalaliDate = date || '';
 
-  const data = await fetchData<AbsentsType[]>(ShowAbsentsUrl(params.gradeId, date));
+  const data = await fetchData<AbsentsType[]>(
+    ShowAbsentsUrl(params.gradeId, date),
+    await absentsTag()
+  );
 
   return (
     <div className="">

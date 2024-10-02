@@ -125,7 +125,11 @@ const Schedule: React.FC<{
             onCellClicked={onCellClicked}
             className="h-full w-full"
           />
-          <Button isLoading={isPending} className="btn absolute left-0 -bottom-16 btn-primary mt-3">
+          <Button
+            isLoading={isPending}
+            disabled={!classes.length}
+            className="btn absolute left-0 -bottom-16 btn-primary mt-3"
+          >
             {fa.bells.setClassSchedule}
           </Button>
 

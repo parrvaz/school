@@ -140,7 +140,7 @@ export const UpdateBellsAction = async (
   const list = values.bells.map((key, index) => ({ ...key, order: index + 1 }));
   const res: ResponseType<{ data: BellsType[] }> = await request.post(url, { list });
 
-  return res.data?.data || res.ok;
+  return res.ok;
 };
 
 export const DeleteBellsAction = async (

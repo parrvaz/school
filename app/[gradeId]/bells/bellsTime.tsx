@@ -32,10 +32,10 @@ const BellsTime: React.FC<{
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: BellsFormType) => UpdateBellsAction(e, gradeId.toString(), !bells.length),
-    onSuccess: (data) => {
-      if (typeof data !== 'boolean') {
+    onSuccess: (ok) => {
+      if (ok) {
         tagRevalidate(bellsTag);
-        reset({ bells: data.map((k) => ({ ...k, bellId: k.id })) });
+        setShowBells(false);
       }
     },
   });

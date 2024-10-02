@@ -10,7 +10,13 @@ const AbsentStatus: React.FC<{
     <div
       className={`h-full pr-1 ${status === 'absent' ? 'bg-red10 text-red80' : status === 'present' ? 'text-green80 bg-green10' : 'text-sun80 bg-sun20'}`}
     >
-      {reporter}
+      {status === 'present' ? (
+        <i className="icon-check text-18" />
+      ) : status === 'absent' ? (
+        reporter
+      ) : (
+        '-'
+      )}
     </div>
   );
 };

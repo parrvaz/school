@@ -233,11 +233,11 @@ export const UpdatePlanListAction = async (
   return res.ok;
 };
 
-export const UpdateStudyAction = async (data: StudyType[], gradeId: string): Promise<boolean> => {
+export const CreateStudyAction = async (data: StudyType, gradeId: string): Promise<boolean> => {
   console.log('submit', data, gradeId);
-  // const url = AssignPlansUrl(gradeId);
-  // const res: ResponseType<{ data: string }> = await request.post(url, { data });
+  const url = api.CreateStudyUrl(gradeId);
+  const res: ResponseType<{ data: string }> = await request.post(url, { data });
 
-  return true;
-  // return res.ok;
+  console.log(res);
+  return res.ok;
 };

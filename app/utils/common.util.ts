@@ -344,17 +344,17 @@ export const formatJalaliDateTimeRange = (data: EventPlanType): StudyType => {
   const jalaliStart = jalaali.toJalaali(startDate);
 
   // Format the Jalali date
-  const formattedDate = `${jalaliStart.jy}/${jalaliStart.jm}/${jalaliStart.jd}`;
+  const formattedDate = convertJalaliToDate(jalaliStart);
 
   // Extract hours and minutes for start and end times
   const startHours = startDate.getHours();
   const startMinutes = startDate.getMinutes();
   const endHours = endDate.getHours();
   const endMinutes = endDate.getMinutes();
-
+  console.log(44, startDate, startHours.toString().padStart(2, '0'));
   // Format the times, ensuring two-digit minutes
-  const formattedStartTime = `${startHours}:${startMinutes.toString().padStart(2, '0')}`;
-  const formattedEndTime = `${endHours}:${endMinutes.toString().padStart(2, '0')}`;
+  const formattedStartTime = `${startHours.toString().padStart(2, '0')}:${startMinutes.toString().padStart(2, '0')}`;
+  const formattedEndTime = `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
   const date = `${formattedDate} ${formattedStartTime}-${formattedEndTime}`;
 
   // Combine date and time range

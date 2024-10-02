@@ -61,17 +61,24 @@ const StudyCalendar: React.FC<{
   courses: CourseType[];
   setEvents: any;
   events: StudyType[];
-}> = ({ courses, events, setEvents }) => {
+  createPlan: (body: StudyType) => void;
+  isPending: boolean;
+}> = ({ courses, events, setEvents, createPlan, isPending }) => {
   const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const onSelectLesson = (course: CourseType): void => {
+  const onSelectLesson = async (course: CourseType): Promise<void> => {
     if (course && selectedSlot) {
       const { start, end } = selectedSlot;
-      setEvents((prevEvents: StudyType[]) => [
-        ...prevEvents,
-        formatJalaliDateTimeRange({ start, end, title: course.name, course_id: course.id }),
-      ]);
+      const body = formatJalaliDateTimeRange({
+        start,
+        end,
+        title: course.name,
+        course_id: course.id,
+      });
+      const newData = await createPlan(body);
+      console.log(22, newData);
+      setEvents((prevEvents: StudyType[]) => [...prevEvents, body]);
       setSelectedSlot(null); // Clear selected slot
     }
   };
@@ -127,7 +134,7 @@ const StudyCalendar: React.FC<{
       <CourseModal
         open={!!selectedSlot}
         setOpen={() => setSelectedSlot(null)}
-        {...{ courses, onSelectLesson }}
+        {...{ courses, onSelectLesson, isPending }}
       />
     </div>
   );

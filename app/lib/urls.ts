@@ -80,3 +80,8 @@ export const ShowPlanUrl = (gradeId: string, planId: string): string =>
   `/${gradeId}/plans/show/${planId}`;
 export const ShowAllPlansUrl = (gradeId: string): string => `/${gradeId}/plans/show`;
 export const AssignPlansUrl = (gradeId: string): string => `/${gradeId}/plans/assign`;
+
+// Study ///////////////////////////////////////////
+export const ShowStudyUrl = (gradeId: string, studentId: string): string =>
+  `/${gradeId}/studies/show/${studentId}`;
+export const CreateStudyUrl = (gradeId: string): string => `/${gradeId}/studies/store`;

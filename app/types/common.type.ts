@@ -1,4 +1,5 @@
 import { ApiResponse } from 'apisauce';
+import { SingleValue } from 'react-select';
 
 export type ResponseType<DataType> = ApiResponse<DataType | undefined>;
 
@@ -8,6 +9,7 @@ export type PageType = {
 };
 
 export type SelectOptionType = { value: string | number; label: string };
+export type SingleOptionType = SingleValue<SelectOptionType>;
 export type GradeType = { code: string; title: string; grade_id: number };
 export type FieldsType = { id: number; title: string };
 export type GradeFormType = { title: string; grade: { label: string; value: number } };

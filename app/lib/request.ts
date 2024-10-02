@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { ApisauceInstance, create } from 'apisauce';
 import { toast } from 'react-hot-toast';
+import fa from 'app/lib/fa.json';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://pishkarserver.semimnet.ir/api';
 
@@ -28,8 +29,10 @@ request.axiosInstance.interceptors.response.use(
 
     // if (token && error.config.url === "/user" && error.response.status === 401)
     //   Cookies.remove("token");
-
-    error.response.data.message && toast.error(error.response.data.message);
+    error.response.data.message &&
+      toast.error(
+        error.response.status === 500 ? fa.global.serverError : error.response.data.message
+      );
     return error;
   }
 );

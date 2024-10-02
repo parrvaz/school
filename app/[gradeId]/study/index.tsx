@@ -1,35 +1,63 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { CourseType, StudyPageType, StudyType } from 'app/types/common.type';
+import { useParams, useRouter } from 'next/navigation';
+import ReactSelect from 'react-select';
+import {
+  CourseType,
+  SingleOptionType,
+  StudentType,
+  StudyPageType,
+  StudyType,
+} from 'app/types/common.type';
 import StudyCalendar from 'app/components/studyCalendar';
-import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
-import { UpdateStudyAction } from 'app/lib/actions';
+import { CreateStudyAction } from 'app/lib/actions';
+import { getOption } from 'app/utils/common.util';
+import { GradeRoute } from 'app/lib/routes';
 
-const Study: React.FC<{ data: StudyPageType | null; courses: CourseType[] }> = ({
-  data,
-  courses,
-}) => {
-  const [events, setEvents] = useState<StudyType[]>(data?.plan || []);
+const Study: React.FC<{
+  data: StudyPageType | null;
+  courses: CourseType[];
+  students: StudentType[];
+  studentId?: string;
+}> = ({ data, courses, students, studentId }) => {
+  const router = useRouter();
   const { gradeId } = useParams();
+  const [events, setEvents] = useState<StudyType[]>(data?.plan || []);
+  const studentsOption = useMemo(() => getOption(students), [students]);
+  const selectedStudent = useMemo(
+    () => students.find((k) => k.id === Number(studentId)),
+    [studentId, students]
+  );
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => UpdateStudyAction(events, gradeId.toString()),
+    mutationFn: (event: StudyType) => CreateStudyAction(event, gradeId.toString()),
   });
   return (
     <div className="relative pb-8">
-      <StudyCalendar {...{ courses, events, setEvents }} />
-
-      <Button
-        onClick={() => mutate()}
-        className="btn btn-primary fixed right-64 bottom-4"
-        isLoading={isPending}
-      >
-        {fa.global.submit}
-      </Button>
+      <ReactSelect
+        className="mb-6 w-80"
+        onChange={(e: SingleOptionType) => {
+          router.push(GradeRoute(gradeId, 'study', `?id=${e?.value}`));
+        }}
+        value={{
+          value: selectedStudent?.id || '',
+          label: studentId ? selectedStudent?.name || '' : fa.plan.chooseStudent,
+        }}
+        options={studentsOption}
+      />
+      {data ? (
+        <StudyCalendar
+          {...{ courses, events, setEvents, isPending }}
+          createPlan={(e) => mutate(e)}
+        />
+      ) : (
+        <div className="font-light text-black70 text-14 bg-white p-3 rounded-lg">
+          {studentId ? fa.plan.noPlanForStudent : fa.global.noData}
+        </div>
+      )}
     </div>
   );
 };

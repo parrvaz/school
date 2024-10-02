@@ -5,7 +5,6 @@ import { ValueFormatterParams } from 'ag-grid-community';
 import { useParams, useRouter } from 'next/navigation';
 import AppDatePicker from 'app/components/datePicker';
 import Table from 'app/components/table';
-import { convertToGregorian } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
 import { GradeRoute } from 'app/lib/routes';
@@ -19,6 +18,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
   const { gradeId } = useParams();
   const emptyMessage = fa.absents.noAbsents;
 
+  console.log(data);
   const rowData = data.flatMap((classroom) => [
     {
       classroom: classroom.classroom,
@@ -61,9 +61,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
         <AppDatePicker
           className="w-52"
           value={jalaliDate}
-          onChange={(date) =>
-            router.push(GradeRoute(gradeId, 'absents', `?date=${convertToGregorian(date)}`))
-          }
+          onChange={(date) => router.push(GradeRoute(gradeId, 'absents', `?date=${date}`))}
         />
       </div>
       <div className="">

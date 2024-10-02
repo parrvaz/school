@@ -1,4 +1,5 @@
 import React from 'react';
+import { Viewport } from 'next';
 import { redirect } from 'next/navigation';
 import Sidebar from '../components/sidebar';
 import GradeSelect from '../components/gradeSelect';
@@ -6,6 +7,11 @@ import { fetchData, gradesTag } from 'app/lib/server.util';
 import { GradeUrl } from 'app/lib/urls';
 import { GradeType } from 'app/types/common.type';
 import { HomeRoute } from 'app/lib/routes';
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: '1300',
+};
 
 const menu = [
   { title: 'dashboard', icon: 'icon-home' },

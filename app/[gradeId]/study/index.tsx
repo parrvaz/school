@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import ReactSelect from 'react-select';
@@ -35,6 +35,10 @@ const Study: React.FC<{
   const { mutate, isPending } = useMutation({
     mutationFn: (event: StudyType) => CreateStudyAction(event, gradeId.toString()),
   });
+
+  useEffect(() => {
+    setEvents(data?.plan || []);
+  }, [data]);
 
   return (
     <div className="relative pb-8">

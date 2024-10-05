@@ -15,6 +15,8 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
 }) => {
   const [studentData, setStudentData] = useState<StudentType | boolean>(false);
   const emptyMessage = fa.student.noStudent;
+  const deleteMessage = fa.student.deleteMessage;
+
   const columns = [
     {
       headerName: fa.student.lastName,
@@ -35,7 +37,12 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: { setEditData: setStudentData, deleteAction: DeleteStudentAction, tag },
+      cellRendererParams: {
+        setEditData: setStudentData,
+        deleteAction: DeleteStudentAction,
+        tag,
+        deleteMessage,
+      },
     },
   ];
   return (

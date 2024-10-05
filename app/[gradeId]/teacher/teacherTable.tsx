@@ -12,6 +12,7 @@ import RenderBoolean from 'app/components/renderBoolean';
 const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, tag }) => {
   const [teacherData, setTeacherData] = useState<TeacherType | boolean>(false);
   const emptyMessage = fa.teacher.noTeacher;
+  const deleteMessage = fa.teacher.deleteMessage;
 
   const columns = [
     {
@@ -41,7 +42,12 @@ const TeacherTable: React.FC<{ data: TeacherType[]; tag: string }> = ({ data, ta
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: { setEditData: setTeacherData, deleteAction: DeleteTeacherAction, tag },
+      cellRendererParams: {
+        setEditData: setTeacherData,
+        deleteAction: DeleteTeacherAction,
+        tag,
+        deleteMessage,
+      },
     },
   ];
   return (

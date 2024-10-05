@@ -8,7 +8,12 @@ import fa from 'app/lib/fa.json';
 import Modal from 'app/components/modal';
 import FormInput from 'app/components/formInput';
 import FormSelect from 'app/components/formSelect';
-import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/common.util';
+import {
+  maxLengthMessage,
+  minLengthMessage,
+  numberValidation,
+  phoneValidation,
+} from 'app/utils/common.util';
 import FormDatePiker from 'app/components/formDatePiker';
 import { UpdateStudentAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
@@ -81,6 +86,7 @@ const CreateNewStudent: React.FC<{
       </Button>
 
       <Modal
+        mustConfirm
         open={!!studentData}
         className="w-11/12 max-w-2xl overflow-visible"
         setOpen={handleCloseModal}
@@ -123,19 +129,13 @@ const CreateNewStudent: React.FC<{
                 <FormInput
                   {...{ errors, control }}
                   name="phone"
-                  rules={numberValidation({
-                    minLength: { value: 11, message: minLengthMessage(11) },
-                    maxLength: { value: 11, message: maxLengthMessage(11) },
-                  })}
+                  rules={phoneValidation()}
                   placeholder={fa.student.phone}
                 />
                 <FormInput
                   {...{ errors, control, rules }}
                   name="fatherPhone"
-                  rules={numberValidation({
-                    minLength: { value: 11, message: minLengthMessage(11) },
-                    maxLength: { value: 11, message: maxLengthMessage(11) },
-                  })}
+                  rules={phoneValidation()}
                   placeholder={fa.student.fatherPhone}
                 />
               </div>
@@ -172,9 +172,19 @@ const CreateNewStudent: React.FC<{
                 />
               </div>
             </div>
-            <Button type="submit" className="btn btn-primary mt-10 w-52" isLoading={isPending}>
-              {fa.student[id ? 'submit' : 'submitNewStudent']}
-            </Button>
+
+            <div className="mt-10 flex gap-2 justify-center">
+              <Button
+                type="button"
+                className="btn btn-ghost text-red70"
+                onClick={(): void => setStudentData(false)}
+              >
+                {fa.global.cancel}
+              </Button>
+              <Button type="submit" className="btn btn-primary w-52" isLoading={isPending}>
+                {fa.student[id ? 'submit' : 'submitNewStudent']}
+              </Button>
+            </div>
           </form>
         </div>
       </Modal>

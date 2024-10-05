@@ -11,6 +11,7 @@ import ActionRenderer from 'app/components/actionRenderer';
 const ClassTable: React.FC<{ data: ClassroomType[]; tag: string }> = ({ data, tag }) => {
   const [classData, setClassData] = useState<ClassroomType | boolean>(false);
   const emptyMessage = fa.classroom.noClassroom;
+  const deleteMessage = fa.classroom.deleteMessage;
 
   const columns = [
     {
@@ -30,7 +31,12 @@ const ClassTable: React.FC<{ data: ClassroomType[]; tag: string }> = ({ data, ta
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: { setEditData: setClassData, deleteAction: DeleteClassAction, tag },
+      cellRendererParams: {
+        setEditData: setClassData,
+        deleteAction: DeleteClassAction,
+        tag,
+        deleteMessage,
+      },
     },
   ];
   return (

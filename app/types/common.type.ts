@@ -152,7 +152,7 @@ export type CreateExamFormType = {
   course: { value: number; label: string } | null;
   classroom: { value: number; label: string } | null;
   expected: number;
-  totalScore: number;
+  totalScore: number | null;
   type: number;
   isFinal: boolean;
   isGeneral: boolean;

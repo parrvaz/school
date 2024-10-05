@@ -24,6 +24,17 @@ export const numberValidation = (otherRules?: object): object => ({
   ...otherRules,
 });
 
+export const phoneValidation = (otherRules?: object): object => ({
+  required: true,
+  validate: {
+    isNumeric: (value: string) => /^[0-9]+$/.test(value) || fa.global.rules.justNumber,
+    startsWith09: (value: string) => /^09/.test(value) || fa.global.rules.startNine,
+  },
+  minLength: { value: 11, message: minLengthMessage(11) },
+  maxLength: { value: 11, message: maxLengthMessage(11) },
+  ...otherRules,
+});
+
 export const valueValidation = (min?: number | null, max?: number | null): object => {
   const result: Record<string, object> = {};
   const minMessage = `${fa.global.rules.minValue} ${min} ${fa.global.rules.minValue2}`;

@@ -77,7 +77,6 @@ const StudyCalendar: React.FC<{
         course_id: course.id,
       });
       const newData = await createPlan(body);
-      console.log(22, newData);
       setEvents((prevEvents: StudyType[]) => [...prevEvents, body]);
       setSelectedSlot(null); // Clear selected slot
     }

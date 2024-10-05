@@ -43,7 +43,8 @@ const StudentsList: React.FC<{
   };
 
   return (
-    <div className="ml-96 relative">
+    <div className="mr-96 relative">
+      <div className="font-bold text-14 mb-2">{fa.createExam.studentsList}</div>
       {!classes.length ? (
         <NoData
           className="mt-20"

@@ -6,7 +6,12 @@ import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import Modal from 'app/components/modal';
 import FormInput from 'app/components/formInput';
-import { maxLengthMessage, minLengthMessage, numberValidation } from 'app/utils/common.util';
+import {
+  maxLengthMessage,
+  minLengthMessage,
+  numberValidation,
+  phoneValidation,
+} from 'app/utils/common.util';
 import { TeacherFormType, TeacherType } from 'app/types/common.type';
 import { UpdateTeacherAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
@@ -67,7 +72,7 @@ const CreateNewTeacher: React.FC<{
         {fa.teacher.newTeacher}
       </Button>
 
-      <Modal open={!!teacherData} setOpen={handleCloseModal} id="create-class">
+      <Modal open={!!teacherData} setOpen={handleCloseModal} mustConfirm id="create-class">
         <div className="flex flex-col items-center">
           <div className="font-bold text-20 mt-4 text-berry90">
             {fa.teacher[id ? 'updateTeacher' : 'newTeacher']}
@@ -100,10 +105,7 @@ const CreateNewTeacher: React.FC<{
             <FormInput
               {...{ errors, control }}
               name="phone"
-              rules={numberValidation({
-                minLength: { value: 11, message: minLengthMessage(11) },
-                maxLength: { value: 11, message: maxLengthMessage(11) },
-              })}
+              rules={phoneValidation()}
               placeholder={fa.teacher.phone}
             />
             <FormInput {...{ errors, control }} name="degree" rtl placeholder={fa.teacher.degree} />
@@ -119,9 +121,19 @@ const CreateNewTeacher: React.FC<{
               label={fa.teacher.isAssistant}
               name="isAssistant"
             />
-            <Button type="submit" className="btn btn-primary w-full" isLoading={isPending}>
-              {fa.teacher[id ? 'submit' : 'submitNewTeacher']}
-            </Button>
+
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                className="btn btn-ghost text-red70"
+                onClick={(): void => setTeacherData(false)}
+              >
+                {fa.global.cancel}
+              </Button>
+              <Button type="submit" className="btn btn-primary flex-1" isLoading={isPending}>
+                {fa.teacher[id ? 'submit' : 'submitNewTeacher']}
+              </Button>
+            </div>
           </form>
         </div>
       </Modal>

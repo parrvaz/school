@@ -21,7 +21,7 @@ const DeleteModal: React.FC<{
           {fa.global.cancel}
         </Button>
         <Button isLoading={isPending} className="btn btn-error w-24" onClick={onDelete}>
-          {fa.global.yes}
+          {fa.global.approve}
         </Button>
       </div>
     </Modal>

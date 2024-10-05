@@ -7,7 +7,7 @@ import { tagRevalidate } from 'app/lib/server.util';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ActionRenderer: React.FC = (props: any) => {
-  const { api, node, setEditData, deleteAction, tag } = props;
+  const { api, node, setEditData, deleteAction, tag, deleteMessage } = props;
   const [deleteId, setDeleteId] = useState(false);
   const { gradeId } = useParams();
 
@@ -38,7 +38,7 @@ const ActionRenderer: React.FC = (props: any) => {
       <DeleteModal
         open={!!deleteId}
         setOpen={setDeleteId}
-        title={fa.home.deleteConfirm1}
+        title={deleteMessage || fa.global.deleteConfirm}
         onDelete={(): void => mutate()}
         isPending={isPending}
         id={`${tag}-${node.data.id}`}

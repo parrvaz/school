@@ -15,6 +15,8 @@ import RenderBoolean from 'app/components/renderBoolean';
 
 const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) => {
   const emptyMessage = fa.createExam.noExam;
+  const deleteMessage = fa.createExam.deleteMessage;
+
   const router = useRouter();
   const { gradeId } = useParams();
 
@@ -75,7 +77,12 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
       width: 84,
       minWidth: 84,
       resizable: false,
-      cellRendererParams: { setEditData: setExamData, deleteAction: DeleteExamAction, tag },
+      cellRendererParams: {
+        setEditData: setExamData,
+        deleteAction: DeleteExamAction,
+        tag,
+        deleteMessage,
+      },
     },
   ];
 

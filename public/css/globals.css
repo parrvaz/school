@@ -11,10 +11,15 @@ body {
   position: relative !important;
   width: 100% !important;
   font-family: 'IRANSans_Medium';
+  -webkit-font-smoothing: antialiased; /* Makes the text look more consistent between Chrome and Safari */
 }
 
 * {
   box-sizing: border-box;
+}
+
+.btn {
+  font-weight: 500;
 }
 
 @layer base {
@@ -123,4 +128,8 @@ body {
 
 .rbc-time-content > * + * > * {
   border-left: rgb(241, 243, 244) 1px solid !important;
+}
+
+.react-time-picker__wrapper {
+  border: none !important;
 }

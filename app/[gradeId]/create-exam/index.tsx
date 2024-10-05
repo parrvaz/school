@@ -89,7 +89,7 @@ const CreateExam: React.FC<{
   });
 
   useEffect(() => {
-    watch('type') === 3 && setValue('totalScore', 100);
+    setValue('totalScore', watch('type') === 3 ? 100 : null);
   }, [watch('type')]);
 
   const contentsOption = useMemo(
@@ -103,7 +103,7 @@ const CreateExam: React.FC<{
   return (
     <FormProvider {...methods}>
       <form className="relative" onSubmit={handleSubmit((e) => mutate(e))}>
-        <div className="bg-white w-80 rounded-xl p-4 fixed gap-6 items-center left-8 top-24 flex flex-col">
+        <div className="bg-white w-80 rounded-xl p-4 fixed gap-6 items-center right-72 top-28 flex flex-col">
           <div className="text-berry100 font-bold text-18">{fa.createExam.examInfo}</div>
 
           <FormRadio {...{ control, errors }} className="mt-3" options={typeOptions} name="type" />

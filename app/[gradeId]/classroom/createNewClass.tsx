@@ -74,10 +74,10 @@ const CreateNewClass: React.FC<{
     <div className="flex justify-end mt-6">
       <Button onClick={(): void => setClassData(true)} className="btn btn-primary">
         <i className="icon-add text-32" />
-        {fa.classroom.newClass}
+        <div className="text-14">{fa.classroom.newClass}</div>
       </Button>
 
-      <Modal open={!!classData} setOpen={handleCloseModal} id="create-class">
+      <Modal open={!!classData} setOpen={handleCloseModal} mustConfirm id="create-class">
         <div className="flex flex-col items-center">
           <div className="font-bold text-20 mt-4 text-berry90">
             {fa.classroom[id ? 'updateClass' : 'newClass']}
@@ -113,9 +113,18 @@ const CreateNewClass: React.FC<{
               placeholder={fa.classroom.floor}
             />
 
-            <Button type="submit" className="btn btn-primary mt-10 w-full" isLoading={isPending}>
-              {fa.classroom[id ? 'submit' : 'submitClass']}
-            </Button>
+            <div className=" mt-10 flex gap-2">
+              <Button
+                type="button"
+                className="btn btn-ghost text-red70"
+                onClick={(): void => setClassData(false)}
+              >
+                {fa.global.cancel}
+              </Button>
+              <Button type="submit" className="btn btn-primary flex-1" isLoading={isPending}>
+                {fa.classroom[id ? 'submit' : 'submitClass']}
+              </Button>
+            </div>
           </form>
         </div>
       </Modal>

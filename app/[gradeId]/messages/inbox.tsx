@@ -24,7 +24,7 @@ const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
     <div className="flex gap-2 mt-10">
       <div className="w-72">
         <div className="font-bold text-14 text-black70 mb-1">{fa.messages.list}</div>
-        <div className="min-h-52 max-h-[calc(100vh-12rem)] overflow-auto bg-white rounded-lg flex flex-col">
+        <div className="min-h-52 h-[calc(100vh-11rem)] overflow-auto bg-white rounded-lg flex flex-col">
           {inbox.length ? (
             inbox.map((item) => (
               <Message
@@ -44,14 +44,14 @@ const Inbox: React.FC<{ inbox: MessagesType[] }> = ({ inbox }) => {
       </div>
       <div className="flex-1">
         <div className="font-bold text-14 text-black70 mb-1">{fa.messages.info}</div>
-        <div className="min-h-52 max-h-[calc(100vh-12rem)] overflow-auto bg-white rounded-lg p-4 flex flex-col">
+        <div className="min-h-52 h-[calc(100vh-11rem)] overflow-auto bg-white rounded-lg p-4 flex flex-col">
           {selectedMessage ? (
             <div className="">
               <div className="font-bold">{selectedMessage.sender}</div>
               <div className="font-regular text-14 mt-3">{selectedMessage.body}</div>
             </div>
           ) : (
-            <NoData className="my-6" />
+            <NoData className="m-auto" />
           )}
         </div>
       </div>

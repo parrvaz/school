@@ -7,7 +7,8 @@ const Modal: React.FC<{
   open: boolean;
   setOpen: (status: boolean) => void;
   className?: string;
-}> = ({ children, id, open, setOpen, className }) => {
+  mustConfirm?: boolean;
+}> = ({ children, id, open, setOpen, className, mustConfirm }) => {
   useEffect(() => {
     const modalElement = document.getElementById(id);
 
@@ -43,9 +44,17 @@ const Modal: React.FC<{
           </button>
         </form>
       </div>
-      <form method="dialog" className="modal-backdrop">
-        <button onClick={(): void => setOpen(false)}>close</button>
-      </form>
+      {!mustConfirm && (
+        <form method="dialog" className="modal-backdrop">
+          <button
+            onClick={(): void => {
+              setOpen(false);
+            }}
+          >
+            close
+          </button>
+        </form>
+      )}
     </dialog>
   );
 };

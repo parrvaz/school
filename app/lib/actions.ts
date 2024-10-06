@@ -241,3 +241,15 @@ export const CreateStudyAction = async (data: StudyType, gradeId: string): Promi
   console.log(res);
   return res.ok;
 };
+
+export const UploadFileAction = async (gradeId: string, file?: File): Promise<boolean> => {
+  if (!file) return false;
+  const url = api.ImportStudentUrl(gradeId);
+  const formData = new FormData();
+  formData.append('file', file);
+  const res: ResponseType<{ data: string }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return res.ok;
+};

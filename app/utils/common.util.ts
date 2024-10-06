@@ -1,4 +1,4 @@
-import { DayValue } from '@hassanmojab/react-modern-calendar-datepicker';
+import { DayValue, Day } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import jalaali from 'jalaali-js';
 import { ValueFormatterParams } from 'ag-grid-community';
@@ -403,3 +403,28 @@ export const revertJalaliDateTimeRangeToDate = (data: StudyType): EventPlanType 
 
 export const revertJalaliDateTime = (events: StudyType[]): EventPlanType[] =>
   events.map((event) => revertJalaliDateTimeRangeToDate(event));
+
+export const getFiscalYear = (jalaliDate: Day): { start: Day; end: Day } | undefined => {
+  if (!jalaliDate) return undefined;
+  const day = jalaliDate?.day || 0;
+  const month = jalaliDate?.month || 0;
+  const year = jalaliDate?.year || 0;
+
+  // Determine if the given date is after 4/1 of the given year
+  const isAfterStartDate = month > 4 || (month === 4 && day >= 1);
+
+  let startYear, endYear;
+
+  if (isAfterStartDate) {
+    startYear = year;
+    endYear = year + 1;
+  } else {
+    startYear = year - 1;
+    endYear = year;
+  }
+
+  return {
+    start: { year: startYear, month: 4, day: 1 },
+    end: { year: endYear, month: 3, day: 31 },
+  };
+};

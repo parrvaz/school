@@ -24,6 +24,7 @@ export const UpdateStudentUrl = (gradeId: string, id?: number): string =>
 export const DeleteStudentUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/students/delete/${id}`;
 export const CreateStudentUrl = (gradeId: string): string => `/${gradeId}/students/store`;
+export const ImportStudentUrl = (gradeId: string): string => `/${gradeId}/students/import`;
 
 // Teacher ///////////////////////////////////////////
 export const ShowTeacherUrl = (gradeId: string): string => `/${gradeId}/teachers/show`;

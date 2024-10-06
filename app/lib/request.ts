@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import fa from 'app/lib/fa.json';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://pishkarserver.semimnet.ir/api';
+const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://pishkar.semimnet.ir/';
 
 // create main request configs
 const request = ((): ApisauceInstance => {
@@ -38,4 +39,4 @@ request.axiosInstance.interceptors.response.use(
 );
 
 export default request;
-export { baseURL };
+export { baseURL, siteURL };

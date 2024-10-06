@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { HomeRoute, RegisterRoute } from 'app/lib/routes';
+import { HomeRoute } from 'app/lib/routes';
 import fa from 'app/lib/fa.json';
 import FormInput from 'app/components/formInput';
 import Button from 'app/components/button';
@@ -63,12 +62,12 @@ const Login: React.FC = () => {
       </div>
 
       <div className="mt-auto flex w-full max-w-xs flex-col items-center md:mt-12">
-        <div className="mb-6 text-12 text-black70">
+        {/* <div className="mb-6 text-12 text-black70">
           {fa.account.noAccount}{' '}
           <Link className=" text-berry50" href={RegisterRoute()}>
             {fa.account.doRegister}
           </Link>
-        </div>
+        </div> */}
 
         <Button className="btn btn-primary mb-10 w-full" isLoading={isPending}>
           {fa.account.enter}

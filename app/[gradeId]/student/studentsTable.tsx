@@ -7,6 +7,7 @@ import ActionRenderer from 'app/components/actionRenderer';
 import Table from 'app/components/table';
 import CreateNewStudent from './createNewStudent';
 import { DeleteStudentAction } from 'app/lib/actions';
+import UploadExcel from './uploadExcel';
 
 const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; tag: string }> = ({
   data,
@@ -48,7 +49,10 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
   return (
     <div>
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
-      <CreateNewStudent {...{ studentData, setStudentData, classes, tag }} />
+      <div className="flex justify-end mt-6 gap-4">
+        <UploadExcel />
+        <CreateNewStudent {...{ studentData, setStudentData, classes, tag }} />
+      </div>
     </div>
   );
 };

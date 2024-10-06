@@ -7,19 +7,20 @@ type DatePikerType = {
   errors?: any; // eslint-disable-line
   className?: string;
   placeholder?: string;
+  disableFuture?: boolean;
   name: string;
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
 };
 
 const FormDatePiker: React.FC<DatePikerType> = (props) => {
-  const { className, control, name, errors, rules, placeholder } = props;
+  const { className, control, name, errors, rules, placeholder, disableFuture } = props;
   return (
     <div className={`relative ${className || 'w-full'}`}>
       <Controller
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (
-          <AppDatePicker {...field} placeholder={placeholder} error={!!errors?.[name]} />
+          <AppDatePicker {...field} {...{ disableFuture, placeholder }} error={!!errors?.[name]} />
         )}
       />
 

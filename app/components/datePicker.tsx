@@ -1,7 +1,7 @@
 import React from 'react';
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import DatePicker, { utils } from '@hassanmojab/react-modern-calendar-datepicker';
-import { convertToDate, convertToDayValue } from 'app/utils/common.util';
+import { convertToDate, convertToDayValue, getFiscalYear } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
 
 const AppDatePicker: React.FC<{
@@ -10,7 +10,8 @@ const AppDatePicker: React.FC<{
   placeholder?: string;
   className?: string;
   error?: boolean;
-}> = ({ value, onChange, placeholder, error, className }) => {
+  disableFuture?: boolean;
+}> = ({ value, onChange, placeholder, error, className, disableFuture }) => {
   const { getToday } = utils('fa');
 
   return (
@@ -20,7 +21,8 @@ const AppDatePicker: React.FC<{
         value={convertToDayValue(value)}
         onChange={(e) => onChange(convertToDate(e))}
         shouldHighlightWeekends
-        maximumDate={getToday()}
+        minimumDate={disableFuture ? undefined : getFiscalYear(getToday())?.start}
+        maximumDate={disableFuture ? getToday() : getFiscalYear(getToday())?.end}
         inputPlaceholder={placeholder || fa.global.birthday}
         inputClassName={`${error ? '!border !border-red70' : '!border-black30 !hover:border-berry60 !focus:border-berry60'} w-full border placeholder-rtl !pr-11 rounded-lg !font-regular !px-4 !text-end !text-13 h-10`}
         wrapperClassName={`w-full rounded-lg`}

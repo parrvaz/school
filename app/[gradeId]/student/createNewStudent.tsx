@@ -79,7 +79,7 @@ const CreateNewStudent: React.FC<{
   );
 
   return (
-    <div className="flex justify-end mt-6">
+    <>
       <Button onClick={(): void => setStudentData(true)} className="btn btn-primary">
         <i className="icon-add text-32" />
         {fa.student.newStudent}
@@ -140,7 +140,7 @@ const CreateNewStudent: React.FC<{
                 />
               </div>
               <div className="flex-1 flex flex-col gap-8 px-5">
-                <FormDatePiker {...{ errors, control }} name="birthday" />
+                <FormDatePiker {...{ errors, control }} disableFuture name="birthday" />
                 <FormInput
                   {...{ errors, control }}
                   name="motherPhone"
@@ -188,7 +188,7 @@ const CreateNewStudent: React.FC<{
           </form>
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 

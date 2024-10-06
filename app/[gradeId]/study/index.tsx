@@ -33,7 +33,8 @@ const Study: React.FC<{
   );
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (event: StudyType) => CreateStudyAction(event, gradeId.toString()),
+    mutationFn: (event: StudyType) =>
+      CreateStudyAction(event, gradeId.toString(), selectedStudent?.id.toString() || ''),
   });
 
   useEffect(() => {

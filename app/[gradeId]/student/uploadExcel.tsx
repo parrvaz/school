@@ -34,7 +34,6 @@ const UploadExcel: React.FC = () => {
         {fa.student.groupAdd}
       </Button>
       <Modal
-        mustConfirm
         open={openModal}
         setOpen={() => (setOpenModal(false), setFile(undefined))}
         id="upload-excel"

@@ -85,4 +85,5 @@ export const AssignPlansUrl = (gradeId: string): string => `/${gradeId}/plans/as
 // Study ///////////////////////////////////////////
 export const ShowStudyUrl = (gradeId: string, studentId: string): string =>
   `/${gradeId}/studies/show/${studentId}`;
-export const CreateStudyUrl = (gradeId: string): string => `/${gradeId}/studies/store`;
+export const CreateStudyUrl = (gradeId: string, studentId: string): string =>
+  `/${gradeId}/studies/store/${studentId}`;

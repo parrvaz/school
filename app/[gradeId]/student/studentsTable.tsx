@@ -50,7 +50,7 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
     <div className="relative">
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
       <div className="flex justify-end mt-6 fixed bottom-0 bg-white70 w-full left-0 p-3 gap-4">
-        <UploadExcel />
+        <UploadExcel {...{ tag }} />
         <CreateNewStudent {...{ studentData, setStudentData, classes, tag }} />
       </div>
     </div>

@@ -258,14 +258,17 @@ export const DeleteStudyAction = async (
   return res.ok;
 };
 
-export const UploadFileAction = async (gradeId: string, file?: File): Promise<boolean> => {
-  if (!file) return false;
+export const UploadFileAction = async (
+  gradeId: string,
+  file?: File
+): Promise<{ ok: boolean; data?: { mistakes: object } }> => {
+  if (!file) return { ok: false };
   const url = api.ImportStudentUrl(gradeId);
   const formData = new FormData();
   formData.append('file', file);
-  const res: ResponseType<{ data: string }> = await request.post(url, formData, {
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  return res.ok;
+  return res;
 };

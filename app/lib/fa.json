@@ -80,6 +80,7 @@
     "chooseBell": "انتخاب زنگ",
     "saveChanges": "آیا تغییرات ذخیره شود؟",
     "save": "ذخیره",
+    "description": "توضیحات",
     "": "",
     "action": "عملیات"
   },
@@ -151,6 +152,8 @@
     "submitNewStudent": "ثبت دانش‌آموز جدید",
     "updateStudent": "به‌روزرسانی اطلاعات دانش‌آموز",
     "submit": "ثبت تغییرات",
+    "downloadSample": "دانلود فایل نمونه",
+    "mistakeList": "لیست خطاها",
     "newStudent": "ایجاد دانش‌آموز جدید"
   },
   "teacher": {

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "target": "es2015",
@@ -21,9 +25,20 @@
       }
     ],
     "paths": {
-      "*": ["./*"]
-    }
+      "*": [
+        "./*"
+      ]
+    },
+    "isolatedModules": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".next"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
 }

@@ -5,6 +5,7 @@ import {
   BellsType,
   ClassFormType,
   CreateExamFormType,
+  EventPlanType,
   FieldsType,
   GradeFormType,
   GradeType,
@@ -238,11 +239,22 @@ export const CreateStudyAction = async (
   gradeId: string,
   studentId: string
 ): Promise<boolean> => {
-  console.log('submit', data, gradeId);
   const url = api.CreateStudyUrl(gradeId, studentId);
-  const res: ResponseType<{ data: string }> = await request.post(url, { data });
+  const res: ResponseType<{ data: string }> = await request.post(url, data);
 
-  console.log(res);
+  return res.ok;
+};
+
+export const DeleteStudyAction = async (
+  data: EventPlanType,
+  gradeId: string,
+  studentId: string
+): Promise<boolean> => {
+  const { course_id, date, isFix, title } = data;
+  const body = { course_id, date, isFix, title };
+  const url = api.DeleteStudyUrl(gradeId, studentId);
+  const res: ResponseType<{ data: string }> = await request.post(url, body);
+
   return res.ok;
 };
 

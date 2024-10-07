@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import ReactSelect from 'react-select';
 import {
   CourseType,
+  EventPlanType,
   SingleOptionType,
   StudentType,
   StudyPageType,
@@ -13,16 +14,18 @@ import {
 } from 'app/types/common.type';
 import StudyCalendar from 'app/components/studyCalendar';
 import fa from 'app/lib/fa.json';
-import { CreateStudyAction } from 'app/lib/actions';
+import { CreateStudyAction, DeleteStudyAction } from 'app/lib/actions';
 import { getOption } from 'app/utils/common.util';
 import { GradeRoute } from 'app/lib/routes';
+import { tagRevalidate } from 'app/lib/server.util';
 
 const Study: React.FC<{
   data: StudyPageType | null;
   courses: CourseType[];
   students: StudentType[];
   studentId?: string;
-}> = ({ data, courses, students, studentId }) => {
+  tag: string;
+}> = ({ data, courses, students, studentId, tag }) => {
   const router = useRouter();
   const { gradeId } = useParams();
   const [events, setEvents] = useState<StudyType[]>(data?.plan || []);
@@ -35,6 +38,21 @@ const Study: React.FC<{
   const { mutate, isPending } = useMutation({
     mutationFn: (event: StudyType) =>
       CreateStudyAction(event, gradeId.toString(), selectedStudent?.id.toString() || ''),
+    onSuccess: (ok) => {
+      if (ok) {
+        tagRevalidate(tag);
+      }
+    },
+  });
+
+  const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
+    mutationFn: (event: EventPlanType) =>
+      DeleteStudyAction(event, gradeId.toString(), selectedStudent?.id.toString() || ''),
+    onSuccess: (ok) => {
+      if (ok) {
+        tagRevalidate(tag);
+      }
+    },
   });
 
   useEffect(() => {
@@ -56,8 +74,9 @@ const Study: React.FC<{
       />
       {data ? (
         <StudyCalendar
-          {...{ courses, events, setEvents, isPending }}
+          {...{ courses, events, setEvents, isPending, deleteLoading }}
           createPlan={(e) => mutate(e)}
+          deletePlan={(e) => deleteMutate(e)}
         />
       ) : (
         <div className="font-light text-black70 text-14 bg-white p-3 rounded-lg">

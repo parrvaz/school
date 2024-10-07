@@ -224,6 +224,7 @@ export type SendMessageFormType = {
 
 export type EventPlanType = {
   title: string;
+  date?: string;
   start: Date;
   end: Date;
   course_id: number;

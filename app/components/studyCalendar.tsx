@@ -62,8 +62,10 @@ const StudyCalendar: React.FC<{
   setEvents: any;
   events: StudyType[];
   createPlan: (body: StudyType) => void;
+  deletePlan: (body: EventPlanType) => void;
   isPending: boolean;
-}> = ({ courses, events, setEvents, createPlan, isPending }) => {
+  deleteLoading: boolean;
+}> = ({ courses, events, setEvents, createPlan, isPending, deletePlan }) => {
   const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -76,16 +78,16 @@ const StudyCalendar: React.FC<{
         title: course.name,
         course_id: course.id,
       });
-      const newData = await createPlan(body);
-      console.log(22, newData);
       setEvents((prevEvents: StudyType[]) => [...prevEvents, body]);
+      await createPlan(body);
       setSelectedSlot(null); // Clear selected slot
     }
   };
 
-  const handleRemoveEvent = (eventToRemove: EventPlanType): void => {
+  const handleRemoveEvent = async (eventToRemove: EventPlanType): Promise<void> => {
+    await deletePlan(eventToRemove);
     setEvents((prevEvents: StudyType[]) =>
-      prevEvents.filter((event) => JSON.stringify(event) !== JSON.stringify(eventToRemove))
+      prevEvents.filter((event) => event.date !== eventToRemove.date)
     );
   };
 

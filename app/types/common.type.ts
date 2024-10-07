@@ -219,7 +219,7 @@ export type SendMessageFormType = {
   subject: string;
   body: string;
   roll: { value: number; label: string }[];
-  recipients: { value: number; label: string }[];
+  students: { value: number; label: string }[];
 };
 
 export type EventPlanType = {

@@ -19,6 +19,7 @@ import { UpdateScheduleAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import AddLessonModal from './addLessonModal';
 import CourseModal from 'app/components/courseModal';
+import SaveModal from 'app/components/saveModal';
 
 const Schedule: React.FC<{
   classes: ClassroomType[];
@@ -33,6 +34,8 @@ const Schedule: React.FC<{
   const defaultLessonData = { order: null, day: '' };
   const [selectedClassId, setSelectedClassId] = useState(classes[0]?.id);
   const [lessonData, setLessonData] = useState(defaultLessonData);
+  const [initial, setInitial] = useState<ScheduleFormType>();
+  const [nextAction, setNextAction] = useState<(() => void) | null>(null);
   const selectedSchedule = useMemo(
     () => schedules.find((k) => k.classroom_id === selectedClassId),
     [selectedClassId, schedules]
@@ -44,8 +47,10 @@ const Schedule: React.FC<{
 
   useEffect(() => {
     // if we have 5 bells but schedule has 3 bells we should add other bells
-    const newData = { ...convertArrayToSchedule(bells), ...selectedSchedule?.schedule };
-    reset({ schedule: newData });
+    const initialData = { ...convertArrayToSchedule(bells), ...selectedSchedule?.schedule };
+    const newData = { schedule: initialData };
+    reset(newData);
+    setInitial(newData);
   }, [selectedSchedule]);
 
   const { mutate, isPending } = useMutation({
@@ -88,6 +93,10 @@ const Schedule: React.FC<{
       setLessonData({ order: event.data.order, day: event.colDef.field || '' });
   };
 
+  const hasChange = JSON.stringify(watch('schedule')) !== JSON.stringify(initial?.schedule);
+
+  const onSave = async (): Promise<void> => await mutate({ schedule: watch('schedule') });
+
   return (
     <div className="flex gap-2">
       <div className="w-52">
@@ -97,7 +106,11 @@ const Schedule: React.FC<{
             classes.map((k) => (
               <div
                 key={k.id}
-                onClick={(): void => setSelectedClassId(k.id)}
+                onClick={() =>
+                  hasChange
+                    ? setNextAction(() => () => setSelectedClassId(k.id))
+                    : setSelectedClassId(k.id)
+                }
                 className={`${k.id === selectedClassId ? 'bg-berry30 hover:bg-berry30' : 'hover:bg-berry10'} py-2  duration-300 cursor-pointer font-light text-14 px-2 rounded-lg`}
               >
                 <div className="">{k.title}</div>
@@ -112,7 +125,9 @@ const Schedule: React.FC<{
         <div className="flex justify-between items-center">
           <div className="text-16 font-regular mr-2">{fa.bells.weekTime}</div>
           <Button
-            onClick={() => setShowBells(true)}
+            onClick={() =>
+              hasChange ? setNextAction(() => () => setShowBells(true)) : setShowBells(true)
+            }
             className="btn !text-berry70 btn-ghost btn-sm  font-regular"
           >
             {fa.bells.changeTimes}
@@ -127,7 +142,7 @@ const Schedule: React.FC<{
           />
           <Button
             isLoading={isPending}
-            disabled={!classes.length}
+            disabled={!classes.length || !hasChange}
             className="btn absolute left-0 -bottom-16 btn-primary mt-3"
           >
             {fa.bells.setClassSchedule}
@@ -139,8 +154,10 @@ const Schedule: React.FC<{
             {...{ courses, onSelectLesson }}
           />
         </form>
-        <AddLessonModal {...{ courses, coursesTag }} />
+        <AddLessonModal {...{ courses, coursesTag, hasChange, setNextAction }} />
       </div>
+
+      <SaveModal {...{ nextAction, setNextAction, onSave, isPending }} />
     </div>
   );
 };

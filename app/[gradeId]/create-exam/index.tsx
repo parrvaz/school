@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
@@ -88,10 +88,6 @@ const CreateExam: React.FC<{
     },
   });
 
-  useEffect(() => {
-    setValue('totalScore', watch('type') === 3 ? 100 : null);
-  }, [watch('type')]);
-
   const contentsOption = useMemo(
     () =>
       courses
@@ -106,7 +102,13 @@ const CreateExam: React.FC<{
         <div className="bg-white w-80 rounded-xl p-4 fixed gap-6 items-center right-72 top-28 flex flex-col">
           <div className="text-berry100 font-bold text-18">{fa.createExam.examInfo}</div>
 
-          <FormRadio {...{ control, errors }} className="mt-3" options={typeOptions} name="type" />
+          <FormRadio
+            {...{ control, errors }}
+            onChange={(value) => setValue('totalScore', value === 3 ? 100 : null)}
+            className="mt-3"
+            options={typeOptions}
+            name="type"
+          />
           <FormDatePiker name="date" {...{ control, errors, rules }} />
           <div className="flex gap-2">
             <FormInput

@@ -9,10 +9,11 @@ type RadioType = {
   name: string;
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
+  onChange?: (value: string | number) => void;
 };
 
 const FormRadio: React.FC<RadioType> = (props) => {
-  const { options, className, control, name, errors, rules } = props;
+  const { options, className, control, name, errors, rules, onChange } = props;
 
   return (
     <div className={`relative flex ${className}`}>
@@ -27,7 +28,7 @@ const FormRadio: React.FC<RadioType> = (props) => {
                 className="join-item btn btn-sm"
                 value={value}
                 checked={field.value === value}
-                onChange={() => field.onChange(value)}
+                onChange={() => (field.onChange(value), onChange?.(value))}
                 aria-label={title}
               />
             ))}

@@ -12,10 +12,12 @@ import FormInput from 'app/components/formInput';
 
 type FormType = { name: string };
 
-const AddLessonModal: React.FC<{ courses: CourseType[]; coursesTag: string }> = ({
-  courses,
-  coursesTag,
-}) => {
+const AddLessonModal: React.FC<{
+  courses: CourseType[];
+  coursesTag: string;
+  hasChange: boolean;
+  setNextAction: (value: (() => void) | null) => void;
+}> = ({ courses, coursesTag, hasChange, setNextAction }) => {
   const { gradeId } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [loadingId, setLoadingId] = useState<number | null>(null);
@@ -53,7 +55,9 @@ const AddLessonModal: React.FC<{ courses: CourseType[]; coursesTag: string }> = 
   return (
     <>
       <Button
-        onClick={() => setOpenModal(true)}
+        onClick={() =>
+          hasChange ? setNextAction(() => () => setOpenModal(true)) : setOpenModal(true)
+        }
         type="button"
         className="btn btn-success ml-44 self-end mt-4 btn-outline"
       >

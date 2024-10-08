@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { useParams, usePathname } from 'next/navigation';
@@ -11,6 +11,7 @@ import FormInput from 'app/components/formInput';
 import Button from 'app/components/button';
 import { SendMessageFormType } from 'app/types/common.type';
 import { SendMessageAction } from 'app/lib/actions';
+import SelectModal from 'app/components/selectModal';
 
 const SendMessage: React.FC<{ options: Record<number, { value: number; label: string }[]> }> = ({
   options,
@@ -24,10 +25,14 @@ const SendMessage: React.FC<{ options: Record<number, { value: number; label: st
     formState: { errors },
     control,
     reset,
+    register,
+    setValue,
     watch,
   } = useForm<SendMessageFormType>({
-    defaultValues: { type: undefined, subject: '', body: '', roll: [], recipients: [] },
+    defaultValues: { type: undefined, subject: '', body: '', roll: [], students: [] },
   });
+
+  const rolls = watch('roll').map((k) => k.value);
   // const typeOptions = [
   //   { value: 1, label: 'aa' },
   //   { value: 2, label: 'bb' },
@@ -38,13 +43,6 @@ const SendMessage: React.FC<{ options: Record<number, { value: number; label: st
     { value: 3, label: fa.messages.teachers },
     { value: 4, label: fa.messages.assistant },
   ];
-  const recipientsOptions = useMemo(
-    () =>
-      watch('roll')
-        .map((k) => options[k.value])
-        .flat(),
-    [watch('roll')]
-  );
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: SendMessageFormType) => SendMessageAction(e, gradeId.toString()),
@@ -53,22 +51,30 @@ const SendMessage: React.FC<{ options: Record<number, { value: number; label: st
 
   return (
     <form onSubmit={handleSubmit((e) => mutate(e))}>
-      <div className="flex gap-2 mt-10 max-w-[50rem]">
+      <div className="flex flex-col gap-2 mt-10 ">
         <FormSelect
           {...{ errors, control, rules }}
           name="roll"
           isMulti
+          className="max-w-96"
           options={rollOptions}
           placeholder={fa.messages.roll}
         />
-        <FormSelect
-          {...{ errors, control, rules }}
-          name="recipients"
-          isMulti
-          isDisabled={!watch('roll').length}
-          options={recipientsOptions}
-          placeholder={fa.messages.recipients}
-        />
+        <div className="flex gap-3">
+          {['students', 'parents', 'teachers', 'assistant'].map(
+            (key, index) =>
+              rolls.includes(index + 1) && (
+                <SelectModal
+                  key={key}
+                  options={options[index + 1]}
+                  title={fa.global[key]}
+                  name={key}
+                  className="mt-4 max-w-xs flex-1"
+                  {...{ register, setValue, errors }}
+                />
+              )
+          )}
+        </div>
       </div>
 
       <FormInput

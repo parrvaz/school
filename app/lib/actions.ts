@@ -204,9 +204,16 @@ export const SendMessageAction = async (
   values: SendMessageFormType,
   gradeId: string
 ): Promise<boolean> => {
+  const { parents, students, assistant, teachers, subject, body } = values;
+  const recipients = [
+    ...(parents || []),
+    ...(students || []),
+    ...(assistant || []),
+    ...(teachers || []),
+  ];
   const url = api.SendMessageUrl(gradeId);
-  const body = { ...values, recipients: values.recipients.map((k) => k.value) };
-  const res: ResponseType<{ data: string }> = await request.post(url, body);
+  const data = { subject, body, recipients };
+  const res: ResponseType<{ data: string }> = await request.post(url, data);
 
   return res.ok;
 };

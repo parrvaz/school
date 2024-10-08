@@ -14,7 +14,7 @@ import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import Button from 'app/components/button';
 import CellRenderer from './cellRenderer';
-import { convertArrayToSchedule, mapFormData } from 'app/utils/common.util';
+import { convertArrayToSchedule, mapFormData, roleAccess, ROLES } from 'app/utils/common.util';
 import { UpdateScheduleAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import AddLessonModal from './addLessonModal';
@@ -28,8 +28,9 @@ const Schedule: React.FC<{
   schedules: ScheduleDataType[];
   scheduleTag: string;
   coursesTag: string;
+  role?: string;
   bells: BellsType[];
-}> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells, coursesTag }) => {
+}> = ({ classes, courses, setShowBells, schedules, scheduleTag, bells, coursesTag, role }) => {
   const { gradeId } = useParams();
   const defaultLessonData = { order: null, day: '' };
   const [selectedClassId, setSelectedClassId] = useState(classes[0]?.id);
@@ -124,14 +125,16 @@ const Schedule: React.FC<{
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="text-16 font-regular mr-2">{fa.bells.weekTime}</div>
-          <Button
-            onClick={() =>
-              hasChange ? setNextAction(() => () => setShowBells(true)) : setShowBells(true)
-            }
-            className="btn !text-berry70 btn-ghost btn-sm  font-regular"
-          >
-            {fa.bells.changeTimes}
-          </Button>
+          {roleAccess([ROLES.manager], role) && (
+            <Button
+              onClick={() =>
+                hasChange ? setNextAction(() => () => setShowBells(true)) : setShowBells(true)
+              }
+              className="btn !text-berry70 btn-ghost btn-sm  font-regular"
+            >
+              {fa.bells.changeTimes}
+            </Button>
+          )}
         </div>
         <form className="relative text-end" onSubmit={handleSubmit((e) => mutate(e))}>
           <Table

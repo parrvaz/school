@@ -18,6 +18,11 @@ import {
   TeacherType,
 } from 'app/types/common.type';
 
+export const ROLES = {
+  manager: 'manager',
+  assistant: 'assistant',
+};
+
 export const numberValidation = (otherRules?: object): object => ({
   required: true,
   pattern: { value: /^[0-9]+$/, message: fa.global.rules.justNumber },
@@ -45,6 +50,8 @@ export const valueValidation = (min?: number | null, max?: number | null): objec
 
   return result;
 };
+
+export const roleAccess = (roles: string[], role = ''): boolean => roles.includes(role);
 
 export const faNumber = (value: string | number, enNumber = false): string => {
   if (value === null || value === undefined) return '';

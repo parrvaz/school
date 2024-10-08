@@ -14,6 +14,17 @@ export type GradeType = { code: string; title: string; grade_id: number };
 export type FieldsType = { id: number; title: string };
 export type GradeFormType = { title: string; grade: { label: string; value: number } };
 
+export type UserType = {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  is_admin: boolean;
+  role: string;
+  role_id: number;
+  schools: { data: [] };
+};
+
 export type ClassroomType = {
   id: number;
   title: string;

@@ -1,6 +1,7 @@
 // Account ///////////////////////////////////////////
 export const LoginUrl = (): string => `/login`;
 export const RegisterUrl = (): string => `/register`;
+export const UserUrl = (): string => `/user`;
 
 // Grades ///////////////////////////////////////////
 export const GradeUrl = (): string => `/grades/show`;

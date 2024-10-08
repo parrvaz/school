@@ -9,11 +9,11 @@ import CreateNewStudent from './createNewStudent';
 import { DeleteStudentAction } from 'app/lib/actions';
 import UploadExcel from './uploadExcel';
 
-const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; tag: string }> = ({
-  classes,
-  tag,
-  data,
-}) => {
+const StudentsTable: React.FC<{
+  data: StudentType[];
+  classes: ClassroomType[];
+  tags: string[];
+}> = ({ classes, tags, data }) => {
   const [studentData, setStudentData] = useState<StudentType | boolean>(false);
   const emptyMessage = fa.student.noStudent;
   const deleteMessage = fa.student.deleteMessage;
@@ -41,7 +41,7 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
       cellRendererParams: {
         setEditData: setStudentData,
         deleteAction: DeleteStudentAction,
-        tag,
+        tags,
         deleteMessage,
       },
     },
@@ -50,8 +50,8 @@ const StudentsTable: React.FC<{ data: StudentType[]; classes: ClassroomType[]; t
     <div className="relative">
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
       <div className="flex justify-end mt-6 fixed bottom-0 bg-white70 w-full left-0 p-3 gap-4">
-        <UploadExcel />
-        <CreateNewStudent {...{ studentData, setStudentData, classes, tag }} />
+        <UploadExcel {...{ tags }} />
+        <CreateNewStudent {...{ studentData, setStudentData, classes, tags }} />
       </div>
     </div>
   );

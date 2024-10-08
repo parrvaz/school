@@ -6,7 +6,6 @@ import { useParams, useRouter } from 'next/navigation';
 import ReactSelect from 'react-select';
 import {
   CourseType,
-  EventPlanType,
   SingleOptionType,
   StudentType,
   StudyPageType,
@@ -46,8 +45,7 @@ const Study: React.FC<{
   });
 
   const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
-    mutationFn: (event: EventPlanType) =>
-      DeleteStudyAction(event, gradeId.toString(), selectedStudent?.id.toString() || ''),
+    mutationFn: (id: number) => DeleteStudyAction(id, gradeId.toString()),
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);

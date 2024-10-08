@@ -87,5 +87,5 @@ export const ShowStudyUrl = (gradeId: string, studentId: string): string =>
   `/${gradeId}/studies/show/${studentId}`;
 export const CreateStudyUrl = (gradeId: string, studentId: string): string =>
   `/${gradeId}/studies/store/${studentId}`;
-export const DeleteStudyUrl = (gradeId: string, studentId: string): string =>
+export const DeleteStudyUrl = (gradeId: string, studentId: number): string =>
   `/${gradeId}/studies/delete/${studentId}`;

@@ -229,6 +229,7 @@ export type EventPlanType = {
   end: Date;
   course_id: number;
   isFix?: boolean;
+  id?: number;
 };
 export type PlanDataType = {
   day: string;

@@ -5,7 +5,6 @@ import {
   BellsType,
   ClassFormType,
   CreateExamFormType,
-  EventPlanType,
   FieldsType,
   GradeFormType,
   GradeType,
@@ -245,27 +244,24 @@ export const CreateStudyAction = async (
   return res.ok;
 };
 
-export const DeleteStudyAction = async (
-  data: EventPlanType,
-  gradeId: string,
-  studentId: string
-): Promise<boolean> => {
-  const { course_id, date, isFix, title } = data;
-  const body = { course_id, date, isFix, title };
-  const url = api.DeleteStudyUrl(gradeId, studentId);
-  const res: ResponseType<{ data: string }> = await request.post(url, body);
+export const DeleteStudyAction = async (id: number, gradeId: string): Promise<boolean> => {
+  const url = api.DeleteStudyUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
 };
 
-export const UploadFileAction = async (gradeId: string, file?: File): Promise<boolean> => {
-  if (!file) return false;
+export const UploadFileAction = async (
+  gradeId: string,
+  file?: File
+): Promise<{ ok: boolean; data?: { mistakes: object } }> => {
+  if (!file) return { ok: false };
   const url = api.ImportStudentUrl(gradeId);
   const formData = new FormData();
   formData.append('file', file);
-  const res: ResponseType<{ data: string }> = await request.post(url, formData, {
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  return res.ok;
+  return res;
 };

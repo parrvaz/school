@@ -98,8 +98,8 @@ const CreateExam: React.FC<{
 
   return (
     <FormProvider {...methods}>
-      <form className="relative" onSubmit={handleSubmit((e) => mutate(e))}>
-        <div className="bg-white w-80 rounded-xl p-4 fixed gap-6 items-center right-72 top-28 flex flex-col">
+      <form className="relative flex gap-8" onSubmit={handleSubmit((e) => mutate(e))}>
+        <div className="bg-white w-80 rounded-xl p-4 gap-6 items-center right-72 top-28 flex flex-col">
           <div className="text-berry100 font-bold text-18">{fa.createExam.examInfo}</div>
 
           <FormRadio

@@ -81,6 +81,7 @@
     "saveChanges": "آیا تغییرات ذخیره شود؟",
     "save": "ذخیره",
     "search": "جستجو",
+    "description": "توضیحات",
     "": "",
     "action": "عملیات"
   },
@@ -152,6 +153,8 @@
     "submitNewStudent": "ثبت دانش‌آموز جدید",
     "updateStudent": "به‌روزرسانی اطلاعات دانش‌آموز",
     "submit": "ثبت تغییرات",
+    "downloadSample": "دانلود فایل نمونه",
+    "mistakeList": "لیست خطاها",
     "newStudent": "ایجاد دانش‌آموز جدید"
   },
   "teacher": {

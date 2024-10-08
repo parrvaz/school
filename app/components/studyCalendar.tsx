@@ -62,7 +62,7 @@ const StudyCalendar: React.FC<{
   setEvents: any;
   events: StudyType[];
   createPlan: (body: StudyType) => void;
-  deletePlan: (body: EventPlanType) => void;
+  deletePlan: (id: number) => void;
   isPending: boolean;
   deleteLoading: boolean;
 }> = ({ courses, events, setEvents, createPlan, isPending, deletePlan }) => {
@@ -85,7 +85,7 @@ const StudyCalendar: React.FC<{
   };
 
   const handleRemoveEvent = async (eventToRemove: EventPlanType): Promise<void> => {
-    await deletePlan(eventToRemove);
+    await deletePlan(eventToRemove.id || 0);
     setEvents((prevEvents: StudyType[]) =>
       prevEvents.filter((event) => event.date !== eventToRemove.date)
     );

@@ -220,6 +220,9 @@ export type SendMessageFormType = {
   body: string;
   roll: { value: number; label: string }[];
   students: { value: number; label: string }[];
+  parents: { value: number; label: string }[];
+  teachers: { value: number; label: string }[];
+  assistant: { value: number; label: string }[];
 };
 
 export type EventPlanType = {

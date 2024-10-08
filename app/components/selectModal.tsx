@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'app/components/modal';
 import { SelectOptionType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
@@ -52,7 +52,7 @@ const SelectModal: React.FC<{
       <div className={`${className} relative`}>
         <div
           onClick={() => setOpen(true)}
-          className={`${errors[name] ? 'border-red70' : 'border-berry10'} h-10 bg-white text-14 flex items-center border rounded-md p-2 text-black70 cursor-pointer`}
+          className={`${errors[name] ? 'border-red70' : 'border-berry10'} ${selectedId.length ? 'text-black70' : 'text-black40'} h-10 bg-white text-14 flex items-center border rounded-md p-2 cursor-pointer`}
         >
           {!selectedId.length
             ? title
@@ -126,4 +126,4 @@ const SelectModal: React.FC<{
   );
 };
 
-export default memo(SelectModal);
+export default SelectModal;

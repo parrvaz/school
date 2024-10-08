@@ -8,7 +8,7 @@ import { UploadFileAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import { faNumber } from 'app/utils/common.util';
 
-const UploadExcel: React.FC<{ tag: string }> = ({ tag }) => {
+const UploadExcel: React.FC<{ tags: string[] }> = ({ tags }) => {
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<File | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,7 @@ const UploadExcel: React.FC<{ tag: string }> = ({ tag }) => {
     onSuccess: (res) => {
       if (res.ok) {
         handleClose();
-        tagRevalidate(tag);
+        tagRevalidate(tags[0]);
       } else {
         setMistakes(res.data?.mistakes);
       }

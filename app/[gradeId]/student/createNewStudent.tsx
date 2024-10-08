@@ -37,8 +37,8 @@ const CreateNewStudent: React.FC<{
   studentData: StudentType | boolean;
   setStudentData: (data: StudentType | boolean) => void;
   classes: ClassroomType[];
-  tag: string;
-}> = ({ studentData, setStudentData, classes, tag }) => {
+  tags: string[];
+}> = ({ studentData, setStudentData, classes, tags }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const id = typeof studentData !== 'boolean' ? studentData?.id : undefined;
@@ -69,7 +69,7 @@ const CreateNewStudent: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         setStudentData(false);
-        tagRevalidate(tag);
+        tags.forEach((tag) => tagRevalidate(tag));
       }
     },
   });

@@ -7,7 +7,7 @@ import { tagRevalidate } from 'app/lib/server.util';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ActionRenderer: React.FC = (props: any) => {
-  const { api, node, setEditData, deleteAction, tag, deleteMessage } = props;
+  const { api, node, setEditData, deleteAction, tag, tags, deleteMessage } = props;
   const [deleteId, setDeleteId] = useState(false);
   const { gradeId } = useParams();
 
@@ -17,7 +17,8 @@ const ActionRenderer: React.FC = (props: any) => {
       if (ok) {
         api.applyTransaction({ remove: [node.data] });
         setDeleteId(false);
-        tagRevalidate(tag);
+        tag && tagRevalidate(tag);
+        tags && tags.forEach((tag) => tagRevalidate(tag));
       }
     },
   });

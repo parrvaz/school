@@ -43,7 +43,7 @@ const StudentsList: React.FC<{
   };
 
   return (
-    <div className="mr-96 relative">
+    <div className="relative max-w-96 flex-1">
       <div className="font-bold text-14 mb-2">{fa.createExam.studentsList}</div>
       {!classes.length ? (
         <NoData
@@ -67,6 +67,7 @@ const StudentsList: React.FC<{
                     rules={{ required: true }}
                   />
                   <FormInput
+                    className="w-20 shrink-0"
                     {...{ errors, control }}
                     name={`students.${index}.score`}
                     placeholder={fa.createExam.score}

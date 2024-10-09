@@ -23,9 +23,12 @@ export const ROLES = {
   assistant: 'assistant',
 };
 
-export const numberValidation = (otherRules?: object): object => ({
+export const numberValidation = (otherRules?: object, allowDecimal?: boolean): object => ({
   required: true,
-  pattern: { value: /^[0-9]+$/, message: fa.global.rules.justNumber },
+  pattern: {
+    value: allowDecimal ? /^[0-9]*\.?[0-9]+$/ : /^[0-9]+$/,
+    message: fa.global.rules.justNumber,
+  },
   ...otherRules,
 });
 

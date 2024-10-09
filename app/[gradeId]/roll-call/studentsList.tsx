@@ -112,6 +112,7 @@ const StudentsList: React.FC<{
         data={list}
         onCellClicked={onCellClicked}
         className="h-full w-full"
+        defaultColDef={{ sortable: false }}
       />
 
       <Button onClick={() => mutate()} isLoading={isPending} className="btn btn-primary w-28 mt-5">

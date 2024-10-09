@@ -116,16 +116,19 @@ const CreateExam: React.FC<{
               name="totalScore"
               disabled={watch('type') === 3}
               placeholder={fa.createExam.totalScore}
-              rules={numberValidation({ ...valueValidation(0, 100), required: isFinal })}
+              rules={numberValidation({ ...valueValidation(0, 100), required: isFinal }, true)}
             />
             <FormInput
               {...{ errors, control }}
               name="expected"
               placeholder={fa.createExam.expectedNumber}
-              rules={numberValidation({
-                ...valueValidation(0, Number(examScore) || 100),
-                required: isFinal,
-              })}
+              rules={numberValidation(
+                {
+                  ...valueValidation(0, Number(examScore) || 100),
+                  required: isFinal,
+                },
+                true
+              )}
             />
           </div>
           <FormSelect

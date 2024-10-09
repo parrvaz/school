@@ -18,13 +18,14 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
   const { gradeId } = useParams();
   const emptyMessage = fa.absents.noAbsents;
 
+  console.log(data);
   const rowData = data.flatMap((classroom) => [
     {
       classroom: classroom.classroom,
       classroom_id: classroom.classroom_id,
       fatherPhone: '', // Empty for classroom row
       student: classroom.classroom, // Classroom name displayed
-      bells: classroom.students[0].bells, // Empty bells for classroom row
+      bells: classroom.students[0]?.bells, // Empty bells for classroom row
     },
     ...classroom.students.map((student) => ({
       classroom: '',
@@ -34,7 +35,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
       bells: student.bells,
     })),
   ]);
-  const bells = Object.keys(data[0]?.students[0].bells || {});
+  const bells = Object.keys(data[0]?.students[0]?.bells || {});
 
   const columns = [
     {
@@ -43,7 +44,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
       lockPosition: 'right',
       minWidth: 110,
       colSpan: (params: ValueFormatterParams) =>
-        params.data.classroom ? Object.keys(params.data.bells).length + 2 : 1,
+        params.data.classroom ? Object.keys(params.data.bells || []).length + 2 : 1,
     },
     ...bells.map((bell) => ({
       headerName: fa.global[`bell${bell}` as keyof typeof fa.global],

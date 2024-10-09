@@ -49,7 +49,7 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
       <AppHeader user={user} />
       <Sidebar menu={menu} />
 
-      <div className="flex-1 m-10 relative pt-7">
+      <div className="flex-1 m-10 relative pt-9">
         <GradeSelect options={options} tag={await gradesTag()} />
         {children}
       </div>

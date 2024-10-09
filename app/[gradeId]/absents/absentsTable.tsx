@@ -18,7 +18,6 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
   const { gradeId } = useParams();
   const emptyMessage = fa.absents.noAbsents;
 
-  console.log(data);
   const rowData = data.flatMap((classroom) => [
     {
       classroom: classroom.classroom,

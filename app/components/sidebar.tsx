@@ -18,32 +18,34 @@ const Sidebar: React.FC<{
   const activeTab = path.split('/')[2];
 
   return (
-    <div className="pt-10">
-      {menu.map(({ title, icon }) => (
-        <div className="relative pl-4 pr-5" key={title}>
-          {
-            <Link
-              href={GradeRoute(gradeId.toString(), kebabCase(title))}
-              className={`${
-                kebabCase(title) === activeTab
-                  ? ' bg-berry20 text-black80'
-                  : 'bg-white text-black60'
-              } ${className}`}
-            >
-              <>
-                <span className={`ml-3 text-24  ${icon}`} />
-                <h2 className="max-h-11 overflow-hidden">
-                  {fa.sidebar[title as keyof typeof fa.sidebar]}
-                </h2>
-              </>
-            </Link>
-          }
+    <div className="right-0 h-screen w-60 fixed overflow-auto bg-white">
+      <div className="pt-16">
+        {menu.map(({ title, icon }) => (
+          <div className="relative pl-4 pr-5" key={title}>
+            {
+              <Link
+                href={GradeRoute(gradeId.toString(), kebabCase(title))}
+                className={`${
+                  kebabCase(title) === activeTab
+                    ? ' bg-berry20 text-black80'
+                    : 'bg-white text-black60'
+                } ${className}`}
+              >
+                <>
+                  <span className={`ml-3 text-24  ${icon}`} />
+                  <h2 className="max-h-11 overflow-hidden">
+                    {fa.sidebar[title as keyof typeof fa.sidebar]}
+                  </h2>
+                </>
+              </Link>
+            }
 
-          {title === activeTab && (
-            <div className="absolute left-0 top-0 h-full w-1 rounded-br rounded-tr bg-berry60" />
-          )}
-        </div>
-      ))}
+            {title === activeTab && (
+              <div className="absolute left-0 top-0 h-full w-1 rounded-br rounded-tr bg-berry60" />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

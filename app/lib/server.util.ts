@@ -7,6 +7,7 @@ import { baseURL } from './request';
 import { LoginRoute } from './routes';
 
 export const gradesTag = async (): Promise<string> => `grades`;
+export const userTag = async (): Promise<string> => `user`;
 export const classroomTag = async (): Promise<string> => `classroom-show`;
 export const studentTag = async (): Promise<string> => `student-show`;
 export const teacherTag = async (): Promise<string> => `teacher-show`;

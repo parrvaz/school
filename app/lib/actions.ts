@@ -21,6 +21,13 @@ import {
 import request from './request';
 import * as api from './urls';
 
+export const LogoutAction = async (): Promise<boolean> => {
+  const url = api.LogoutUrl();
+  const res: ResponseType<{ data: GradeType }> = await request.post(url);
+
+  return res.ok;
+};
+
 export const PostCreateGrade = async (value: GradeFormType, id?: string): Promise<string> => {
   const body = { title: value.title, grade_id: value.grade.value };
   const url = id ? api.UpdateGradeUrl(id) : api.CreateGradeUrl();

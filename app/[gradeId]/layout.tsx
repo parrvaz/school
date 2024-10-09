@@ -3,10 +3,11 @@ import { Viewport } from 'next';
 import { redirect } from 'next/navigation';
 import Sidebar from '../components/sidebar';
 import GradeSelect from '../components/gradeSelect';
-import { fetchData, gradesTag } from 'app/lib/server.util';
-import { GradeUrl } from 'app/lib/urls';
-import { GradeType } from 'app/types/common.type';
+import { fetchData, gradesTag, userTag } from 'app/lib/server.util';
+import { GradeUrl, UserUrl } from 'app/lib/urls';
+import { GradeType, UserType } from 'app/types/common.type';
 import { HomeRoute } from 'app/lib/routes';
+import AppHeader from 'app/components/appHeader';
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -30,7 +31,10 @@ const menu = [
 ];
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
-  const data = await fetchData<GradeType[]>(GradeUrl(), await gradesTag());
+  const [data, user] = await Promise.all([
+    fetchData<GradeType[]>(GradeUrl(), await gradesTag()),
+    fetchData<UserType>(UserUrl(), await userTag()),
+  ]);
 
   if (!data?.length) redirect(HomeRoute());
 
@@ -42,11 +46,10 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
   }));
   return (
     <div className="bg-berry10 flex w-full min-h-screen pr-60">
-      <div className="right-0 h-screen w-60 fixed overflow-auto bg-white">
-        <Sidebar menu={menu} />
-      </div>
+      <AppHeader user={user} />
+      <Sidebar menu={menu} />
 
-      <div className="flex-1 m-10 relative">
+      <div className="flex-1 m-10 relative pt-7">
         <GradeSelect options={options} tag={await gradesTag()} />
         {children}
       </div>

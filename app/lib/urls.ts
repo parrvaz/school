@@ -2,6 +2,7 @@
 export const LoginUrl = (): string => `/login`;
 export const RegisterUrl = (): string => `/register`;
 export const UserUrl = (): string => `/user`;
+export const LogoutUrl = (): string => `/logout`;
 
 // Grades ///////////////////////////////////////////
 export const GradeUrl = (): string => `/grades/show`;

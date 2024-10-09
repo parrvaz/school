@@ -86,6 +86,10 @@
     "save": "ذخیره",
     "search": "جستجو",
     "description": "توضیحات",
+    "manager": "مدیر",
+    "teacher": "معلم",
+    "student": "دانش‌آموز",
+    "logout": "خروج",
     "": "",
     "action": "عملیات"
   },

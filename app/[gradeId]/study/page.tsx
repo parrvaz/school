@@ -15,7 +15,9 @@ const StudyPage: React.FC<PageType> = async ({ params, searchParams }) => {
   const role = (await getUserRole()) || '';
   const accessStudent = roleAccess([ROLES.student, ROLES.parent], role, true);
   const [data, courses, students] = await Promise.all([
-    fetchData<StudyPageType>(ShowStudyUrl(params.gradeId, studentId), tag),
+    role === ROLES.student || studentId
+      ? fetchData<StudyPageType>(ShowStudyUrl(params.gradeId, studentId), tag)
+      : null,
     fetchData<CourseType[]>(ShowCourseUrl(params.gradeId), await courseTag()),
     !accessStudent
       ? null

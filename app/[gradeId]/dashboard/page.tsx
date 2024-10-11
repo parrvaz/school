@@ -38,7 +38,7 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.dashboard}</h1>
       <div className="flex gap-3">
         <div className="flex-grow-1">
-          <LastMessages inbox={inbox} />
+          <LastMessages inbox={role === ROLES.parent ? inbox : inbox.slice(0, 5)} />
           {accessAbsents && <Absents absentsCount={absentsCount || 0} />}
         </div>
         <div className="flex-grow-5">
@@ -47,7 +47,7 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
             studentData={!accessAbsents ? (schedules as any).schedule : undefined}
             role={role}
           />
-          <LastExams data={exams.slice(0, 3)} />
+          <LastExams data={exams.slice(0, 5)} />
         </div>
       </div>
     </div>

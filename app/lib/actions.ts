@@ -16,7 +16,6 @@ import {
   StudentFormType,
   StudyType,
   TeacherFormType,
-  UserType,
 } from 'app/types/common.type';
 import request from './request';
 import * as api from './urls';
@@ -40,11 +39,6 @@ export const fieldsKey = (id: string): string[] => ['fields', id];
 export const getFields = async (id: string): Promise<FieldsType[] | null> => {
   const res: ResponseType<{ data: FieldsType[] }> = await request.get(api.FieldsUrl(id));
   return res.data?.data || null;
-};
-
-export const getRole = async (): Promise<string> => {
-  const res: ResponseType<{ data: UserType }> = await request.get(api.UserUrl());
-  return res.data?.data.role || '';
 };
 
 export const UpdateClassAction = async (

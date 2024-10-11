@@ -35,9 +35,8 @@ const CreateExam: React.FC<{
   courses: CourseType[];
   students: StudentType[];
   tag: string;
-  examTag: string;
   data?: ExamType;
-}> = ({ classes, courses, students, tag, data, examTag }) => {
+}> = ({ classes, courses, students, tag, data }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const router = useRouter();
@@ -80,7 +79,6 @@ const CreateExam: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
-        id && tagRevalidate(examTag);
         id && router.push(GradeRoute(gradeId, 'exams'));
         setValue('students', []);
         setValue('contents', []);

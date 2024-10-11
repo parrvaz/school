@@ -14,7 +14,6 @@ export const teacherTag = async (): Promise<string> => `teacher-show`;
 export const courseTag = async (): Promise<string> => `course-show`;
 export const assignTag = async (): Promise<string> => `assign-show`;
 export const examTag = async (): Promise<string> => `exam-show`;
-export const examIdTag = async (id?: string): Promise<string> => `exam-${id}`;
 export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;
@@ -27,8 +26,8 @@ export const fetchData = async <T>(
   method: 'GET' | 'POST' | 'DELETE' = 'GET',
   body: Record<string, any> | null = null // eslint-disable-line
 ): Promise<T> => {
-  const next = tag ? { tags: [tag] } : { revalidate: 1 };
-  const cache = tag ? 'force-cache' : undefined;
+  const next = tag ? { tags: [tag] } : undefined;
+  const cache = tag ? 'no-store' : undefined;
   const token = cookies().get('token')?.value || '';
   const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
   const requestOptions: RequestInit = { method, headers, next, cache };
@@ -38,6 +37,7 @@ export const fetchData = async <T>(
 
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());
+  if (res.status === 403) return redirect('/403');
 
   const data = await res.json();
 
@@ -49,3 +49,9 @@ export const revalidateAllData = (): void => revalidateTag('*');
 export const tagRevalidate = (tag: string): void => revalidateTag(tag);
 
 export const revalidatePage = (url: string): void => revalidatePath(url, 'page');
+
+export const getUserRole = async (): Promise<string | undefined> => {
+  const cookieStore = cookies();
+  const role = cookieStore.get('role')?.value;
+  return role;
+};

@@ -23,9 +23,13 @@ const Login: React.FC = () => {
   const clearData = useClearCacheData();
 
   const PostLogin = async (e: FormType): Promise<boolean> => {
-    const res: ResponseType<{ token: string }> = await request.post(LoginUrl(), e);
+    const res: ResponseType<{ token: string; user: { role: string } }> = await request.post(
+      LoginUrl(),
+      e
+    );
     if (res.ok) {
       setCookie(res.data?.token);
+      setCookie(res.data?.user.role, 'role');
       router.push(HomeRoute());
       clearData();
       router.replace(searchParams.get('next') || HomeRoute());

@@ -9,7 +9,7 @@ const CourseModal: React.FC<{
   setOpen: () => void;
   onSelectLesson: (k: CourseType) => void;
   isPending?: boolean;
-}> = ({ courses, open, setOpen, onSelectLesson, isPending }) => {
+}> = ({ courses, open, setOpen, onSelectLesson }) => {
   return (
     <Modal open={open} setOpen={setOpen} id="choose-course" className="w-11/12 max-w-3xl">
       <div className="font-bold text-berry100 text-center">{fa.bells.chooseCourse}</div>
@@ -20,7 +20,7 @@ const CourseModal: React.FC<{
             key={k.id}
             className="font-light text-14 bg-berry05 flex items-center py-2 px-4 rounded-lg cursor-pointer hover:bg-berry10 duration-300"
           >
-            {isPending && <span className="loading loading-spinner loading-sm mr-2" />}
+            {/* {isPending && <span className="loading loading-spinner loading-sm mr-2" />} */}
             {k.name}
           </div>
         ))}

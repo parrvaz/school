@@ -78,17 +78,18 @@ const StudyCalendar: React.FC<{
         title: course.name,
         course_id: course.id,
       });
-      setEvents((prevEvents: StudyType[]) => [...prevEvents, body]);
-      await createPlan(body);
-      setSelectedSlot(null); // Clear selected slot
+      const res: any = await createPlan(body);
+      res && setEvents((prevEvents: StudyType[]) => [...prevEvents, body]);
+      res && setSelectedSlot(null); // Clear selected slot
     }
   };
 
   const handleRemoveEvent = async (eventToRemove: EventPlanType): Promise<void> => {
-    await deletePlan(eventToRemove.id || 0);
-    setEvents((prevEvents: StudyType[]) =>
-      prevEvents.filter((event) => event.date !== eventToRemove.date)
-    );
+    const res = await deletePlan(eventToRemove.id || 0);
+    if (res as any)
+      setEvents((prevEvents: StudyType[]) =>
+        prevEvents.filter((event) => event.date !== eventToRemove.date)
+      );
   };
 
   const slotGroupPropGetter = useCallback(

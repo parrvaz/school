@@ -67,7 +67,7 @@ const StudentsList: React.FC<{
                     rules={{ required: true }}
                   />
                   <FormInput
-                    className="w-24 shrink-0"
+                    className="w-36 shrink-0"
                     {...{ errors, control }}
                     name={`students.${index}.score`}
                     placeholder={fa.createExam.score}

@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import fa from 'app/lib/fa.json';
 import { LogoutAction } from 'app/lib/actions';
 import { LoginRoute } from 'app/lib/routes';
+import { revalidateAllData } from 'app/lib/server.util';
 
 const Logout: React.FC = () => {
   const router = useRouter();
@@ -15,6 +16,8 @@ const Logout: React.FC = () => {
     onSuccess: (ok) => {
       if (ok) {
         Cookies.remove('token');
+        Cookies.remove('role');
+        revalidateAllData();
         router.replace(LoginRoute());
       }
     },

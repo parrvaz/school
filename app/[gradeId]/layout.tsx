@@ -30,6 +30,16 @@ const menu = [
   { title: 'study', icon: 'icon-timer' },
 ];
 
+const roleMenu = {
+  manager: menu,
+  assistant: menu,
+  student: [
+    { title: 'dashboard', icon: 'icon-home' },
+    { title: 'messages', icon: 'icon-message' },
+    { title: 'study', icon: 'icon-timer' },
+  ],
+};
+
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
   const [data, user] = await Promise.all([
     fetchData<GradeType[]>(GradeUrl(), await gradesTag()),
@@ -44,10 +54,11 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
     hasDelete: true,
     hasEdit: true,
   }));
+
   return (
     <div className="bg-berry10 flex w-full min-h-screen pr-60">
       <AppHeader user={user} />
-      <Sidebar menu={menu} />
+      <Sidebar menu={roleMenu[user.role]} />
 
       <div className="flex-1 m-10 relative pt-9">
         <GradeSelect options={options} tag={await gradesTag()} />

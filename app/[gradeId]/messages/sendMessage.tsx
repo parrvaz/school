@@ -12,13 +12,16 @@ import Button from 'app/components/button';
 import { SendMessageFormType } from 'app/types/common.type';
 import { SendMessageAction } from 'app/lib/actions';
 import SelectModal from 'app/components/selectModal';
+import { ROLES } from 'app/utils/common.util';
 
-const SendMessage: React.FC<{ options: Record<number, { value: number; label: string }[]> }> = ({
-  options,
-}) => {
+const SendMessage: React.FC<{
+  role: string;
+  options: Record<number, { value: number; label: string }[]>;
+}> = ({ options, role }) => {
   const rules = { required: true };
   const path = usePathname();
   const { gradeId } = useParams();
+  const defaultRoles = role === ROLES.student ? [{ value: 4, label: 'assistant' }] : [];
 
   const {
     handleSubmit,
@@ -29,7 +32,7 @@ const SendMessage: React.FC<{ options: Record<number, { value: number; label: st
     setValue,
     watch,
   } = useForm<SendMessageFormType>({
-    defaultValues: { type: undefined, subject: '', body: '', roll: [], students: [] },
+    defaultValues: { type: undefined, subject: '', body: '', roll: defaultRoles, students: [] },
   });
 
   const rolls = watch('roll').map((k) => k.value);
@@ -52,14 +55,16 @@ const SendMessage: React.FC<{ options: Record<number, { value: number; label: st
   return (
     <form onSubmit={handleSubmit((e) => mutate(e))}>
       <div className="flex flex-col gap-2 mt-10 ">
-        <FormSelect
-          {...{ errors, control, rules }}
-          name="roll"
-          isMulti
-          className="max-w-96"
-          options={rollOptions}
-          placeholder={fa.messages.roll}
-        />
+        {role !== ROLES.student && (
+          <FormSelect
+            {...{ errors, control, rules }}
+            name="roll"
+            isMulti
+            className="max-w-96"
+            options={rollOptions}
+            placeholder={fa.messages.roll}
+          />
+        )}
         <div className="flex gap-3">
           {['students', 'parents', 'teachers', 'assistant'].map(
             (key, index) =>

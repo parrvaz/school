@@ -21,6 +21,9 @@ import {
 export const ROLES = {
   manager: 'manager',
   assistant: 'assistant',
+  teacher: 'teacher',
+  student: 'student',
+  parent: 'parent',
 };
 
 export const numberValidation = (otherRules?: object, allowDecimal?: boolean): object => ({
@@ -54,7 +57,8 @@ export const valueValidation = (min?: number | null, max?: number | null): objec
   return result;
 };
 
-export const roleAccess = (roles: string[], role = ''): boolean => roles.includes(role);
+export const roleAccess = (roles: string[], role = '', notInclude?: boolean): boolean =>
+  notInclude ? !roles.includes(role) : roles.includes(role);
 
 export const faNumber = (value: string | number, enNumber = false): string => {
   if (value === null || value === undefined) return '';
@@ -101,8 +105,8 @@ export const minLengthMessage = (length: number): string =>
 export const maxLengthMessage = (length: number): string =>
   `${fa.account.maxLength1} ${length} ${fa.account.minLength2}`;
 
-export const setCookie = (data = ''): string | undefined =>
-  Cookies.set('token', `Bearer ${data}`, { expires: 999 });
+export const setCookie = (data = '', name?: string): string | undefined =>
+  Cookies.set(name || 'token', name ? data : `Bearer ${data}`, { expires: 999 });
 
 export const kebabCase = (input: string): string =>
   input
@@ -210,7 +214,7 @@ export const getOption = (
   data: { id: number; name?: string; title?: string }[],
   key?: 'name' | 'title'
 ): { value: number; label: string }[] =>
-  data.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
+  data?.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
 
 export const convertArrayToSchedule = (arr: BellsType[]): ScheduleType => {
   const schedule: ScheduleType = {};

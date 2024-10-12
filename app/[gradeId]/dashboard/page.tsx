@@ -26,7 +26,6 @@ import {
 } from 'app/types/common.type';
 import Absents from './absents';
 import LastMessages from './lastMessages';
-// import { getTody } from 'app/utils/common.util';
 import Schedule from './schedule';
 import LastExams from './lastExams';
 import { getTody, roleAccess, ROLES } from 'app/utils/common.util';
@@ -36,12 +35,12 @@ export const metadata: Metadata = { title: fa.sidebar.dashboard };
 
 const DashboardPage: React.FC<PageType> = async ({ params }) => {
   const role = (await getUserRole()) || '';
-  const accessAbsents = roleAccess([ROLES.manager, ROLES.assistant], role);
+  const admin = roleAccess([ROLES.student, ROLES.parent], role, true);
   const [inbox, schedules, exams, absents, scores] = await Promise.all([
     fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId)),
     fetchData<ScheduleDataType[]>(ShowSchedulesUrl(params.gradeId), await schedulesTag()),
     fetchData<ExamType[]>(ShowExamUrl(params?.gradeId), await examTag()),
-    accessAbsents
+    admin
       ? fetchData<AbsentsType[]>(ShowAbsentsUrl(params.gradeId, getTody()), await absentsTag())
       : null,
     role === ROLES.parent
@@ -57,14 +56,13 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
       <div className="flex gap-3">
         <div className="flex-grow-1">
           <LastMessages inbox={role === ROLES.parent ? inbox : inbox.slice(0, 5)} />
-          {accessAbsents && <Absents absentsCount={absentsCount || 0} />}
+          {admin && <Absents absentsCount={absentsCount || 0} />}
         </div>
         <div className="flex-grow-5">
           {scores && <LastScores data={scores.slice(0, 5)} />}
           <Schedule
-            adminData={accessAbsents ? schedules : undefined}
-            studentData={!accessAbsents ? (schedules as any).schedule : undefined}
-            role={role}
+            adminData={admin ? schedules : undefined}
+            studentData={!admin ? (schedules as any).schedule : undefined}
           />
           <LastExams data={exams.slice(0, 5)} />
         </div>

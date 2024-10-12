@@ -8,7 +8,6 @@ import Table from 'app/components/table';
 
 const Schedule: React.FC<{
   adminData?: ScheduleDataType[];
-  role: string;
   studentData: ScheduleType;
 }> = ({ adminData, studentData }) => {
   const emptyMessage = fa.global.noPlan;
@@ -48,6 +47,7 @@ const Schedule: React.FC<{
   const data = !adminData ? studentPlan : schoolPlan || [];
   const columns = !adminData ? studentColumns : schoolColumns;
 
+  console.log(adminData, studentData);
   return (
     <div className="">
       <div className="font-bold text-14 mb-1">{fa.dashboard.classesSchedule}</div>

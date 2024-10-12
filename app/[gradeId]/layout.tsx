@@ -35,6 +35,16 @@ const roleMenu = {
   manager: menu,
   assistant: menu,
   parent: [{ title: 'dashboard', icon: 'icon-home' }],
+  teacher: [
+    { title: 'dashboard', icon: 'icon-home' },
+    { title: 'createExam', icon: 'icon-path' },
+    { title: 'exams', icon: 'icon-receipt-item' },
+    // { title: 'bells', icon: 'icon-menu-board' },
+    { title: 'absents', icon: 'icon-personalcard' },
+    { title: 'rollCall', icon: 'icon-task' },
+    { title: 'messages', icon: 'icon-message' },
+    // { title: 'study', icon: 'icon-timer' },
+  ],
   // parent: menu,
   student: [
     { title: 'dashboard', icon: 'icon-home' },

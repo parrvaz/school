@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: fa.sidebar.teacher };
 
 const ExamPage: React.FC<PageType> = async ({ params }) => {
   const role = (await getUserRole()) || '';
-  const accessTeacher = roleAccess([ROLES.manager, ROLES.assistant], role);
+  const accessTeacher = roleAccess([ROLES.parent, ROLES.student], role, true);
   !accessTeacher && redirect('/403');
   const data = await fetchData<ExamType[]>(ShowExamUrl(params?.gradeId), await examTag());
 

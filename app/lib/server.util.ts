@@ -35,6 +35,7 @@ export const fetchData = async <T>(
 
   if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
   const res = await fetch(baseURL + url, requestOptions);
+  // console.log(url, res.status);
 
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());

@@ -1,16 +1,36 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { MessagesType } from 'app/types/common.type';
+import Modal from './modal';
+import { useMutation } from '@tanstack/react-query';
+import { ReadMessageAction } from 'app/lib/actions';
+import { revalidatePage } from 'app/lib/server.util';
+import { useParams, usePathname } from 'next/navigation';
 
 const Message: React.FC<{
   message: MessagesType;
   onClick?: () => void;
   isActive?: boolean;
   disabled?: boolean;
-}> = ({ message, onClick, isActive, disabled }) => {
+  isDashboard?: boolean;
+}> = ({ message, onClick, isActive, disabled, isDashboard }) => {
+  const [selectedMessage, setSelectedMessage] = useState<MessagesType | null>(null);
+  const { gradeId } = useParams();
+  const path = usePathname();
+
+  const { mutate } = useMutation({
+    mutationFn: (id: number) => ReadMessageAction(gradeId.toString(), id),
+    onSuccess: (ok) => ok && revalidatePage(path),
+  });
   return (
     <div
       key={message.id}
-      onClick={onClick}
+      onClick={() => {
+        onClick?.();
+        !message.isRead && mutate(message.id);
+        isDashboard && setSelectedMessage(message);
+      }}
       className={`${disabled ? '' : ' cursor-pointer hover:bg-black20'} px-3 py-1 border-b border-b-black20 last:border-b-none duration-300 ${isActive ? 'bg-berry20' : !message.isRead ? 'font-bold  bg-black10' : 'font-regular bg-white'}`}
     >
       <div className="overflow-hidden mb-0.5 text-14 whitespace-nowrap text-ellipsis">
@@ -19,6 +39,13 @@ const Message: React.FC<{
       <div className="text-13 overflow-hidden whitespace-nowrap text-ellipsis">
         {message.subject}
       </div>
+
+      <Modal open={!!selectedMessage} setOpen={() => setSelectedMessage(null)} id="message">
+        <div className="">
+          <div className="font-bold">{selectedMessage?.sender}</div>
+          <div className="font-regular text-14 mt-3">{selectedMessage?.body}</div>
+        </div>
+      </Modal>
     </div>
   );
 };

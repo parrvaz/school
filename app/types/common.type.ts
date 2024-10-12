@@ -136,6 +136,16 @@ export type AssignFormType = {
   }[];
 };
 
+export type ScoreType = {
+  score: number;
+  date: string;
+  course_id: number;
+  course: string;
+  expected: number;
+  totalScore: number;
+  type: { id: number; label: string };
+};
+
 export type ExamType = {
   date: string;
   contents: ContentType[];

@@ -43,6 +43,7 @@ export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses
 
 // Exam ///////////////////////////////////////////
 export const CreateExamUrl = (gradeId: string): string => `/${gradeId}/exams/store`;
+export const ShowScoreUrl = (gradeId: string): string => `/${gradeId}/exams/scores`;
 export const ShowExamUrl = (gradeId: string, id?: string): string =>
   `/${gradeId}/exams/show${id ? `/${id}` : ''}`;
 export const DeleteExamUrl = (gradeId: string, id?: number): string =>

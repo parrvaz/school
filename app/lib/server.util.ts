@@ -18,6 +18,7 @@ export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;
 export const plansTag = async (): Promise<string> => `plans-show`;
+export const scoreTag = async (): Promise<string> => `scores`;
 export const studyTag = async (id: string): Promise<string> => `study-${id}`;
 
 export const fetchData = async <T>(
@@ -38,6 +39,7 @@ export const fetchData = async <T>(
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());
   if (res.status === 403) return redirect('/403');
+  if (res.status > 499) return redirect('/500');
 
   const data = await res.json();
 

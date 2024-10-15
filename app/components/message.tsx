@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useParams, usePathname } from 'next/navigation';
 import { MessagesType } from 'app/types/common.type';
 import Modal from './modal';
-import { useMutation } from '@tanstack/react-query';
 import { ReadMessageAction } from 'app/lib/actions';
 import { revalidatePage } from 'app/lib/server.util';
-import { useParams, usePathname } from 'next/navigation';
 
 const Message: React.FC<{
   message: MessagesType;

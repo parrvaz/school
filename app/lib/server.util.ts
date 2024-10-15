@@ -35,7 +35,7 @@ export const fetchData = async <T>(url: string, tag?: string, cacheMethod?: stri
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());
   if (res.status === 403) return redirect('/403');
-  if (res.status > 499) return redirect('/500');
+  // if (res.status > 499) return redirect('/500');
 
   const data = await res.json();
 

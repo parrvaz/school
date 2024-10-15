@@ -21,6 +21,9 @@ import {
 export const ROLES = {
   manager: 'manager',
   assistant: 'assistant',
+  teacher: 'teacher',
+  student: 'student',
+  parent: 'parent',
 };
 
 export const numberValidation = (otherRules?: object, allowDecimal?: boolean): object => ({
@@ -54,7 +57,8 @@ export const valueValidation = (min?: number | null, max?: number | null): objec
   return result;
 };
 
-export const roleAccess = (roles: string[], role = ''): boolean => roles.includes(role);
+export const roleAccess = (roles: string[], role = '', notInclude?: boolean): boolean =>
+  notInclude ? !roles.includes(role) : roles.includes(role);
 
 export const faNumber = (value: string | number, enNumber = false): string => {
   if (value === null || value === undefined) return '';
@@ -101,8 +105,8 @@ export const minLengthMessage = (length: number): string =>
 export const maxLengthMessage = (length: number): string =>
   `${fa.account.maxLength1} ${length} ${fa.account.minLength2}`;
 
-export const setCookie = (data = ''): string | undefined =>
-  Cookies.set('token', `Bearer ${data}`, { expires: 999 });
+export const setCookie = (data = '', name?: string): string | undefined =>
+  Cookies.set(name || 'token', name ? data : `Bearer ${data}`, { expires: 999 });
 
 export const kebabCase = (input: string): string =>
   input
@@ -198,7 +202,11 @@ export const normalizeAssignData = (
       const classroom = classrooms.find((cl) => cl.id === assign.classroom_id);
 
       return {
-        class: { value: classroom?.id || 0, label: classroom?.title || '' },
+        class: {
+          value: classroom?.id || 0,
+          label: classroom?.title || '',
+          fieldId: classroom?.field_id || 0,
+        },
         course: { value: course?.id || 0, label: course?.name || '' },
         teacher: { value: teacher?.id || 0, label: teacher?.name || '' },
       };
@@ -210,7 +218,22 @@ export const getOption = (
   data: { id: number; name?: string; title?: string }[],
   key?: 'name' | 'title'
 ): { value: number; label: string }[] =>
-  data.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
+  data?.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
+
+export const getClassOption = (
+  data: ClassroomType[]
+): { value: number; label: string; fieldId: number }[] =>
+  data?.map((item) => ({ value: item.id, label: item.title, fieldId: item.field_id }));
+
+export const getCourses = (courses: CourseType[], targetField: number): CourseType[] =>
+  courses.filter((k) => k.field_id === targetField || !k.field_id);
+
+export const getCoursesOption = (
+  courses: CourseType[],
+  targetField: number
+): { value: number; label: string }[] => {
+  return getCourses(courses, targetField).map((k) => ({ value: k.id, label: k.name }));
+};
 
 export const convertArrayToSchedule = (arr: BellsType[]): ScheduleType => {
   const schedule: ScheduleType = {};

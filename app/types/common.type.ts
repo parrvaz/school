@@ -117,6 +117,7 @@ export type ContentType = {
 export type CourseType = {
   contents?: ContentType[];
   id: number;
+  field_id: number;
   name: string;
   isUser?: boolean;
 };
@@ -130,10 +131,20 @@ export type AssignType = {
 
 export type AssignFormType = {
   assignments: {
-    class: { value: number; label: string } | null;
+    class: { value: number; label: string; fieldId: number } | null;
     course: { value: number; label: string } | null;
     teacher: { value: number; label: string } | null;
   }[];
+};
+
+export type ScoreType = {
+  score: number;
+  date: string;
+  course_id: number;
+  course: string;
+  expected: number;
+  totalScore: number;
+  type: { id: number; label: string };
 };
 
 export type ExamType = {
@@ -161,7 +172,7 @@ export type CreateExamFormType = {
   date: string;
   contents: { value: number; label: string }[];
   course: { value: number; label: string } | null;
-  classroom: { value: number; label: string } | null;
+  classroom: { value: number; label: string; fieldId: number } | null;
   expected: number;
   totalScore: number | null;
   type: number;

@@ -43,6 +43,7 @@ export const UpdateCourseUrl = (gradeId: string): string => `/${gradeId}/courses
 
 // Exam ///////////////////////////////////////////
 export const CreateExamUrl = (gradeId: string): string => `/${gradeId}/exams/store`;
+export const ShowScoreUrl = (gradeId: string): string => `/${gradeId}/exams/scores`;
 export const ShowExamUrl = (gradeId: string, id?: string): string =>
   `/${gradeId}/exams/show${id ? `/${id}` : ''}`;
 export const DeleteExamUrl = (gradeId: string, id?: number): string =>
@@ -85,9 +86,9 @@ export const ShowAllPlansUrl = (gradeId: string): string => `/${gradeId}/plans/s
 export const AssignPlansUrl = (gradeId: string): string => `/${gradeId}/plans/assign`;
 
 // Study ///////////////////////////////////////////
-export const ShowStudyUrl = (gradeId: string, studentId: string): string =>
-  `/${gradeId}/studies/show/${studentId}`;
+export const ShowStudyUrl = (gradeId: string, studentId?: string): string =>
+  `/${gradeId}/studies/show${studentId ? `/${studentId}` : ''}`;
 export const CreateStudyUrl = (gradeId: string, studentId: string): string =>
-  `/${gradeId}/studies/store/${studentId}`;
+  `/${gradeId}/studies/store${studentId ? `/${studentId}` : ''}`;
 export const DeleteStudyUrl = (gradeId: string, studentId: number): string =>
   `/${gradeId}/studies/delete/${studentId}`;

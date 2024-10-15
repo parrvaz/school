@@ -3,11 +3,12 @@ import { Viewport } from 'next';
 import { redirect } from 'next/navigation';
 import Sidebar from '../components/sidebar';
 import GradeSelect from '../components/gradeSelect';
-import { fetchData, gradesTag, userTag } from 'app/lib/server.util';
+import { fetchData, getUserRole, gradesTag, userTag } from 'app/lib/server.util';
 import { GradeUrl, UserUrl } from 'app/lib/urls';
 import { GradeType, UserType } from 'app/types/common.type';
 import { HomeRoute } from 'app/lib/routes';
 import AppHeader from 'app/components/appHeader';
+import { roleAccess, ROLES } from 'app/utils/common.util';
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -30,7 +31,29 @@ const menu = [
   { title: 'study', icon: 'icon-timer' },
 ];
 
+const roleMenu = {
+  manager: menu,
+  assistant: menu,
+  parent: [{ title: 'dashboard', icon: 'icon-home' }],
+  teacher: [
+    { title: 'dashboard', icon: 'icon-home' },
+    { title: 'createExam', icon: 'icon-path' },
+    { title: 'exams', icon: 'icon-receipt-item' },
+    { title: 'absents', icon: 'icon-personalcard' },
+    { title: 'rollCall', icon: 'icon-task' },
+    { title: 'messages', icon: 'icon-message' },
+  ],
+  student: [
+    { title: 'dashboard', icon: 'icon-home' },
+    { title: 'messages', icon: 'icon-message' },
+    { title: 'study', icon: 'icon-timer' },
+  ],
+};
+
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
+  const role = (await getUserRole()) || '';
+  const accessGrad = roleAccess([ROLES.parent, ROLES.student], role, true);
+
   const [data, user] = await Promise.all([
     fetchData<GradeType[]>(GradeUrl(), await gradesTag()),
     fetchData<UserType>(UserUrl(), await userTag()),
@@ -44,13 +67,14 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
     hasDelete: true,
     hasEdit: true,
   }));
+
   return (
     <div className="bg-berry10 flex w-full min-h-screen pr-60">
       <AppHeader user={user} />
-      <Sidebar menu={menu} />
+      <Sidebar menu={roleMenu[user.role]} />
 
       <div className="flex-1 m-10 relative pt-9">
-        <GradeSelect options={options} tag={await gradesTag()} />
+        {accessGrad && <GradeSelect options={options} tag={await gradesTag()} />}
         {children}
       </div>
     </div>

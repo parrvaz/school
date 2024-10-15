@@ -14,27 +14,28 @@ import {
 import StudyCalendar from 'app/components/studyCalendar';
 import fa from 'app/lib/fa.json';
 import { CreateStudyAction, DeleteStudyAction } from 'app/lib/actions';
-import { getOption } from 'app/utils/common.util';
+import { getOption, ROLES } from 'app/utils/common.util';
 import { GradeRoute } from 'app/lib/routes';
 import { tagRevalidate } from 'app/lib/server.util';
 
 const Study: React.FC<{
   data: StudyPageType | null;
   courses: CourseType[];
-  students: StudentType[];
+  students: StudentType[] | null;
   studentId?: string;
   tag: string;
-}> = ({ data, courses, students, studentId, tag }) => {
+  role: string;
+}> = ({ data, courses, students, studentId, tag, role }) => {
   const router = useRouter();
   const { gradeId } = useParams();
   const [events, setEvents] = useState<StudyType[]>(data?.plan || []);
-  const studentsOption = useMemo(() => getOption(students), [students]);
+  const studentsOption = useMemo(() => getOption(students || []), [students]);
   const selectedStudent = useMemo(
-    () => students.find((k) => k.id === Number(studentId)),
+    () => students?.find((k) => k.id === Number(studentId)),
     [studentId, students]
   );
 
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync: mutate, isPending } = useMutation({
     mutationFn: (event: StudyType) =>
       CreateStudyAction(event, gradeId.toString(), selectedStudent?.id.toString() || ''),
     onSuccess: (ok) => {
@@ -44,7 +45,7 @@ const Study: React.FC<{
     },
   });
 
-  const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
+  const { mutateAsync: deleteMutate, isPending: deleteLoading } = useMutation({
     mutationFn: (id: number) => DeleteStudyAction(id, gradeId.toString()),
     onSuccess: (ok) => {
       if (ok) {
@@ -56,20 +57,21 @@ const Study: React.FC<{
   useEffect(() => {
     setEvents(data?.plan || []);
   }, [data]);
-
   return (
     <div className="relative pb-8">
-      <ReactSelect
-        className="mb-6 w-80"
-        onChange={(e: SingleOptionType) => {
-          router.push(GradeRoute(gradeId, 'study', `?id=${e?.value}`));
-        }}
-        value={{
-          value: selectedStudent?.id || '',
-          label: studentId ? selectedStudent?.name || '' : fa.plan.chooseStudent,
-        }}
-        options={studentsOption}
-      />
+      {role !== ROLES.student && (
+        <ReactSelect
+          className="mb-6 w-80"
+          onChange={(e: SingleOptionType) => {
+            router.push(GradeRoute(gradeId, 'study', `?id=${e?.value}`));
+          }}
+          value={{
+            value: selectedStudent?.id || '',
+            label: studentId ? selectedStudent?.name || '' : fa.plan.chooseStudent,
+          }}
+          options={studentsOption}
+        />
+      )}
       {data ? (
         <StudyCalendar
           {...{ courses, events, setEvents, isPending, deleteLoading }}

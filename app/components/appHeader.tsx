@@ -10,7 +10,7 @@ const AppHeader: React.FC<{ user: UserType }> = ({ user }) => {
       <div className="">
         <div className="">
           <div className="text-14 font-bold">{user.name}</div>
-          <div className="font-light text-12 -mt-2">{fa.global[user.role]}</div>
+          <div className="font-light text-12 -mt-1">{fa.global[user.role]}</div>
         </div>
       </div>
       <div className="flex gap-4 items-center">

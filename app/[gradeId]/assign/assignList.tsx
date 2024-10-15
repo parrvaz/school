@@ -10,7 +10,7 @@ import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
 import { UpdateAssignmentAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
-import { getOption } from 'app/utils/common.util';
+import { getClassOption, getCoursesOption, getOption } from 'app/utils/common.util';
 
 const rawRow = { class: null, course: null, teacher: null };
 
@@ -39,16 +39,15 @@ const AssignList: React.FC<{
     onSuccess: (ok) => ok && tagRevalidate(tag),
   });
 
-  const classOptions = useMemo(() => getOption(classes, 'title'), [classes]);
+  const classOptions = useMemo(() => getClassOption(classes), [classes]);
   const teacherOptions = useMemo(() => getOption(teachers), [teachers]);
-  const courseOptions = useMemo(() => getOption(courses), [courses]);
 
   return (
     <div>
       <form className="flex flex-col gap-6 pb-20" onSubmit={handleSubmit((e) => mutate(e))}>
         {fields.length ? (
-          fields.map((field, index) => (
-            <div className="flex gap-2 items-center" key={field.id}>
+          fields.map((item, index) => (
+            <div className="flex gap-2 items-center" key={item.id}>
               <FormSelect
                 {...{ errors, control, rules }}
                 name={`assignments.${index}.class`}
@@ -57,9 +56,10 @@ const AssignList: React.FC<{
                 placeholder={fa.assign.chooseClass}
               />
               <FormSelect
+                isDisabled={!watch(`assignments.${index}.class.fieldId`)}
                 {...{ errors, control, rules }}
                 name={`assignments.${index}.course`}
-                options={courseOptions}
+                options={getCoursesOption(courses, watch(`assignments.${index}.class.fieldId`))}
                 className="flex-1"
                 placeholder={fa.assign.chooseCourse}
               />

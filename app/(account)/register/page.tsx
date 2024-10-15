@@ -12,7 +12,7 @@ import Button from 'app/components/button';
 import { minLengthMessage, setCookie } from 'app/utils/common.util';
 import request from 'app/lib/request';
 import { RegisterUrl } from 'app/lib/urls';
-import { ResponseType } from 'app/types/common.type';
+import { ResponseType, UserType } from 'app/types/common.type';
 
 type FormType = { phone: string; name: string; password: string; confirmPassword: string };
 
@@ -21,9 +21,13 @@ const RegisterPage: React.FC = () => {
   const router = useRouter();
 
   const PostRegister = async (data: FormType): Promise<boolean> => {
-    const res: ResponseType<{ token: string }> = await request.post(RegisterUrl(), data);
+    const res: ResponseType<{ token: string; user: UserType }> = await request.post(
+      RegisterUrl(),
+      data
+    );
     if (res.ok) {
       setCookie(res.data?.token);
+      setCookie(res.data?.user.role, 'role');
       router.replace(HomeRoute());
     }
     return res.ok;

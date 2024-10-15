@@ -15,7 +15,13 @@ import fa from 'app/lib/fa.json';
 import FormRadio from 'app/components/formRadio';
 import Button from 'app/components/button';
 import FormDatePiker from 'app/components/formDatePiker';
-import { getOption, getTody, numberValidation, valueValidation } from 'app/utils/common.util';
+import {
+  getClassOption,
+  getCoursesOption,
+  getTody,
+  numberValidation,
+  valueValidation,
+} from 'app/utils/common.util';
 import FormInput from 'app/components/formInput';
 import FormSelect from 'app/components/formSelect';
 import FormCheckbox from 'app/components/formCheckbox';
@@ -35,9 +41,8 @@ const CreateExam: React.FC<{
   courses: CourseType[];
   students: StudentType[];
   tag: string;
-  examTag: string;
   data?: ExamType;
-}> = ({ classes, courses, students, tag, data, examTag }) => {
+}> = ({ classes, courses, students, tag, data }) => {
   const rules = { required: true };
   const { gradeId } = useParams();
   const router = useRouter();
@@ -46,13 +51,16 @@ const CreateExam: React.FC<{
   const defaultValues = {
     date: data?.date.replace(/-/g, '/') || getTody(),
     contents: data?.contents.map((k) => ({ value: k.id, label: k.content })) || [],
-    course: {
-      value: data?.course_id || courses[0].id,
-      label: data?.course || courses[0].name,
-    },
+    course: data ? { value: data?.course_id, label: data?.course } : null,
     classroom: !classes.length
       ? null
-      : { value: data?.classroom_id || classes[0].id, label: data?.classroom || classes[0].title },
+      : {
+          value: data?.classroom_id || classes[0].id,
+          label: data?.classroom || classes[0].title,
+          fieldId: data
+            ? classes.find((k) => k.id === data.classroom_id)?.field_id
+            : classes[0].field_id,
+        },
     expected: data?.expected || undefined,
     totalScore: data?.totalScore || undefined,
     type: data?.type.id || 1,
@@ -80,7 +88,6 @@ const CreateExam: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
-        id && tagRevalidate(examTag);
         id && router.push(GradeRoute(gradeId, 'exams'));
         setValue('students', []);
         setValue('contents', []);
@@ -134,14 +141,17 @@ const CreateExam: React.FC<{
           <FormSelect
             {...{ errors, control, rules }}
             name="classroom"
-            options={useMemo(() => getOption(classes, 'title'), [classes])}
+            options={useMemo(() => getClassOption(classes), [classes])}
             placeholder={fa.global.classroom}
-            onChange={(): void => setValue('students', [])}
+            onChange={(): void => (setValue('students', []), setValue('course', null))}
           />
           <FormSelect
             {...{ errors, control, rules }}
             name="course"
-            options={useMemo(() => getOption(courses), [courses])}
+            options={useMemo(
+              () => getCoursesOption(courses, watch('classroom.fieldId')),
+              [watch('classroom')]
+            )}
             placeholder={fa.global.course}
             onChange={(): void => setValue('contents', [])}
           />

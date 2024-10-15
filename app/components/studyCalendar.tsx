@@ -137,7 +137,8 @@ const StudyCalendar: React.FC<{
       <CourseModal
         open={!!selectedSlot}
         setOpen={() => setSelectedSlot(null)}
-        {...{ courses, onSelectLesson, isPending }}
+        // courses={getCourses(courses, 1 || 0)}
+        {...{ onSelectLesson, courses, isPending }}
       />
     </div>
   );

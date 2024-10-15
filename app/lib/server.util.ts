@@ -8,6 +8,7 @@ import { LoginRoute } from './routes';
 
 export const gradesTag = async (): Promise<string> => `grades`;
 export const userTag = async (): Promise<string> => `user`;
+export const fieldTag = async (): Promise<string> => `field`;
 export const classroomTag = async (): Promise<string> => `classroom-show`;
 export const studentTag = async (): Promise<string> => `student-show`;
 export const teacherTag = async (): Promise<string> => `teacher-show`;
@@ -21,19 +22,13 @@ export const plansTag = async (): Promise<string> => `plans-show`;
 export const scoreTag = async (): Promise<string> => `scores`;
 export const studyTag = async (id: string): Promise<string> => `study-${id}`;
 
-export const fetchData = async <T>(
-  url: string,
-  tag?: string,
-  method: 'GET' | 'POST' | 'DELETE' = 'GET',
-  body: Record<string, any> | null = null // eslint-disable-line
-): Promise<T> => {
+export const fetchData = async <T>(url: string, tag?: string, cacheMethod?: string): Promise<T> => {
   const next = tag ? { tags: [tag] } : undefined;
-  const cache = tag ? 'no-store' : undefined;
+  const cache = cacheMethod || tag ? 'no-store' : undefined;
   const token = cookies().get('token')?.value || '';
   const headers = { Authorization: `${token}`, 'Content-Type': 'application/json' };
-  const requestOptions: RequestInit = { method, headers, next, cache };
+  const requestOptions: RequestInit = { method: 'GET', headers, next, cache };
 
-  if (method === 'POST' && body) requestOptions.body = JSON.stringify(body);
   const res = await fetch(baseURL + url, requestOptions);
   // console.log(url, res.status);
 

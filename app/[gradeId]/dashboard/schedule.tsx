@@ -47,7 +47,6 @@ const Schedule: React.FC<{
   const data = !adminData ? studentPlan : schoolPlan || [];
   const columns = !adminData ? studentColumns : schoolColumns;
 
-  console.log(adminData, studentData);
   return (
     <div className="">
       <div className="font-bold text-14 mb-1">{fa.dashboard.classesSchedule}</div>

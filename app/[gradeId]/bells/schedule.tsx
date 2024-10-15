@@ -14,7 +14,13 @@ import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import Button from 'app/components/button';
 import CellRenderer from './cellRenderer';
-import { convertArrayToSchedule, mapFormData, roleAccess, ROLES } from 'app/utils/common.util';
+import {
+  convertArrayToSchedule,
+  getCourses,
+  mapFormData,
+  roleAccess,
+  ROLES,
+} from 'app/utils/common.util';
 import { UpdateScheduleAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import AddLessonModal from './addLessonModal';
@@ -40,6 +46,11 @@ const Schedule: React.FC<{
   const selectedSchedule = useMemo(
     () => schedules.find((k) => k.classroom_id === selectedClassId),
     [selectedClassId, schedules]
+  );
+
+  const selectedClassField = useMemo(
+    () => classes.find((k) => k.id === selectedClassId)?.field_id,
+    [selectedClassId]
   );
 
   const { handleSubmit, setValue, watch, reset } = useForm<ScheduleFormType>({
@@ -154,7 +165,8 @@ const Schedule: React.FC<{
           <CourseModal
             open={!!lessonData.order}
             setOpen={() => setLessonData(defaultLessonData)}
-            {...{ courses, onSelectLesson }}
+            courses={getCourses(courses, selectedClassField || 0)}
+            {...{ onSelectLesson }}
           />
         </form>
         <AddLessonModal {...{ courses, coursesTag, hasChange, setNextAction }} />

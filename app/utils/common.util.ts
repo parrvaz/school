@@ -202,7 +202,11 @@ export const normalizeAssignData = (
       const classroom = classrooms.find((cl) => cl.id === assign.classroom_id);
 
       return {
-        class: { value: classroom?.id || 0, label: classroom?.title || '' },
+        class: {
+          value: classroom?.id || 0,
+          label: classroom?.title || '',
+          fieldId: classroom?.field_id || 0,
+        },
         course: { value: course?.id || 0, label: course?.name || '' },
         teacher: { value: teacher?.id || 0, label: teacher?.name || '' },
       };
@@ -215,6 +219,21 @@ export const getOption = (
   key?: 'name' | 'title'
 ): { value: number; label: string }[] =>
   data?.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
+
+export const getClassOption = (
+  data: ClassroomType[]
+): { value: number; label: string; fieldId: number }[] =>
+  data?.map((item) => ({ value: item.id, label: item.title, fieldId: item.field_id }));
+
+export const getCourses = (courses: CourseType[], targetField: number): CourseType[] =>
+  courses.filter((k) => k.field_id === targetField || !k.field_id);
+
+export const getCoursesOption = (
+  courses: CourseType[],
+  targetField: number
+): { value: number; label: string }[] => {
+  return getCourses(courses, targetField).map((k) => ({ value: k.id, label: k.name }));
+};
 
 export const convertArrayToSchedule = (arr: BellsType[]): ScheduleType => {
   const schedule: ScheduleType = {};

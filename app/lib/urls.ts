@@ -48,6 +48,8 @@ export const ShowExamUrl = (gradeId: string, id?: string): string =>
   `/${gradeId}/exams/show${id ? `/${id}` : ''}`;
 export const DeleteExamUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/exams/delete/${id}`;
+export const ExamExcelUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/exams/excel/${id}`;
 export const UpdateExamUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/exams/update/${id}`;
 

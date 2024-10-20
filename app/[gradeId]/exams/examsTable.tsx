@@ -74,10 +74,11 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
       cellRenderer: ActionRenderer,
       pinned: 'left',
       lockPosition: 'left',
-      width: 84,
-      minWidth: 84,
+      width: 120,
+      minWidth: 120,
       resizable: false,
       cellRendererParams: {
+        excelAction: true,
         setEditData: setExamData,
         deleteAction: DeleteExamAction,
         tag,

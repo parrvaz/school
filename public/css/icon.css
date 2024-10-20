@@ -334,3 +334,9 @@
 .icon-whatsapp:before {
   content: '\e968';
 }
+.icon-excel:before {
+  content: '\e929';
+}
+.icon-pdf:before {
+  content: '\e958';
+}

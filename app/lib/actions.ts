@@ -138,6 +138,26 @@ export const DeleteExamAction = async (gradeId: string, id: number): Promise<boo
   return res.ok;
 };
 
+export const DownloadExamExcelAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.ExamExcelUrl(gradeId, id);
+  const res: ResponseType<BlobPart> = await request.get(url);
+
+  if (res.data) {
+    const blob = new Blob([res.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'file.xlsx';
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  return res.ok;
+};
+
 export const UpdateBellsAction = async (
   values: BellsFormType,
   gradeId: string,

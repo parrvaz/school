@@ -227,12 +227,17 @@ export const SendMessageAction = async (
 
 export const UpdatePlanAction = async (
   title: string,
+  classroom_id: number,
   plan: PlanDataType[],
   gradeId: string,
   planId: string
 ): Promise<boolean> => {
   const url = planId === 'new' ? api.CreatePlanUrl(gradeId) : api.UpdatePlanUrl(gradeId, planId);
-  const res: ResponseType<{ data: string }> = await request.post(url, { title, plan });
+  const res: ResponseType<{ data: string }> = await request.post(url, {
+    title,
+    plan,
+    classroom_id,
+  });
 
   return res.ok;
 };

@@ -24,6 +24,11 @@ const accessControl = {
 export const middleware = async (req: NextRequest): Promise<NextResponse<unknown>> => {
   const role = await getUserRole(); // Fetch user's role
 
+  if (!role) {
+    const response = NextResponse.redirect(new URL('/login', req.url));
+    return response;
+  }
+
   // Get the pathname excluding the dynamic part (ID)
   const pathname = req.nextUrl.pathname.replace(/^\/[^/]+/, ''); // Removes the dynamic ID part
 

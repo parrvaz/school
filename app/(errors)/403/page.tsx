@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
+import ReturnButton from '../returnButton';
 import { faNumber } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
-
-const ReturnButton = dynamic(() => import('../returnButton'), { ssr: false });
 
 const ForbiddenPage: React.FC = () => {
   return (

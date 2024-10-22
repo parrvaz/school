@@ -4,12 +4,13 @@ import DatePicker, { Day, utils } from '@hassanmojab/react-modern-calendar-datep
 import React from 'react';
 import fa from 'app/lib/fa.json';
 import { convertToDate, convertToDayValue, getFiscalYear } from 'app/utils/common.util';
+import { GroupDateType } from 'app/types/common.type';
 
 const GroupDatePicker: React.FC<{
-  values: { startDate: string; endDate: string };
+  values?: GroupDateType;
   className?: string;
   disableFuture?: boolean;
-  onChange: (value: { startDate: string; endDate: string }) => void;
+  onChange: (value: GroupDateType) => void;
 }> = ({ className, disableFuture, values, onChange }) => {
   const { getToday, isBeforeDate } = utils('fa');
 
@@ -31,7 +32,7 @@ const GroupDatePicker: React.FC<{
         minimumDate={disableFuture ? undefined : getFiscalYear(getToday())?.start}
         maximumDate={disableFuture ? getToday() : getFiscalYear(getToday())?.end}
         inputPlaceholder="_/ _/ __ "
-        inputClassName="w-full !border-none !font-regular !text-end !text-13"
+        inputClassName="w-full !border-none !p-0 !pl-1 !font-regular !text-end !text-13"
         wrapperClassName={`w-full rounded-lg`}
       />
       <div className="text-12 shrink-0 text-black70 font-regular border-r border-r-black30 pr-2">
@@ -49,7 +50,7 @@ const GroupDatePicker: React.FC<{
         minimumDate={disableFuture ? undefined : getFiscalYear(getToday())?.start}
         maximumDate={disableFuture ? getToday() : getFiscalYear(getToday())?.end}
         inputPlaceholder="_/ _/ __ "
-        inputClassName="w-full !border-none !font-regular !text-end !text-13"
+        inputClassName="w-full !border-none !p-0 !pl-1 !font-regular !text-end !text-13"
         wrapperClassName={`w-full rounded-lg`}
       />
     </div>

@@ -13,6 +13,7 @@ export type SingleOptionType = SingleValue<SelectOptionType>;
 export type GradeType = { code: string; title: string; grade_id: number };
 export type FieldsType = { id: number; title: string };
 export type GradeFormType = { title: string; grade: { label: string; value: number } };
+export type GroupDateType = { startDate?: string; endDate?: string };
 
 export type UserType = {
   id: number;
@@ -34,6 +35,8 @@ export type ClassroomType = {
   field_id: number;
   field: string;
 };
+
+export type ClassOptionType = { value: number; label: string; fieldId: number };
 
 export type ClassFormType = {
   title: string;

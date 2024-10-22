@@ -220,6 +220,11 @@ export const PostAbsentsAction = async (
   return res.ok;
 };
 
+export const GetAbsentsReport = async (id: string, body: object): Promise<boolean> => {
+  const res: ResponseType<{ data: string }> = await request.get(api.AbsentsReportsUrl(id), body);
+  return res.ok;
+};
+
 export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = api.MarkAsReadUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);

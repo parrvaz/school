@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import {
   AbsentsListType,
   AssignFormType,
@@ -138,22 +139,15 @@ export const DeleteExamAction = async (gradeId: string, id: number): Promise<boo
   return res.ok;
 };
 
-export const DownloadExamExcelAction = async (gradeId: string, id: number): Promise<boolean> => {
+export const DownloadExamExcelAction = async (
+  gradeId: string,
+  id: number,
+  name: string
+): Promise<boolean> => {
   const url = api.ExamExcelUrl(gradeId, id);
-  const res: ResponseType<BlobPart> = await request.get(url);
+  const res: ResponseType<BlobPart> = await request.get(url, undefined, { responseType: 'blob' });
 
-  if (res.data) {
-    const blob = new Blob([res.data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = 'file.xlsx';
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
+  if (res.ok) saveAs(res.data, name);
 
   return res.ok;
 };

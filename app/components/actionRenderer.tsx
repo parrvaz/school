@@ -24,8 +24,13 @@ const ActionRenderer: React.FC = (props: any) => {
     },
   });
 
-  const { mutate: downloadExcel } = useMutation({
-    mutationFn: () => DownloadExamExcelAction(gradeId.toString(), node.data.id),
+  const { mutate: downloadExcel, isPending: excelPending } = useMutation({
+    mutationFn: () =>
+      DownloadExamExcelAction(
+        gradeId.toString(),
+        node.data.id,
+        node.data.classroom + ' - ' + node.data.course + ' - ' + node.data.date
+      ),
   });
 
   const handleDelete = (): void => setDeleteId(node.data.id);
@@ -35,12 +40,17 @@ const ActionRenderer: React.FC = (props: any) => {
 
   return (
     <div className="isCenter h-full">
-      {excelAction && (
-        <i
-          className="icon-excel text-green70 text-20 p-2 cursor-pointer"
-          onClick={(): void => downloadExcel()}
-        />
-      )}
+      {excelAction &&
+        (excelPending ? (
+          <div className="w-9 p-2 h-9">
+            <span className="loading loading-dots text-green70" />
+          </div>
+        ) : (
+          <i
+            className="icon-excel text-green70 text-20 p-2 cursor-pointer"
+            onClick={(): void => downloadExcel()}
+          />
+        ))}
       {!!setEditData && (
         <i className="icon-edit text-berry60 text-20 p-2 cursor-pointer" onClick={handleEdit} />
       )}

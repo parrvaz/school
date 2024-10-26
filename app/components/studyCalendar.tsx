@@ -9,6 +9,7 @@ import {
   dateToHour,
   faNumber,
   formatJalaliDateTimeRange,
+  getCourses,
   revertJalaliDateTime,
 } from 'app/utils/common.util';
 import fa from 'app/lib/fa.json';
@@ -61,11 +62,12 @@ const StudyCalendar: React.FC<{
   courses: CourseType[];
   setEvents: any;
   events: StudyType[];
+  filedId: number;
   createPlan: (body: StudyType) => void;
   deletePlan: (id: number) => void;
   isPending: boolean;
   deleteLoading: boolean;
-}> = ({ courses, events, setEvents, createPlan, isPending, deletePlan }) => {
+}> = ({ courses, events, setEvents, filedId, createPlan, isPending, deletePlan }) => {
   const [selectedSlot, setSelectedSlot] = useState<SlotInfo | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -137,8 +139,8 @@ const StudyCalendar: React.FC<{
       <CourseModal
         open={!!selectedSlot}
         setOpen={() => setSelectedSlot(null)}
-        // courses={getCourses(courses, 1 || 0)}
-        {...{ onSelectLesson, courses, isPending }}
+        courses={getCourses(courses, filedId || 0)}
+        {...{ onSelectLesson, isPending }}
       />
     </div>
   );

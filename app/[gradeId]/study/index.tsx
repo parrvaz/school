@@ -74,6 +74,7 @@ const Study: React.FC<{
       )}
       {data ? (
         <StudyCalendar
+          filedId={data.field_id}
           {...{ courses, events, setEvents, isPending, deleteLoading }}
           createPlan={(e) => mutate(e)}
           deletePlan={(e) => deleteMutate(e)}

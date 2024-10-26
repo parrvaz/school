@@ -267,6 +267,7 @@ export type PlanDataType = {
 export type PlanPageType = {
   title: string;
   id: number;
+  field_id: number;
   classroom_id: number;
   plan: PlanDataType[];
 };
@@ -289,5 +290,7 @@ export type StudyType = {
 export type StudyPageType = {
   title: string;
   id: number;
+  field: string;
+  field_id: number;
   plan: StudyType[];
 };

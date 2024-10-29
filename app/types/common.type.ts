@@ -184,6 +184,17 @@ export type CreateExamFormType = {
   }[];
 };
 
+export type ReportCardType = {
+  average: number;
+  scores: { course_id: number; course: string; factor: number; score: number }[];
+};
+
+export type TreeNodeType = {
+  value: string;
+  label: string;
+  children?: TreeNodeType[];
+};
+
 export type BellsType = {
   startTime: string;
   endTime: string;

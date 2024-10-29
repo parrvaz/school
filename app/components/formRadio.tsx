@@ -3,7 +3,7 @@ import { Control, Controller } from 'react-hook-form';
 import { handleError } from 'app/utils/component.util';
 
 type RadioType = {
-  options: { value: string | number; title: string }[];
+  options: { value: string | number; label: string }[];
   errors?: any; // eslint-disable-line
   className?: string;
   name: string;
@@ -21,7 +21,7 @@ const FormRadio: React.FC<RadioType> = (props) => {
         {...{ control, name, rules }}
         render={({ field }): JSX.Element => (
           <div className="join">
-            {options.map(({ title, value }) => (
+            {options.map(({ label, value }) => (
               <input
                 key={value}
                 type="radio"
@@ -29,7 +29,7 @@ const FormRadio: React.FC<RadioType> = (props) => {
                 value={value}
                 checked={field.value === value}
                 onChange={() => (field.onChange(value), onChange?.(value))}
-                aria-label={title}
+                aria-label={label}
               />
             ))}
           </div>

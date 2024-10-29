@@ -20,6 +20,7 @@ import {
   getCoursesOption,
   getTody,
   numberValidation,
+  TYPE_OPTIONS,
   valueValidation,
 } from 'app/utils/common.util';
 import FormInput from 'app/components/formInput';
@@ -29,12 +30,6 @@ import StudentsList from './studentsList';
 import { UpdateExamAction } from 'app/lib/actions';
 import { tagRevalidate } from 'app/lib/server.util';
 import { GradeRoute } from 'app/lib/routes';
-
-const typeOptions = [
-  { value: 1, title: fa.createExam.written },
-  { value: 2, title: fa.createExam.oral },
-  { value: 3, title: fa.createExam.test },
-];
 
 const CreateExam: React.FC<{
   classes: ClassroomType[];
@@ -113,7 +108,7 @@ const CreateExam: React.FC<{
             {...{ control, errors }}
             onChange={(value) => setValue('totalScore', value === 3 ? 100 : null)}
             className="mt-3"
-            options={typeOptions}
+            options={TYPE_OPTIONS}
             name="type"
           />
           <FormDatePiker name="date" {...{ control, errors, rules }} />

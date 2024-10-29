@@ -133,3 +133,15 @@ body {
 .react-time-picker__wrapper {
   border: none !important;
 }
+
+.rct-node-icon {
+  display: none !important;
+}
+
+.rct-node-parent > ol {
+  margin-right: 20px !important;
+}
+.rct-text > label {
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+}

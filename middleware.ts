@@ -13,6 +13,7 @@ const accessControl = {
   '/assign': [manager, assistant],
   '/createExam': [manager, assistant, teacher],
   '/exams': [manager, assistant, teacher],
+  '/reports': [manager, assistant],
   '/bells': [manager, assistant],
   '/absents': [manager, assistant, teacher],
   '/rollCall': [manager, assistant, teacher],

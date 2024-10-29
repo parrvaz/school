@@ -11,6 +11,7 @@ import {
   GradeType,
   PlanDataType,
   PlansType,
+  ReportCardType,
   ResponseType,
   ScheduleFormType,
   SendMessageFormType,
@@ -150,6 +151,16 @@ export const DownloadExamExcelAction = async (
   if (res.ok) saveAs(res.data, name);
 
   return res.ok;
+};
+
+export const GetCardAction = async (
+  gradeId: string,
+  filters: object
+): Promise<ReportCardType | undefined> => {
+  const url = api.CardUrl(gradeId);
+  const res: ResponseType<{ data: ReportCardType }> = await request.get(url, filters);
+
+  return res.data?.data;
 };
 
 export const UpdateBellsAction = async (

@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MessagesType } from 'app/types/common.type';
+import { SentMessagesType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import NoData from 'app/components/noDate';
 
-const SentMessages: React.FC<{ sentMessages: MessagesType[] }> = ({ sentMessages }) => {
-  const [selectedMessage, setSelectedMessage] = useState<MessagesType>();
+const SentMessages: React.FC<{ sentMessages: SentMessagesType[] }> = ({ sentMessages }) => {
+  const [selectedMessage, setSelectedMessage] = useState<SentMessagesType>();
 
   return (
     <div className="flex gap-2 mt-10">
@@ -22,6 +22,9 @@ const SentMessages: React.FC<{ sentMessages: MessagesType[] }> = ({ sentMessages
               >
                 <div className="text-14 overflow-hidden whitespace-nowrap text-ellipsis">
                   {item.subject}
+                </div>
+                <div className="text-10 overflow-hidden text-ellipsis whitespace-nowrap text-black60">
+                  {fa.messages.sentTo} : {item.recipients.map((k) => k.name).join(', ')}
                 </div>
               </div>
             ))

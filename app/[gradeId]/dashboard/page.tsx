@@ -64,7 +64,7 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
             adminData={admin ? schedules : undefined}
             studentData={!admin ? (schedules as any).schedule : undefined}
           />
-          <LastExams data={exams.slice(0, 5)} />
+          <LastExams data={exams.sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 5)} />
         </div>
       </div>
     </div>

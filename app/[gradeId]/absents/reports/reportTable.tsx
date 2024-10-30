@@ -5,7 +5,7 @@ import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import GroupDatePicker from 'app/components/groupDatePicker';
 import { ClassOptionType, ClassroomType, GroupDateType } from 'app/types/common.type';
-import { getClassOption } from 'app/utils/common.util';
+import { getClassOption, getInitialGroupDate } from 'app/utils/common.util';
 import ReactSelect from 'app/components/select';
 import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
@@ -15,11 +15,11 @@ import EmojiRenderer from './emojiRenderer';
 
 const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
   const { gradeId } = useParams();
-  const [date, setDate] = useState<GroupDateType>();
+  const [date, setDate] = useState<GroupDateType>(getInitialGroupDate());
   const [selectedClasses, setSelectedClasses] = useState<ClassOptionType[]>([]);
   const classOptions = useMemo(() => getClassOption(classes), [classes]);
 
-  const { data, refetch, isFetching } = useQuery({
+  const { refetch, isFetching } = useQuery({
     queryKey: [gradeId.toString(), date?.startDate, date?.endDate, selectedClasses],
     queryFn: () =>
       GetAbsentsReport(gradeId.toString(), {

@@ -1,4 +1,4 @@
-import { DayValue, Day } from '@hassanmojab/react-modern-calendar-datepicker';
+import { DayValue, Day, utils } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import jalaali from 'jalaali-js';
 import { ValueFormatterParams } from 'ag-grid-community';
@@ -11,6 +11,7 @@ import {
   ClassroomType,
   CourseType,
   EventPlanType,
+  GroupDateType,
   PlanDataType,
   PlansType,
   ScheduleFormType,
@@ -317,6 +318,11 @@ export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
   endTime.setHours(endHours, endMinutes, 0, 0); // Set hours and minutes
 
   return { ...data, start: startTime, end: endTime };
+};
+
+export const getInitialGroupDate = (): GroupDateType => {
+  const { getToday } = utils('fa');
+  return { startDate: convertToDate(getFiscalYear(getToday())?.start), endDate: getTody() };
 };
 
 export const examTypeFormatter = (params: ValueFormatterParams): string =>

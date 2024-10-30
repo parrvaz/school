@@ -240,6 +240,12 @@ export type AbsentsType = {
 };
 
 export type AbsentsListType = { id: number; name: string; isAbsent: boolean };
+export type AbsentsReportType = {
+  absents: number;
+  classroom: string;
+  allBells: number;
+  name: string;
+};
 
 export type MessagesType = {
   id: number;

@@ -17,6 +17,7 @@ import {
   ScheduleType,
   StudyType,
   TeacherType,
+  TreeNodeType,
 } from 'app/types/common.type';
 
 export const ROLES = {
@@ -26,6 +27,12 @@ export const ROLES = {
   student: 'student',
   parent: 'parent',
 };
+
+export const TYPE_OPTIONS = [
+  { value: 1, label: fa.createExam.written },
+  { value: 2, label: fa.createExam.oral },
+  { value: 3, label: fa.createExam.test },
+];
 
 export const numberValidation = (otherRules?: object, allowDecimal?: boolean): object => ({
   required: true,
@@ -468,3 +475,77 @@ export const getFiscalYear = (jalaliDate: Day): { start: Day; end: Day } | undef
     end: { year: endYear, month: 3, day: 31 },
   };
 };
+
+export const getExamNodes = (exams): TreeNodeType[] => {
+  // Create a mapping for type options by id for easier lookup
+  const typeMap = new Map(TYPE_OPTIONS.map(({ value, label }) => [value, label]));
+
+  // Create a nested structure
+  const nodes = {};
+
+  exams.forEach((exam) => {
+    const { type, course, id } = exam;
+    const date = faNumber(exam.date);
+    // Ensure type node exists
+    if (!nodes[type.id]) {
+      nodes[type.id] = {
+        label: typeMap.get(type.id),
+        value: type.id.toString(),
+        children: [],
+      };
+    }
+
+    // Check if the course node exists
+    let courseNode = nodes[type.id].children.find((child) => child.label === course);
+    if (!courseNode) {
+      courseNode = {
+        label: course,
+        value: `${course}${id}`, // Unique identifier
+        children: [],
+      };
+      nodes[type.id].children.push(courseNode);
+    }
+
+    // Group exams by date
+    const dateNode = courseNode.children.find((child) => child.label.includes(date));
+    if (dateNode) {
+      // Update the value array and recalculate the count for label
+      const currentIds = dateNode.value.replace(/[\[\]]/g, '').split(',');
+      currentIds.push(id.toString());
+      dateNode.value = `${currentIds.join(',')}`;
+      dateNode.label = `${date} (${faNumber(currentIds.length)} ${fa.global.exam})`;
+    } else {
+      // Create a new entry for the date with the exam id
+      courseNode.children.push({
+        value: `${id}`,
+        label: `${date} (۱ ${fa.global.exam})`,
+      });
+    }
+  });
+
+  // Convert the nodes object into an array
+  return Object.values(nodes);
+};
+
+export const getClassNodes = (activeClasses, students): TreeNodeType[] =>
+  Array.from(
+    activeClasses
+      .reduce((map, exam) => {
+        // Check if classroom_id already exists in map
+        if (!map.has(exam.classroom_id)) {
+          // Initialize classroom node with children filtered by classroom_id
+          map.set(exam.classroom_id, {
+            label: exam.classroom,
+            value: exam.classroom_id.toString(),
+            children: students
+              .filter((student) => student.classroom_id === exam.classroom_id)
+              .map((student) => ({
+                label: student.name,
+                value: student.id.toString(),
+              })),
+          });
+        }
+        return map;
+      }, new Map())
+      .values()
+  );

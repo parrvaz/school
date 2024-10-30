@@ -187,6 +187,17 @@ export type CreateExamFormType = {
   }[];
 };
 
+export type ReportCardType = {
+  average: number;
+  scores: { course_id: number; course: string; factor: number; score: number }[];
+};
+
+export type TreeNodeType = {
+  value: string;
+  label: string;
+  children?: TreeNodeType[];
+};
+
 export type BellsType = {
   startTime: string;
   endTime: string;
@@ -270,6 +281,7 @@ export type PlanDataType = {
 export type PlanPageType = {
   title: string;
   id: number;
+  field_id: number;
   classroom_id: number;
   plan: PlanDataType[];
 };
@@ -292,5 +304,7 @@ export type StudyType = {
 export type StudyPageType = {
   title: string;
   id: number;
+  field: string;
+  field_id: number;
   plan: StudyType[];
 };

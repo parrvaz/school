@@ -31,9 +31,9 @@ const PlanPage: React.FC<{
   const defaultValues = {
     name: data?.title || '',
     classroom: {
-      label: classrooms[0].title,
-      value: classrooms[0].id,
-      fieldId: classrooms[0].field_id,
+      label: classrooms.find((k) => k.id === data?.classroom_id)?.title || classrooms[0].title,
+      value: data?.classroom_id || classrooms[0].id,
+      fieldId: data?.field_id || classrooms[0].field_id,
     },
   };
   const {

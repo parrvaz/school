@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';

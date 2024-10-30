@@ -13,6 +13,7 @@ const accessControl = {
   '/assign': [manager, assistant],
   '/createExam': [manager, assistant, teacher],
   '/exams': [manager, assistant, teacher],
+  '/reports': [manager, assistant],
   '/bells': [manager, assistant],
   '/absents': [manager, assistant, teacher],
   '/rollCall': [manager, assistant, teacher],
@@ -23,6 +24,11 @@ const accessControl = {
 
 export const middleware = async (req: NextRequest): Promise<NextResponse<unknown>> => {
   const role = await getUserRole(); // Fetch user's role
+
+  if (!role) {
+    const response = NextResponse.redirect(new URL('/login', req.url));
+    return response;
+  }
 
   // Get the pathname excluding the dynamic part (ID)
   const pathname = req.nextUrl.pathname.replace(/^\/[^/]+/, ''); // Removes the dynamic ID part

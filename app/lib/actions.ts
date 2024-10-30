@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver';
 import {
   AbsentsListType,
+  AbsentsReportType,
   AssignFormType,
   BellsFormType,
   BellsType,
@@ -223,6 +224,18 @@ export const PostAbsentsAction = async (
   const res: ResponseType<{ data: string }> = await request.post(url, body);
 
   return res.ok;
+};
+
+export const GetAbsentsReport = async (
+  id: string,
+  body: object
+): Promise<AbsentsReportType[] | undefined> => {
+  const res: ResponseType<{ data: AbsentsReportType[] }> = await request.get(
+    api.AbsentsReportsUrl(id),
+    body
+  );
+
+  return res.data?.data;
 };
 
 export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {

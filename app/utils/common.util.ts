@@ -1,4 +1,4 @@
-import { DayValue, Day } from '@hassanmojab/react-modern-calendar-datepicker';
+import { DayValue, Day, utils } from '@hassanmojab/react-modern-calendar-datepicker';
 import Cookies from 'js-cookie';
 import jalaali from 'jalaali-js';
 import { ValueFormatterParams } from 'ag-grid-community';
@@ -7,9 +7,11 @@ import {
   AssignFormType,
   AssignType,
   BellsType,
+  ClassOptionType,
   ClassroomType,
   CourseType,
   EventPlanType,
+  GroupDateType,
   PlanDataType,
   PlansType,
   ScheduleFormType,
@@ -52,6 +54,14 @@ export const phoneValidation = (otherRules?: object): object => ({
   maxLength: { value: 11, message: maxLengthMessage(11) },
   ...otherRules,
 });
+
+export const EMOJIS = {
+  enraged: '😡',
+  explodingHead: '🤯',
+  flushedFace: '😳',
+  cryingFace: '😢',
+  downcastFace: '😓',
+};
 
 export const valueValidation = (min?: number | null, max?: number | null): object => {
   const result: Record<string, object> = {};
@@ -159,7 +169,7 @@ export const convertToGregorian = (jalaliDate: string): string => {
   return `${gy}/${gm.toString().padStart(2, '0')}/${gd.toString().padStart(2, '0')}`;
 };
 
-export const convertToDayValue = (value: string): DayValue => {
+export const convertToDayValue = (value?: string): DayValue => {
   if (!value) return null;
   const date = value.split('/');
   return { year: Number(date[0]), month: Number(date[1]), day: Number(date[2]) };
@@ -227,9 +237,7 @@ export const getOption = (
 ): { value: number; label: string }[] =>
   data?.map((item) => ({ value: item.id, label: item[key || 'name'] ?? '' }));
 
-export const getClassOption = (
-  data: ClassroomType[]
-): { value: number; label: string; fieldId: number }[] =>
+export const getClassOption = (data: ClassroomType[]): ClassOptionType[] =>
   data?.map((item) => ({ value: item.id, label: item.title, fieldId: item.field_id }));
 
 export const getCourses = (courses: CourseType[], targetField: number): CourseType[] =>
@@ -310,6 +318,11 @@ export const revertToDateTimes = (data: PlanDataType): EventPlanType => {
   endTime.setHours(endHours, endMinutes, 0, 0); // Set hours and minutes
 
   return { ...data, start: startTime, end: endTime };
+};
+
+export const getInitialGroupDate = (): GroupDateType => {
+  const { getToday } = utils('fa');
+  return { startDate: convertToDate(getFiscalYear(getToday())?.start), endDate: getTody() };
 };
 
 export const examTypeFormatter = (params: ValueFormatterParams): string =>

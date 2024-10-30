@@ -145,3 +145,7 @@ body {
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
 }
+
+.ag-center-cols-viewport {
+  min-height: 0 !important;
+}

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import {
   ClassroomType,
@@ -41,6 +41,7 @@ const CreateExam: React.FC<{
   const rules = { required: true };
   const { gradeId } = useParams();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const id = data?.id || undefined;
 
   const defaultValues = {
@@ -83,6 +84,7 @@ const CreateExam: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
+        queryClient.resetQueries({ queryKey: ['card-report'] });
         id && router.push(GradeRoute(gradeId, 'exams'));
         setValue('students', []);
         setValue('contents', []);

@@ -11,6 +11,7 @@ import { GetCardAction } from 'app/lib/actions';
 import Table from 'app/components/table';
 import CheckboxTree from 'app/components/checkboxTree';
 import GroupDatePicker from 'app/components/groupDatePicker';
+import Toggle from 'app/components/toggle';
 
 const ReportCard: React.FC<{
   students: StudentType[];
@@ -18,6 +19,7 @@ const ReportCard: React.FC<{
 }> = ({ students, exams }) => {
   const { gradeId } = useParams();
   const [examIds, setExamIds] = useState<string[]>([]);
+  const [isSeparate, setIsSeparate] = useState(false);
   const [date, setDate] = useState<GroupDateType>(getInitialGroupDate());
   const [studentsIds, setStudentsIds] = useState<string[]>([]);
   const activeExamsIds = examIds.map((k) => k.split(',')).flat();
@@ -37,11 +39,12 @@ const ReportCard: React.FC<{
   );
 
   const { data, isFetching, refetch } = useQuery({
-    queryKey: ['card'],
+    queryKey: ['card-report'],
     queryFn: () =>
       GetCardAction(gradeId.toString(), {
         students: studentsIds,
         exams: examIds.map((k) => k.split(',')).flat(),
+        isSeparate: isSeparate ? 1 : 0,
         ...date,
       }),
     enabled: false,
@@ -58,8 +61,6 @@ const ReportCard: React.FC<{
     { headerName: fa.reports.card.factor, field: 'factor' },
     { headerName: fa.global.score, field: 'score' },
   ];
-
-  const footerRowData = [{ course: fa.reports.card.average, factor: data?.average || '-' }];
 
   return (
     <div>
@@ -83,6 +84,13 @@ const ReportCard: React.FC<{
           setValues={setStudentsIds}
         />
 
+        <Toggle
+          isChecked={isSeparate}
+          setIsChecked={setIsSeparate}
+          label={fa.reports.card.separateStudents}
+          className="w-44"
+        />
+
         <Button
           disabled={!studentsIds.length || !examIds.length}
           onClick={() => refetch()}
@@ -93,12 +101,25 @@ const ReportCard: React.FC<{
         </Button>
       </div>
 
-      <Table
-        pinnedBottomRowData={footerRowData}
-        {...{ columns }}
-        data={data?.scores || []}
-        className="h-full w-full"
-      />
+      {data?.map((value) => {
+        const footerRowData = [{ course: fa.reports.card.average, factor: value?.average || '-' }];
+
+        return (
+          <div className="mb-4" key={'3'}>
+            {value?.classroom && (
+              <div className="flex font-regular text-14 mr-2">
+                {value?.name} - {value?.classroom}
+              </div>
+            )}
+            <Table
+              pinnedBottomRowData={footerRowData}
+              {...{ columns }}
+              data={value?.scores || []}
+              className="h-full w-full"
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

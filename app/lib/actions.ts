@@ -157,11 +157,17 @@ export const DownloadExamExcelAction = async (
 export const GetCardAction = async (
   gradeId: string,
   filters: object
-): Promise<ReportCardType | undefined> => {
+): Promise<ReportCardType[] | undefined> => {
   const url = api.CardUrl(gradeId);
-  const res: ResponseType<{ data: ReportCardType }> = await request.get(url, filters);
+  const res: ResponseType<{ data: ReportCardType[] | ReportCardType }> = await request.get(
+    url,
+    filters
+  );
 
-  return res.data?.data;
+  const result = res.data?.data;
+
+  if (!result) return undefined;
+  return Array.isArray(result) ? result : [result];
 };
 
 export const UpdateBellsAction = async (

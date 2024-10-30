@@ -464,7 +464,7 @@ export const getFiscalYear = (jalaliDate: Day): { start: Day; end: Day } | undef
   const year = jalaliDate?.year || 0;
 
   // Determine if the given date is after 4/1 of the given year
-  const isAfterStartDate = month > 4 || (month === 4 && day >= 1);
+  const isAfterStartDate = month > 7 || (month === 7 && day >= 1);
 
   let startYear, endYear;
 
@@ -477,8 +477,8 @@ export const getFiscalYear = (jalaliDate: Day): { start: Day; end: Day } | undef
   }
 
   return {
-    start: { year: startYear, month: 4, day: 1 },
-    end: { year: endYear, month: 3, day: 31 },
+    start: { year: startYear, month: 7, day: 1 },
+    end: { year: endYear, month: 6, day: 31 },
   };
 };
 

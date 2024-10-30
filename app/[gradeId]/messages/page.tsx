@@ -4,7 +4,13 @@ import { Metadata } from 'next';
 import fa from 'app/lib/fa.json';
 import { fetchData, getUserRole, studentTag, teacherTag } from 'app/lib/server.util';
 import { InboxMessageUrl, SentMessagesUrl, ShowStudentUrl, ShowTeacherUrl } from 'app/lib/urls';
-import { MessagesType, PageType, StudentType, TeacherType } from 'app/types/common.type';
+import {
+  MessagesType,
+  PageType,
+  SentMessagesType,
+  StudentType,
+  TeacherType,
+} from 'app/types/common.type';
 import { GradeRoute } from 'app/lib/routes';
 import Inbox from './inbox';
 import SendMessage from './sendMessage';
@@ -20,7 +26,7 @@ const MessagesPage: React.FC<PageType> = async ({ params, searchParams }) => {
   const accessTeacher = roleAccess([ROLES.parent], role, true);
   const [inbox, sentMessages, students, teachers] = await Promise.all([
     fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId)),
-    fetchData<MessagesType[]>(SentMessagesUrl(params.gradeId)),
+    fetchData<SentMessagesType[]>(SentMessagesUrl(params.gradeId)),
     !accessStudent
       ? null
       : fetchData<StudentType[]>(ShowStudentUrl(params.gradeId), await studentTag()),

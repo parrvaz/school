@@ -247,6 +247,8 @@ export type AbsentsReportType = {
   classroom: string;
   allBells: number;
   name: string;
+  percent: number;
+  status: string;
 };
 
 export type MessagesType = {

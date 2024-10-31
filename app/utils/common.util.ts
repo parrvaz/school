@@ -55,14 +55,6 @@ export const phoneValidation = (otherRules?: object): object => ({
   ...otherRules,
 });
 
-export const EMOJIS = {
-  enraged: '😡',
-  explodingHead: '🤯',
-  flushedFace: '😳',
-  cryingFace: '😢',
-  downcastFace: '😓',
-};
-
 export const valueValidation = (min?: number | null, max?: number | null): object => {
   const result: Record<string, object> = {};
   const minMessage = `${fa.global.rules.minValue} ${min} ${fa.global.rules.minValue2}`;

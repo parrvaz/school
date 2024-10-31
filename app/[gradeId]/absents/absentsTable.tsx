@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ValueFormatterParams } from 'ag-grid-community';
-// import Link from 'next/link';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import AppDatePicker from 'app/components/datePicker';
 import Table from 'app/components/table';
@@ -10,7 +10,7 @@ import fa from 'app/lib/fa.json';
 import AbsentStatus from './absentStatus';
 import { GradeRoute } from 'app/lib/routes';
 import { AbsentsType } from 'app/types/common.type';
-// import Button from 'app/components/button';
+import Button from 'app/components/button';
 
 const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
   data,
@@ -66,9 +66,9 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
             onChange={(date) => router.push(GradeRoute(gradeId, 'absents', `?date=${date}`))}
           />
         </div>
-        {/* <Link href={GradeRoute(gradeId, 'absents', '/reports')}>
+        <Link href={GradeRoute(gradeId, 'absents', '/reports')}>
           <Button className="btn btn-outline btn-primary w-28">{fa.absents.reports}</Button>
-        </Link> */}
+        </Link>
       </div>
       <div className="">
         {['absentReporter', 'presentReporter', 'notRegistered'].map((key) => (

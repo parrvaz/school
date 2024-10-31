@@ -2,14 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import GroupDatePicker from 'app/components/groupDatePicker';
 import { ClassOptionType, ClassroomType, GroupDateType } from 'app/types/common.type';
 import { getClassOption, getInitialGroupDate } from 'app/utils/common.util';
 import ReactSelect from 'app/components/select';
 import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
-import { GetAbsentsReport } from 'app/lib/actions';
+import { DownloadAbsentExcelAction, GetAbsentsReport } from 'app/lib/actions';
 import Table from 'app/components/table';
 import EmojiRenderer from './emojiRenderer';
 
@@ -19,8 +19,8 @@ const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
   const [selectedClasses, setSelectedClasses] = useState<ClassOptionType[]>([]);
   const classOptions = useMemo(() => getClassOption(classes), [classes]);
 
-  const { refetch, isFetching } = useQuery({
-    queryKey: [gradeId.toString(), date?.startDate, date?.endDate, selectedClasses],
+  const { data, refetch, isFetching } = useQuery({
+    queryKey: ['absent-reports'],
     queryFn: () =>
       GetAbsentsReport(gradeId.toString(), {
         startDate: date?.startDate,
@@ -30,13 +30,8 @@ const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
     enabled: false,
   });
 
-  const data1 = [
-    { student: 'aa', classroom: 'bb', absents: 0, allBells: 20 },
-    { student: 'cc', classroom: 'bb', absents: 18, allBells: 20 },
-  ];
-
   const columns = [
-    { headerName: fa.global.studentName, field: 'student', lockPosition: 'right' },
+    { headerName: fa.global.studentName, field: 'name', lockPosition: 'right' },
     { headerName: fa.global.className, field: 'classroom' },
     { headerName: fa.absents.bellAbsents, field: 'absents' },
     { headerName: fa.absents.allBells, field: 'allBells' },
@@ -50,6 +45,19 @@ const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
       resizable: false,
     },
   ];
+
+  const { mutate: downloadExcel, isPending: excelPending } = useMutation({
+    mutationFn: () =>
+      DownloadAbsentExcelAction(
+        gradeId.toString(),
+        {
+          startDate: date.startDate,
+          endDate: date.endDate,
+          classrooms: selectedClasses.map((k) => k.value),
+        },
+        `${fa.absents.report}-${date.startDate}-${date.endDate}-${selectedClasses.map((k) => k.label).join(',')}`
+      ),
+  });
 
   return (
     <div>
@@ -66,14 +74,21 @@ const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
         <Button
           isLoading={isFetching}
           onClick={() => refetch()}
-          disabled={!date?.startDate || !date.endDate}
           className="btn btn-primary min-h-10 h-10"
         >
           {fa.global.show}
         </Button>
+        <Button
+          isLoading={excelPending}
+          onClick={() => downloadExcel()}
+          className="btn btn-success min-h-10 h-10"
+        >
+          <i className="icon-excel text-20" />
+          {fa.global.downloadExcel}
+        </Button>
       </div>
 
-      <Table {...{ columns }} data={data1 || []} />
+      <Table {...{ columns }} data={data || []} defaultColDef={{ sortable: false }} />
     </div>
   );
 };

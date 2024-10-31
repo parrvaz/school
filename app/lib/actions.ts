@@ -244,6 +244,19 @@ export const GetAbsentsReport = async (
   return res.data?.data;
 };
 
+export const DownloadAbsentExcelAction = async (
+  gradeId: string,
+  body: object,
+  name: string
+): Promise<boolean> => {
+  const url = api.AbsentsReportsExcelUrl(gradeId);
+  const res: ResponseType<BlobPart> = await request.get(url, body, { responseType: 'blob' });
+
+  if (res.ok) saveAs(res.data, name);
+
+  return res.ok;
+};
+
 export const ReadMessageAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = api.MarkAsReadUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);

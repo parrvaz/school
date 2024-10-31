@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { CellClickedEvent } from 'ag-grid-community';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ReactSelect from 'app/components/select';
 import { AbsentsListType, BellsType, ClassroomType, StudentType } from 'app/types/common.type';
 import { getOption, getTody } from 'app/utils/common.util';
@@ -27,6 +27,7 @@ const StudentsList: React.FC<{
 }> = ({ bells, classes, bellId, classId, date, students, tag }) => {
   const router = useRouter();
   const { gradeId } = useParams();
+  const queryClient = useQueryClient();
   const emptyMessage = !bells.length ? fa.bells.noBell : fa.bells.noStudent;
   const [list, setList] = useState<AbsentsListType[]>([]);
   const data = useMemo(
@@ -79,6 +80,7 @@ const StudentsList: React.FC<{
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
+        queryClient.resetQueries({ queryKey: ['absent-reports'] });
       }
     },
   });

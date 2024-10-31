@@ -106,6 +106,7 @@
     "chooseCourse": "انتخاب درس",
     "chooseStudent": "انتخاب دانش‌آموز",
     "exam": "آزمون",
+    "downloadExcel": "دانلود اکسل",
     "": "",
     "action": "عملیات"
   },
@@ -279,6 +280,7 @@
     "bellAbsents": "زنگ غایت",
     "allBells": "کل زنگ‌ها",
     "status": "وضعیت",
+    "report": "گزارش غیبت‌ها",
     "reportAbsents": "گزارش‌گیری غیبت‌ها",
     "fatherPhone": "تلفن ولی (پدر)"
   },

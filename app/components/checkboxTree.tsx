@@ -10,7 +10,7 @@ import Modal from './modal';
 import Button from './button';
 
 const Tree: React.FC<{
-  nodes: TreeNodeType[];
+  nodes: TreeNodeType[] | null;
   values: string[];
   label: string;
   className?: string;
@@ -63,20 +63,24 @@ const Tree: React.FC<{
 
       <Modal mustConfirm open={openModal} setOpen={setOpenModal} id={'tree' + id}>
         <div className="text-center font-bold text-16 mb-3">{label}</div>
-        <CheckboxTree
-          nodes={nodes}
-          checked={checked}
-          expanded={expanded}
-          onCheck={(newChecked) => setChecked(newChecked)}
-          onExpand={(newExpanded) => setExpanded(newExpanded)}
-          icons={{
-            check: <MdCheckBox className="text-berry70 !w-6 h-6 text-20" />,
-            uncheck: <MdCheckBoxOutlineBlank className="text-berry70 !w-6 h-6 text-20" />,
-            halfCheck: <MdIndeterminateCheckBox className="text-berry70 !w-6 h-6 text-20" />,
-            expandClose: <FaChevronRight className="text-16 text-black70" />,
-            expandOpen: <FaChevronDown className="text-16 text-black70" />,
-          }}
-        />
+        {nodes?.length ? (
+          <CheckboxTree
+            nodes={nodes}
+            checked={checked}
+            expanded={expanded}
+            onCheck={(newChecked) => setChecked(newChecked)}
+            onExpand={(newExpanded) => setExpanded(newExpanded)}
+            icons={{
+              check: <MdCheckBox className="text-berry70 !w-6 h-6 text-20" />,
+              uncheck: <MdCheckBoxOutlineBlank className="text-berry70 !w-6 h-6 text-20" />,
+              halfCheck: <MdIndeterminateCheckBox className="text-berry70 !w-6 h-6 text-20" />,
+              expandClose: <FaChevronRight className="text-16 text-black70" />,
+              expandOpen: <FaChevronDown className="text-16 text-black70" />,
+            }}
+          />
+        ) : (
+          <div className="font-regular my-4">{fa.global.noData}</div>
+        )}
 
         <div className="flex justify-end gap-3">
           <Button

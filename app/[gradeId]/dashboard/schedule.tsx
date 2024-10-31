@@ -49,7 +49,9 @@ const Schedule: React.FC<{
 
   return (
     <div className="">
-      <div className="font-bold text-14 mb-1">{fa.dashboard.classesSchedule}</div>
+      <div className="font-bold text-14 mb-1">
+        {fa.dashboard[!adminData ? 'schedule' : 'classesSchedule']}
+      </div>
       <Table
         {...{ columns, data, emptyMessage }}
         defaultColDef={{ sortable: false }}

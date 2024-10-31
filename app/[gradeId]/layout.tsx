@@ -35,17 +35,22 @@ const menu = [
 const roleMenu = {
   manager: menu,
   assistant: menu,
-  parent: [{ title: 'dashboard', icon: 'icon-home' }],
+  parent: [
+    { title: 'dashboard', icon: 'icon-home' },
+    { title: 'reports', icon: 'icon-trend-up' },
+  ],
   teacher: [
     { title: 'dashboard', icon: 'icon-home' },
     { title: 'createExam', icon: 'icon-path' },
     { title: 'exams', icon: 'icon-receipt-item' },
+    { title: 'reports', icon: 'icon-trend-up' },
     { title: 'absents', icon: 'icon-personalcard' },
     { title: 'rollCall', icon: 'icon-task' },
     { title: 'messages', icon: 'icon-message' },
   ],
   student: [
     { title: 'dashboard', icon: 'icon-home' },
+    { title: 'reports', icon: 'icon-trend-up' },
     { title: 'messages', icon: 'icon-message' },
     { title: 'study', icon: 'icon-timer' },
   ],

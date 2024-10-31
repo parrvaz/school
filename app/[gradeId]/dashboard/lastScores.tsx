@@ -16,7 +16,7 @@ const LastScores: React.FC<{ data: ScoreType[] }> = ({ data }) => {
   }));
 
   return (
-    <div className="">
+    <div className="mb-3">
       <div className="font-bold text-14 mb-1">{fa.dashboard.lastScores}</div>
       <Table
         {...{ columns, data, emptyMessage }}

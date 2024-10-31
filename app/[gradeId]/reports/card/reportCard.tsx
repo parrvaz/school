@@ -8,13 +8,13 @@ import { ExamType, GroupDateType, StudentType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import Button from 'app/components/button';
 import { GetCardAction } from 'app/lib/actions';
-import Table from 'app/components/table';
 import CheckboxTree from 'app/components/checkboxTree';
 import GroupDatePicker from 'app/components/groupDatePicker';
 import Toggle from 'app/components/toggle';
+import CardTable from './cardTable';
 
 const ReportCard: React.FC<{
-  students: StudentType[];
+  students: StudentType[] | null;
   exams: ExamType[];
 }> = ({ students, exams }) => {
   const { gradeId } = useParams();
@@ -34,7 +34,7 @@ const ReportCard: React.FC<{
 
   const examNodes = useMemo(() => getExamNodes(filterExams), [filterExams]);
   const classNodes = useMemo(
-    () => getClassNodes(activeClasses, students),
+    () => (students ? getClassNodes(activeClasses, students) : null),
     [activeClasses, students]
   );
 
@@ -42,25 +42,13 @@ const ReportCard: React.FC<{
     queryKey: ['card-report'],
     queryFn: () =>
       GetCardAction(gradeId.toString(), {
+        isSeparate,
         students: studentsIds,
         exams: examIds.map((k) => k.split(',')).flat(),
-        isSeparate: isSeparate ? 1 : 0,
         ...date,
       }),
     enabled: false,
   });
-
-  const columns = [
-    {
-      headerName: fa.global.course,
-      field: 'course',
-      pinned: 'right',
-      lockPosition: 'right',
-      minWidth: 100,
-    },
-    { headerName: fa.reports.card.factor, field: 'factor' },
-    { headerName: fa.global.score, field: 'score' },
-  ];
 
   return (
     <div>
@@ -76,23 +64,27 @@ const ReportCard: React.FC<{
           inputLabel={fa.global.exam}
           length={activeExamsIds.length}
         />
-        <CheckboxTree
-          className="!w-40"
-          label={fa.global.chooseStudent}
-          nodes={classNodes}
-          values={studentsIds}
-          setValues={setStudentsIds}
-        />
+        {students && (
+          <CheckboxTree
+            className="!w-40"
+            label={fa.global.chooseStudent}
+            nodes={classNodes}
+            values={studentsIds}
+            setValues={setStudentsIds}
+          />
+        )}
 
-        <Toggle
-          isChecked={isSeparate}
-          setIsChecked={setIsSeparate}
-          label={fa.reports.card.separateStudents}
-          className="w-44"
-        />
+        {students && (
+          <Toggle
+            isChecked={isSeparate}
+            setIsChecked={setIsSeparate}
+            label={fa.reports.card.separateStudents}
+            className="w-44"
+          />
+        )}
 
         <Button
-          disabled={!studentsIds.length || !examIds.length}
+          disabled={(students && !studentsIds.length) || !examIds.length}
           onClick={() => refetch()}
           className="btn btn-primary min-h-10 h-10"
           isLoading={isFetching}
@@ -101,25 +93,7 @@ const ReportCard: React.FC<{
         </Button>
       </div>
 
-      {data?.map((value) => {
-        const footerRowData = [{ course: fa.reports.card.average, factor: value?.average || '-' }];
-
-        return (
-          <div className="mb-4" key={'3'}>
-            {value?.classroom && (
-              <div className="flex font-regular text-14 mr-2">
-                {value?.name} - {value?.classroom}
-              </div>
-            )}
-            <Table
-              pinnedBottomRowData={footerRowData}
-              {...{ columns }}
-              data={value?.scores || []}
-              className="h-full w-full"
-            />
-          </div>
-        );
-      })}
+      {data?.map((value) => <CardTable key={value.name} data={value} />)}
     </div>
   );
 };

@@ -172,8 +172,10 @@ export const getNestedError = (errors: any, name: string): { message: string } =
   return path.reduce((acc, key) => (acc ? acc[key] : undefined), errors);
 };
 
-export const getTody = (notPersian = false, week = false): string => {
+export const getTody = (notPersian = false, week = false, beforeToday = 0): string => {
   const today = new Date();
+  today.setDate(today.getDate() - beforeToday); // Adjust the date by `beforeToday`
+
   const jalaliDate = jalaali.toJalaali(today);
   const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const dayName = daysOfWeek[today.getDay()];

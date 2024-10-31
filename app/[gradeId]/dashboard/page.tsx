@@ -10,6 +10,7 @@ import {
   scoreTag,
 } from 'app/lib/server.util';
 import {
+  CardUrl,
   InboxMessageUrl,
   ShowAbsentsUrl,
   ShowExamUrl,
@@ -21,6 +22,7 @@ import {
   ExamType,
   MessagesType,
   PageType,
+  ReportCardType,
   ScheduleDataType,
   ScoreType,
 } from 'app/types/common.type';
@@ -30,13 +32,14 @@ import Schedule from './schedule';
 import LastExams from './lastExams';
 import { getTody, roleAccess, ROLES } from 'app/utils/common.util';
 import LastScores from './lastScores';
+import MonthCard from './monthCard';
 
 export const metadata: Metadata = { title: fa.sidebar.dashboard };
 
 const DashboardPage: React.FC<PageType> = async ({ params }) => {
   const role = (await getUserRole()) || '';
   const admin = roleAccess([ROLES.student, ROLES.parent], role, true);
-  const [inbox, schedules, exams, absents, scores] = await Promise.all([
+  const [inbox, schedules, exams, absents, scores, card] = await Promise.all([
     fetchData<MessagesType[]>(InboxMessageUrl(params.gradeId)),
     fetchData<ScheduleDataType[]>(ShowSchedulesUrl(params.gradeId), await schedulesTag()),
     fetchData<ExamType[]>(ShowExamUrl(params?.gradeId), await examTag()),
@@ -45,6 +48,9 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
       : null,
     role === ROLES.parent
       ? fetchData<ScoreType[]>(ShowScoreUrl(params.gradeId), await scoreTag())
+      : null,
+    !admin
+      ? fetchData<ReportCardType>(CardUrl(params.gradeId, getTody(false, false, 30), getTody()))
       : null,
   ]);
 
@@ -57,6 +63,7 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
         <div className="flex-grow-1">
           <LastMessages inbox={role === ROLES.parent ? inbox : inbox.slice(0, 5)} />
           {admin && <Absents absentsCount={absentsCount || 0} />}
+          {!admin && card && <MonthCard card={card} />}
         </div>
         <div className="flex-grow-5">
           {scores && <LastScores data={scores.slice(0, 5)} />}

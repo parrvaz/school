@@ -54,7 +54,8 @@ export const UpdateExamUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/exams/update/${id}`;
 
 // Reports ///////////////////////////////////////////
-export const CardUrl = (gradeId: string): string => `/${gradeId}/reports/card`;
+export const CardUrl = (gradeId: string, startDate?: string, endDate?: string): string =>
+  `/${gradeId}/reports/card${startDate ? `?startDate=${startDate}&endDate=${endDate}` : ''}`;
 
 // Bells ///////////////////////////////////////////
 export const CreateBellUrl = (gradeId: string): string => `/${gradeId}/bells/store`;

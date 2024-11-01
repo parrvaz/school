@@ -66,7 +66,7 @@ const DashboardPage: React.FC<PageType> = async ({ params }) => {
           {!admin && card && <MonthCard card={card} />}
         </div>
         <div className="flex-grow-5">
-          {scores && <LastScores data={scores.slice(0, 5)} />}
+          {scores && <LastScores data={scores} />}
           <Schedule
             adminData={admin ? schedules : undefined}
             studentData={!admin ? (schedules as any).schedule : undefined}

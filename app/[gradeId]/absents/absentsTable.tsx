@@ -11,10 +11,12 @@ import AbsentStatus from './absentStatus';
 import { GradeRoute } from 'app/lib/routes';
 import { AbsentsType } from 'app/types/common.type';
 import Button from 'app/components/button';
+import JustifyRenderer from './justifyRenderer';
 
-const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
+const AbsentsTable: React.FC<{ jalaliDate: string; tag: string; data: AbsentsType[] }> = ({
   data,
   jalaliDate,
+  tag,
 }) => {
   const router = useRouter();
   const { gradeId } = useParams();
@@ -25,6 +27,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
       classroom: classroom.classroom,
       classroom_id: classroom.classroom_id,
       fatherPhone: '', // Empty for classroom row
+      action: '',
       student: classroom.classroom, // Classroom name displayed
       bells: classroom.students[0]?.bells, // Empty bells for classroom row
     },
@@ -43,7 +46,8 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
       headerName: fa.absents.studentName,
       field: 'student',
       lockPosition: 'right',
-      minWidth: 110,
+      minWidth: 150,
+      width: 150,
       colSpan: (params: ValueFormatterParams) =>
         params.data.classroom ? Object.keys(params.data.bells || []).length + 2 : 1,
     },
@@ -54,6 +58,16 @@ const AbsentsTable: React.FC<{ jalaliDate: string; data: AbsentsType[] }> = ({
       cellRendererParams: { bell },
     })),
     { headerName: fa.absents.fatherPhone, field: 'fatherPhone', minWidth: 130 },
+    {
+      headerName: fa.global.action,
+      cellRenderer: JustifyRenderer,
+      cellRendererParams: { jalaliDate, tag },
+      pinned: 'left',
+      lockPosition: 'left',
+      width: 160,
+      minWidth: 160,
+      resizable: false,
+    },
   ];
 
   return (

@@ -244,6 +244,12 @@ export const GetAbsentsReport = async (
   return res.data?.data;
 };
 
+export const JustifyAbsentAction = async (id: string, body: object): Promise<boolean> => {
+  const res: ResponseType<{ data: string }> = await request.get(api.JustifyAbsentsUrl(id), body);
+
+  return res.ok;
+};
+
 export const DownloadAbsentExcelAction = async (
   gradeId: string,
   body: object,

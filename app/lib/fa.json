@@ -285,6 +285,8 @@
     "bellAbsents": "زنگ غایت",
     "allBells": "کل زنگ‌ها",
     "status": "وضعیت",
+    "justify": "غیبت موجه",
+    "notJustify": "غیبت غیر موجه",
     "report": "گزارش غیبت‌ها",
     "reportAbsents": "گزارش‌گیری غیبت‌ها",
     "fatherPhone": "تلفن ولی (پدر)"

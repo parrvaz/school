@@ -28,7 +28,8 @@ const ReportCard: React.FC<{
   const filterExams = useMemo(
     () =>
       exams.filter(
-        (exam) => exam.date >= (date?.startDate || '') && exam.date <= (date?.endDate || '')
+        (exam) =>
+          exam.isFinal && exam.date >= (date?.startDate || '') && exam.date <= (date?.endDate || '')
       ),
     [exams, date]
   );

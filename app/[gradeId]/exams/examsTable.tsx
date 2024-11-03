@@ -47,6 +47,14 @@ const ExamsTable: React.FC<{ data: ExamType[]; tag: string }> = ({ data, tag }) 
       resizable: false,
     },
     {
+      headerName: fa.createExam.modifiedDate,
+      field: 'modifiedDate',
+      valueFormatter: (params: ValueFormatterParams) => faNumber(params.value),
+      width: 100,
+      minWidth: 100,
+      resizable: false,
+    },
+    {
       headerName: fa.createExam.contents,
       field: 'contents',
       valueFormatter: (params: ValueFormatterParams): string =>

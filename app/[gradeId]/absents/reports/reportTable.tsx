@@ -35,6 +35,7 @@ const ReportTable: React.FC<{ classes: ClassroomType[] }> = ({ classes }) => {
     { headerName: fa.global.className, field: 'classroom' },
     { headerName: fa.absents.bellAbsents, field: 'absents' },
     { headerName: fa.absents.allBells, field: 'allBells' },
+    { headerName: fa.absents.percent, field: 'percent' },
     {
       headerName: fa.absents.status,
       cellRenderer: EmojiRenderer,

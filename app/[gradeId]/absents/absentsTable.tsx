@@ -36,6 +36,7 @@ const AbsentsTable: React.FC<{ jalaliDate: string; tag: string; data: AbsentsTyp
       classroom_id: '',
       fatherPhone: student.fatherPhone,
       student: student.student,
+      student_id: student.student_id,
       bells: student.bells,
     })),
   ]);

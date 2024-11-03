@@ -12,7 +12,10 @@ const JustifyRenderer: React.FC = (props: any) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
-      JustifyAbsentAction(gradeId.toString(), { date: jalaliDate, student_id: 392 }),
+      JustifyAbsentAction(gradeId.toString(), {
+        date: jalaliDate,
+        student_id: node.data.student_id,
+      }),
     onSuccess: (ok) => ok && tagRevalidate(tag),
   });
 

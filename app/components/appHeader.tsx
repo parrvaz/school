@@ -6,7 +6,7 @@ import Logout from './logout';
 
 const AppHeader: React.FC<{ user: UserType }> = ({ user }) => {
   return (
-    <div className="bg-white border-b border-b-berry10 fixed px-7 top-0 justify-between left-0 w-screen z-10 h-14 flex items-center">
+    <div className="bg-white border-b border-b-berry10 fixed px-7 top-0 justify-between left-0 w-screen z-[101] h-14 flex items-center">
       <div className="">
         <div className="">
           <div className="text-14 font-bold">{user.name}</div>

@@ -18,7 +18,7 @@ const Sidebar: React.FC<{
   const activeTab = path.split('/')[2];
 
   return (
-    <div className="right-0 h-screen w-60 fixed overflow-auto bg-white">
+    <div className="right-0 h-screen w-60 fixed overflow-auto bg-white z-[100]">
       <div className="pt-16">
         {menu.map(({ title, icon }) => (
           <div className="relative pl-4 pr-5" key={title}>

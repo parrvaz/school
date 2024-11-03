@@ -12,6 +12,7 @@ import CheckboxTree from 'app/components/checkboxTree';
 import GroupDatePicker from 'app/components/groupDatePicker';
 import Toggle from 'app/components/toggle';
 import CardTable from './cardTable';
+import PdfDownload from './pdfDownload';
 
 const ReportCard: React.FC<{
   students: StudentType[] | null;
@@ -43,7 +44,8 @@ const ReportCard: React.FC<{
     queryKey: ['card-report'],
     queryFn: () =>
       GetCardAction(gradeId.toString(), {
-        isSeparate,
+        // isSeparate,
+        isSeparate: isSeparate ? 1 : 0,
         students: studentsIds,
         exams: examIds.map((k) => k.split(',')).flat(),
         ...date,
@@ -95,6 +97,7 @@ const ReportCard: React.FC<{
       </div>
 
       {data?.map((value) => <CardTable key={value.name} data={value} />)}
+      {!!data && <PdfDownload data={data} />}
     </div>
   );
 };

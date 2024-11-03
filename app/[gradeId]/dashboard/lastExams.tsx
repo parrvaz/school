@@ -8,7 +8,7 @@ import { ExamType } from 'app/types/common.type';
 import { examTypeFormatter, faNumber } from 'app/utils/common.util';
 import Table from 'app/components/table';
 
-const LastExams: React.FC<{ data: ExamType[] }> = ({ data }) => {
+const LastExams: React.FC<{ data: ExamType[]; isAdmin: boolean }> = ({ data, isAdmin }) => {
   const emptyMessage = fa.createExam.noExam;
   const columns = [
     {
@@ -39,9 +39,12 @@ const LastExams: React.FC<{ data: ExamType[] }> = ({ data }) => {
       resizable: false,
     },
   ];
+
   return (
     <div className="">
-      <div className="font-bold text-14 mb-1 mt-3">{fa.dashboard.lastExams}</div>
+      <div className="font-bold text-14 mb-1 mt-3">
+        {fa.dashboard[isAdmin ? 'lastExams' : 'lastExamsInClass']}
+      </div>
 
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
     </div>

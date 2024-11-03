@@ -167,7 +167,9 @@ export const GetCardAction = async (
   const result = res.data?.data;
 
   if (!result) return undefined;
-  return Array.isArray(result) ? result : [result];
+  return Array.isArray(result)
+    ? result.sort((a, b) => (a.lastName || '').localeCompare(b.lastName || '', 'fa'))
+    : [result];
 };
 
 export const UpdateBellsAction = async (

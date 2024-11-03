@@ -44,8 +44,7 @@ const ReportCard: React.FC<{
     queryKey: ['card-report'],
     queryFn: () =>
       GetCardAction(gradeId.toString(), {
-        // isSeparate,
-        isSeparate: isSeparate ? 1 : 0,
+        isSeparate,
         students: studentsIds,
         exams: examIds.map((k) => k.split(',')).flat(),
         ...date,

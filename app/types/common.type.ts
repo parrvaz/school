@@ -190,6 +190,7 @@ export type CreateExamFormType = {
 export type ReportCardType = {
   average: number;
   name?: string;
+  lastName?: string;
   classroom?: string;
   scores: { course_id: number; course: string; factor: number; score: number }[];
 };

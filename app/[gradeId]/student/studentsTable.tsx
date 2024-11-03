@@ -47,9 +47,9 @@ const StudentsTable: React.FC<{
     },
   ];
   return (
-    <div className="relative">
+    <div className="relative pb-10">
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />
-      <div className="flex justify-end mt-6 fixed bottom-0 bg-white70 w-full left-0 p-3 gap-4">
+      <div className="flex justify-end mt-6 fixed bottom-0 bg-white90 w-full left-0 p-3 gap-4">
         <UploadExcel {...{ tags }} />
         <CreateNewStudent {...{ studentData, setStudentData, classes, tags }} />
       </div>

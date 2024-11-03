@@ -23,7 +23,7 @@ const menu = [
   { title: 'assign', icon: 'icon-book' },
   { title: 'createExam', icon: 'icon-path' },
   { title: 'exams', icon: 'icon-receipt-item' },
-  { title: 'reports', icon: 'icon-trend-up' },
+  { title: 'reports', icon: 'icon-trend-up', url: '/card' },
   { title: 'bells', icon: 'icon-menu-board' },
   { title: 'absents', icon: 'icon-personalcard' },
   { title: 'rollCall', icon: 'icon-task' },
@@ -33,27 +33,11 @@ const menu = [
 ];
 
 const roleMenu = {
-  manager: menu,
-  assistant: menu,
-  parent: [
-    { title: 'dashboard', icon: 'icon-home' },
-    { title: 'reports', icon: 'icon-trend-up' },
-  ],
-  teacher: [
-    { title: 'dashboard', icon: 'icon-home' },
-    { title: 'createExam', icon: 'icon-path' },
-    { title: 'exams', icon: 'icon-receipt-item' },
-    { title: 'reports', icon: 'icon-trend-up' },
-    { title: 'absents', icon: 'icon-personalcard' },
-    { title: 'rollCall', icon: 'icon-task' },
-    { title: 'messages', icon: 'icon-message' },
-  ],
-  student: [
-    { title: 'dashboard', icon: 'icon-home' },
-    { title: 'reports', icon: 'icon-trend-up' },
-    { title: 'messages', icon: 'icon-message' },
-    { title: 'study', icon: 'icon-timer' },
-  ],
+  manager: menu.map((k) => k.title),
+  assistant: menu.map((k) => k.title),
+  parent: ['dashboard', 'reports'],
+  teacher: ['dashboard', 'createExam', 'exams', 'reports', 'absents', 'rollCall', 'messages'],
+  student: ['dashboard', 'reports', 'messages', 'study'],
 };
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
@@ -77,7 +61,7 @@ const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }
   return (
     <div className="bg-berry10 flex w-full min-h-screen pr-60">
       <AppHeader user={user} />
-      <Sidebar menu={roleMenu[user.role]} />
+      <Sidebar menu={roleMenu[user.role].map((item) => menu.find((k) => k.title === item))} />
 
       <div className="flex-1 m-10 relative pt-9">
         {accessGrad && <GradeSelect options={options} tag={await gradesTag()} />}

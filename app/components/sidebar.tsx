@@ -11,7 +11,7 @@ const className =
   'animate mb-1.5 flex cursor-pointer items-center rounded-xl p-2 text-14 hover:bg-berry20 hover:text-black80';
 
 const Sidebar: React.FC<{
-  menu: { title: string; icon: string }[];
+  menu: { title: string; icon: string; url?: string }[];
 }> = ({ menu }) => {
   const path = usePathname();
   const { gradeId } = useParams();
@@ -20,11 +20,11 @@ const Sidebar: React.FC<{
   return (
     <div className="right-0 h-screen w-60 fixed overflow-auto bg-white z-[100]">
       <div className="pt-16">
-        {menu.map(({ title, icon }) => (
+        {menu.map(({ title, icon, url }) => (
           <div className="relative pl-4 pr-5" key={title}>
             {
               <Link
-                href={GradeRoute(gradeId.toString(), kebabCase(title))}
+                href={GradeRoute(gradeId.toString(), kebabCase(title), url || '')}
                 className={`${
                   kebabCase(title) === activeTab
                     ? ' bg-berry20 text-black80'

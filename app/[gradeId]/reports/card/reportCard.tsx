@@ -94,9 +94,9 @@ const ReportCard: React.FC<{
           {fa.global.show}
         </Button>
       </div>
-      <PdfDownload />
 
       {data?.map((value) => <CardTable key={value.name} data={value} />)}
+      {!!data && <PdfDownload data={data} />}
     </div>
   );
 };

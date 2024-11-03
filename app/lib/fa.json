@@ -107,6 +107,10 @@
     "chooseStudent": "انتخاب دانش‌آموز",
     "exam": "آزمون",
     "downloadExcel": "دانلود اکسل",
+    "download": "دانلود",
+    "courseName": "نام درس",
+    "factor": "ضریب",
+    "average": "معدل",
     "": "",
     "action": "عملیات"
   },
@@ -260,6 +264,7 @@
       "average": "معدل",
       "separateStudents": "به تفکیک دانش‌آموز",
       "downloadPdf": "دانلود PDF",
+      "downloadImage": "دانلود تصویر",
       "": "",
       "factor": "ضریب",
       "title": "کارنامه"

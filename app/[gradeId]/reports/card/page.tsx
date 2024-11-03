@@ -17,7 +17,7 @@ const ReportCardPage: React.FC<PageType> = async ({ params }) => {
     fetchData<ExamType[]>(ShowExamUrl(params?.gradeId), await examTag()),
   ]);
   return (
-    <div className="relative pb-11">
+    <div className="pb-11">
       <h1 className="font-bold text-berry100 w-[calc(100%-18rem)] text-24 mb-10">
         {fa.reports.card.title}
       </h1>

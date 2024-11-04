@@ -245,7 +245,7 @@ export const GetAbsentsReport = async (
 };
 
 export const JustifyAbsentAction = async (id: string, body: object): Promise<boolean> => {
-  const res: ResponseType<{ data: string }> = await request.get(api.JustifyAbsentsUrl(id), body);
+  const res: ResponseType<{ data: string }> = await request.post(api.JustifyAbsentsUrl(id), body);
 
   return res.ok;
 };

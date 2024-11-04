@@ -96,7 +96,7 @@ const ReportCard: React.FC<{
       </div>
 
       {data?.map((value) => <CardTable key={value.name} data={value} />)}
-      {!!data && <PdfDownload data={data} />}
+      {!!data && <PdfDownload data={data} date={date} />}
     </div>
   );
 };

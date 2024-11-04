@@ -4,15 +4,16 @@ import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
-import { ReportCardType } from 'app/types/common.type';
+import { GroupDateType, ReportCardType } from 'app/types/common.type';
 import { faNumber } from 'app/utils/common.util';
 import Modal from 'app/components/modal';
 
-const PdfDownload: React.FC<{ data: ReportCardType[] }> = ({ data }) => {
+const PdfDownload: React.FC<{ data: ReportCardType[]; date: GroupDateType }> = ({ data, date }) => {
   const elementRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [pdfUrl, setPdfUrl] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const name = `${fa.reports.card.card}-${date.startDate}-${date.endDate}`;
 
   const handleConvertToPdf = async (): Promise<void> => {
     if (imageUrls.length === 0) return;
@@ -129,7 +130,7 @@ const PdfDownload: React.FC<{ data: ReportCardType[] }> = ({ data }) => {
         </div>
 
         <div className="sticky bottom-0 bg-berry10 w-full text-end p-3">
-          <Button onClick={() => saveAs(pdfUrl, 'bbb')} className="btn w-56 btn-primary">
+          <Button onClick={() => saveAs(pdfUrl, name)} className="btn w-56 btn-primary">
             {fa.reports.card.downloadPdf}
           </Button>
         </div>

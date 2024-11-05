@@ -195,6 +195,14 @@ export type ReportCardType = {
   scores: { course_id: number; course: string; factor: number; score: number }[];
 };
 
+export type ProgressType = {
+  id: number;
+  date: string;
+  score: number;
+  expected: number;
+  average: number;
+};
+
 export type TreeNodeType = {
   value: string;
   label: string;

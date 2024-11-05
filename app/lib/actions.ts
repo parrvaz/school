@@ -154,11 +154,12 @@ export const DownloadExamExcelAction = async (
   return res.ok;
 };
 
-export const GetCardAction = async (
+export const GetReportAction = async (
   gradeId: string,
-  filters: object
+  filters: object,
+  isCard?: boolean
 ): Promise<ReportCardType[] | undefined> => {
-  const url = api.CardUrl(gradeId);
+  const url = isCard ? api.CardUrl(gradeId) : api.ProgressUrl(gradeId);
   const res: ResponseType<{ data: ReportCardType[] | ReportCardType }> = await request.get(
     url,
     filters

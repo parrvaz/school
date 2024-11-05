@@ -70,6 +70,17 @@ module.exports = {
       red80: '#991b1b',
       red90: '#7f1d1d',
 
+      chart1: '#2962FF',
+      chart2: '#FF6D00',
+      chart3: '#AA00FF',
+      chart4: '#F23645',
+      chart5: '#4CAF50',
+      chart6: '#FFEB3B',
+      chart7: '#FF4081',
+      chart8: '#089981',
+      chart9: '#9C27B0',
+      chart10: '#673AB7',
+
       white: '#fff',
       white10: 'rgba(255, 255, 255, 0.1)',
       white50: 'rgba(255, 255, 255, 0.50)',

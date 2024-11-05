@@ -8,7 +8,10 @@ import { GroupDateType, ReportCardType } from 'app/types/common.type';
 import { faNumber } from 'app/utils/common.util';
 import Modal from 'app/components/modal';
 
-const PdfDownload: React.FC<{ data: ReportCardType[]; date: GroupDateType }> = ({ data, date }) => {
+const PdfDownload: React.FC<{ data: ReportCardType[] | undefined; date: GroupDateType }> = ({
+  data,
+  date,
+}) => {
   const elementRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [pdfUrl, setPdfUrl] = useState('');
@@ -46,14 +49,14 @@ const PdfDownload: React.FC<{ data: ReportCardType[]; date: GroupDateType }> = (
 
   const handleCapture = async (): Promise<void> => {
     const capturedImages: string[] = [];
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < (data?.length || 0); i++) {
       const element = elementRefs.current[i];
       if (element) {
         try {
           const dataUrl = await toPng(element, { width: 794, height: 1123 });
           capturedImages.push(dataUrl);
         } catch (error) {
-          console.error('Could not capture image for item', data[i].name, error);
+          console.error('Could not capture image for item', data?.[i].name, error);
         }
       }
     }
@@ -87,7 +90,7 @@ const PdfDownload: React.FC<{ data: ReportCardType[]; date: GroupDateType }> = (
       >
         <div className="mt-6 font-bold text-18 mb-4">{fa.global.download}</div>
         <div className="">
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <div
               key={item.name}
               ref={(el) => {

@@ -25,7 +25,7 @@ const AbsentsPage: React.FC<PageType> = async ({ params, searchParams }) => {
   return (
     <div className="">
       <h1 className="font-bold text-berry100 text-24 mb-10">{fa.sidebar.absents}</h1>
-      <AbsentsTable {...{ data, jalaliDate }} />
+      <AbsentsTable {...{ data, jalaliDate }} tag={await absentsTag()} />
     </div>
   );
 };

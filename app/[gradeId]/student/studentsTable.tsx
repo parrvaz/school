@@ -46,6 +46,7 @@ const StudentsTable: React.FC<{
       },
     },
   ];
+
   return (
     <div className="relative pb-10">
       <Table {...{ columns, emptyMessage, data }} className="h-full w-full" />

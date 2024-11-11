@@ -8,10 +8,12 @@ import { GroupDateType, ReportCardType } from 'app/types/common.type';
 import { faNumber } from 'app/utils/common.util';
 import Modal from 'app/components/modal';
 
-const PdfDownload: React.FC<{ data: ReportCardType[] | undefined; date: GroupDateType }> = ({
-  data,
-  date,
-}) => {
+const PdfDownload: React.FC<{
+  data: ReportCardType[] | undefined;
+  date: GroupDateType;
+  gradeId: number;
+}> = ({ data, date, gradeId }) => {
+  const i18n = fa.reports.pdfDownload;
   const elementRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [pdfUrl, setPdfUrl] = useState('');
@@ -98,11 +100,32 @@ const PdfDownload: React.FC<{ data: ReportCardType[] | undefined; date: GroupDat
               }}
               className="w-[794px] h-[1123px] p-7 bg-white"
             >
-              {item.name && (
-                <div className="text-start">
-                  {item.name} - {item.classroom}
+              <div className="flex gap-3 mb-2">
+                <div className="font-semibold leading-5 text-13">
+                  <div className="">{i18n.info1}</div>
+                  <div className="">{i18n.info2}</div>
+                  <div className="">{i18n.info3}</div>
+                  <div className="">{i18n.info4}</div>
+                  <div className="">{fa.global[`grade${gradeId}th`]}</div>
                 </div>
-              )}
+                <div className="flex-1 border border-black60 text-12 text-start px-1 bg-black30 font-semibold">
+                  <div className="">{i18n.info5}</div>
+                  <div className="">{i18n.info6}</div>
+                  <div className="">{i18n.info7}</div>
+                  <div className="">{i18n.info8}</div>
+                </div>
+                <div className="flex-1 border border-black60 text-12 text-start px-1 bg-black30 font-semibold">
+                  <div className="">
+                    {i18n.info9} {item.firstName ? `: ${item?.firstName}` : ''}
+                  </div>
+                  <div className="">
+                    {i18n.info10} {item.lastName ? `: ${item.lastName}` : ''}
+                  </div>
+                  <div className="">{i18n.info11}</div>
+                  <div className="">{i18n.info12}</div>
+                </div>
+                <div className="w-20 h-24 border border-black60" />
+              </div>
               <div className="text-center border border-black50 rounded-md overflow-hidden">
                 <table className="w-full rtl">
                   <thead className="border-b border-b-black50 te">

@@ -15,7 +15,8 @@ import PdfDownload from './pdfDownload';
 const ReportCard: React.FC<{
   students: StudentType[] | null;
   exams: ExamType[];
-}> = ({ students, exams }) => {
+  gradeId: number;
+}> = ({ students, exams, gradeId }) => {
   const [data, setData] = useState<{
     table: ProgressType[] | ReportCardType[] | undefined;
     date: GroupDateType;
@@ -26,7 +27,9 @@ const ReportCard: React.FC<{
       <Filter {...{ students, exams, setData }} isCard />
 
       {data?.table?.map((value) => <CardTable key={value.name} data={value} />)}
-      {!!data && <PdfDownload data={data.table as ReportCardType[]} date={data.date} />}
+      {!!data && (
+        <PdfDownload gradeId={gradeId} data={data.table as ReportCardType[]} date={data.date} />
+      )}
     </div>
   );
 };

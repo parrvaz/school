@@ -191,7 +191,9 @@ export type ReportCardType = {
   average: number;
   name?: string;
   lastName?: string;
+  firstName?: string;
   classroom?: string;
+  student_id: number;
   scores: { course_id: number; course: string; factor: number; score: number }[];
 };
 

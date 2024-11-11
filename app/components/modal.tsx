@@ -31,8 +31,8 @@ const Modal: React.FC<{
   }, [id, open]);
 
   return (
-    <dialog id={id} className="modal overflow-y-auto">
-      <div className={`modal-box max-h-[unset] ${className}`}>
+    <dialog id={id} className="modal ">
+      <div className={`modal-box overflow-y-auto ${className}`}>
         {children}
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}

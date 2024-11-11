@@ -10,6 +10,7 @@ import Table from 'app/components/table';
 
 const LastExams: React.FC<{ data: ExamType[]; isAdmin: boolean }> = ({ data, isAdmin }) => {
   const emptyMessage = fa.createExam.noExam;
+  console.log(data);
   const columns = [
     {
       headerName: fa.global.date,

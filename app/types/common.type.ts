@@ -183,7 +183,7 @@ export type CreateExamFormType = {
   isGeneral: boolean;
   students: {
     name: { value: number; label: string } | null;
-    score: number | null;
+    score: number | null | string;
   }[];
 };
 

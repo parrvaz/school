@@ -33,6 +33,7 @@ export const TYPE_OPTIONS = [
   { value: 1, label: fa.createExam.written },
   { value: 2, label: fa.createExam.oral },
   { value: 3, label: fa.createExam.test },
+  { value: 4, label: fa.createExam.homework },
 ];
 
 export const numberValidation = (otherRules?: object, allowDecimal?: boolean): object => ({

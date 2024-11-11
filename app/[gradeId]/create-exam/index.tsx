@@ -65,7 +65,7 @@ const CreateExam: React.FC<{
     students:
       data?.students.map((k) => ({
         name: { value: k.student_id, label: k.name },
-        score: k.score,
+        score: k.score.toString(),
       })) || [],
   };
 

@@ -65,8 +65,8 @@ const AbsentsTable: React.FC<{ jalaliDate: string; tag: string; data: AbsentsTyp
       cellRendererParams: { jalaliDate, tag },
       pinned: 'left',
       lockPosition: 'left',
-      width: 160,
-      minWidth: 160,
+      width: 180,
+      minWidth: 180,
       resizable: false,
     },
   ];
@@ -85,11 +85,11 @@ const AbsentsTable: React.FC<{ jalaliDate: string; tag: string; data: AbsentsTyp
           <Button className="btn btn-outline btn-primary w-28">{fa.absents.reports}</Button>
         </Link>
       </div>
-      <div className="">
-        {['absentReporter', 'presentReporter', 'notRegistered'].map((key) => (
+      <div className="grid grid-cols-2">
+        {['presentReporter', 'notRegistered', 'justifiedStudents', 'absentReporter'].map((key) => (
           <div key={key} className="font-light text-12 text-berry80 flex items-center">
             <i className="icon-info-circle text-16 ml-1" />
-            {fa.absents[key as keyof typeof fa.absents]}
+            {fa.absents[key]}
           </div>
         ))}
       </div>

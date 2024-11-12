@@ -25,19 +25,22 @@ const PdfDownload: React.FC<{
 
     try {
       const pdfDoc = await PDFDocument.create();
-      const a4Width = 595.28; // 210mm in points
-      const a4Height = 841.89; // 297mm in points
-
-      for (const itemImageUrl of imageUrls) {
-        const pngBytes = await fetch(itemImageUrl).then((res) => res.arrayBuffer());
-        const pngImage = await pdfDoc.embedPng(pngBytes);
-        const page = pdfDoc.addPage([a4Width, a4Height]);
-        page.drawImage(pngImage, {
-          x: 0,
-          y: 0,
-          width: a4Width,
-          height: a4Height,
-        });
+      const a4Width = 595.28;
+      const a4Height = 841.89;
+      const batchSize = 20; // Process images in batches of 20
+      for (let i = 0; i < imageUrls.length; i += batchSize) {
+        const batch = imageUrls.slice(i, i + batchSize);
+        for (const itemImageUrl of batch) {
+          const pngBytes = await fetch(itemImageUrl).then((res) => res.arrayBuffer());
+          const pngImage = await pdfDoc.embedPng(pngBytes);
+          const page = pdfDoc.addPage([a4Width, a4Height]);
+          page.drawImage(pngImage, {
+            x: 0,
+            y: 0,
+            width: a4Width,
+            height: a4Height,
+          });
+        }
       }
 
       const pdfBytes = await pdfDoc.save();
@@ -48,7 +51,6 @@ const PdfDownload: React.FC<{
       console.error('Could not generate PDF', error);
     }
   };
-
   const handleCapture = async (): Promise<void> => {
     const capturedImages: string[] = [];
     for (let i = 0; i < (data?.length || 0); i++) {

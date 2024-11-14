@@ -24,6 +24,7 @@ const menu = [
   { title: 'createExam', icon: 'icon-path' },
   { title: 'exams', icon: 'icon-receipt-item' },
   { title: 'reports', icon: 'icon-trend-up', url: '/card' },
+  { title: 'homeworkList', icon: 'icon-edit' },
   { title: 'bells', icon: 'icon-menu-board' },
   { title: 'absents', icon: 'icon-personalcard' },
   { title: 'rollCall', icon: 'icon-task' },

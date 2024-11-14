@@ -37,6 +37,7 @@ export type ClassroomType = {
 };
 
 export type ClassOptionType = { value: number; label: string; fieldId: number };
+export type OptionType = { value: number | null; label: string };
 
 export type ClassFormType = {
   title: string;

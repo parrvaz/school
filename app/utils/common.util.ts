@@ -235,12 +235,35 @@ export const getOption = (
 export const getClassOption = (data: ClassroomType[]): ClassOptionType[] =>
   data?.map((item) => ({ value: item.id, label: item.title, fieldId: item.field_id }));
 
-export const getCourses = (courses: CourseType[], targetField: number): CourseType[] =>
-  courses.filter((k) => k.field_id === targetField || !k.field_id);
+const getCoursesWithBothFields = (courses: CourseType[], fieldIds: number[]): CourseType[] => {
+  // Group courses by `id`
+  const groupedCourses = courses.reduce(
+    (acc, course) => {
+      acc[course.id] = acc[course.id] || [];
+      acc[course.id].push(course);
+      return acc;
+    },
+    {} as Record<number, CourseType[]>
+  );
+
+  // Filter out groups that either have all fieldIds or contain `null` as `field_id`
+  return Object.values(groupedCourses)
+    .filter(
+      (group) =>
+        group.some((course) => course.field_id === null) ||
+        fieldIds.every((fieldId) => group.some((course) => course.field_id === fieldId))
+    )
+    .map((group) => group[0]); // Return the first instance of each `id`
+};
+
+export const getCourses = (courses: CourseType[], targetField: number | number[]): CourseType[] =>
+  typeof targetField === 'number'
+    ? courses.filter((k) => k.field_id === targetField || !k.field_id)
+    : getCoursesWithBothFields(courses, targetField);
 
 export const getCoursesOption = (
   courses: CourseType[],
-  targetField: number
+  targetField: number | number[]
 ): { value: number; label: string }[] => {
   return getCourses(courses, targetField).map((k) => ({ value: k.id, label: k.name }));
 };

@@ -114,6 +114,7 @@
     "courseName": "نام درس",
     "factor": "ضریب",
     "average": "معدل",
+    "title": "عنوان",
     "": "",
     "action": "عملیات"
   },
@@ -381,6 +382,19 @@
     "updateGrade": "به‌روزرسانی پایه",
     "start": "شروع"
   },
+  "homework": {
+    "": "",
+    "pdfs": "فایل‌های PDF",
+    "voices": "صوت‌ها",
+    "photos": "تصاویر",
+    "link": "لینک",
+    "description": "شرح",
+    "expected": "نمره مورد انتظار",
+    "score": "نمره",
+    "deliverTime": "تاریخ تحویل",
+    "createNewHomework": "ایجاد تکلیف جدید",
+    "homeworkList": "لیست تکالیف"
+  },
   "sidebar": {
     "dashboard": "داشبورد",
     "classroom": "لیست کلاس‌ها",
@@ -395,6 +409,7 @@
     "setPlan": "برنامه مطالعاتی",
     "study": "ثبت مطالعه",
     "reports": "گزارش‌ها",
+    "homeworkList": "لیست تکالیف",
     "": "",
     "student": "لیست دانش‌آموزان"
   }

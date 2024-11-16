@@ -50,6 +50,25 @@ const LineChart = <T extends Record<string, any>>({
     plugins: {
       legend: { position: 'top' as const, labels: { font: { family: 'IRANSans_Medium' } } },
       title: { display: !!title, text: title || '', font: { family: 'IRANSans_Bold' } },
+      tooltip: {
+        callbacks: {
+          label: (context): string => {
+            const datasetLabel = context.dataset.label || '';
+            const value = context.raw;
+            const currentData = data[context.dataIndex];
+            const courses = currentData.courses || [];
+            const coursesInfo = courses.map((course: { name: string }) => course.name).join(', ');
+
+            // Retain the default label for the dataset
+            const defaultLabel = `${datasetLabel}: ${value}`;
+
+            // Append the course names
+            const additionalInfo = coursesInfo ? ` ${coursesInfo}` : '';
+
+            return `${additionalInfo} : ${defaultLabel} `;
+          },
+        },
+      },
     },
   };
 

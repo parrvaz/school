@@ -59,8 +59,12 @@ const Filter: React.FC<{
   });
 
   useEffect(() => {
-    setData({ table: data, date });
+    data && setData({ table: data, date: body });
   }, [data]);
+
+  useEffect(() => {
+    setData({ table: undefined, date });
+  }, []);
 
   return (
     <div className="flex gap-2 mb-4">

@@ -173,6 +173,19 @@ export const GetReportAction = async (
     : [result];
 };
 
+export const DownloadCardExcelAction = async (
+  gradeId: string,
+  body: object,
+  name: string
+): Promise<boolean> => {
+  const url = api.CardExcelUrl(gradeId);
+  const res: ResponseType<BlobPart> = await request.get(url, body, { responseType: 'blob' });
+
+  if (res.ok) saveAs(res.data, name);
+
+  return res.ok;
+};
+
 export const UpdateBellsAction = async (
   values: BellsFormType,
   gradeId: string,

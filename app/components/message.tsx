@@ -23,6 +23,7 @@ const Message: React.FC<{
     mutationFn: (id: number) => ReadMessageAction(gradeId.toString(), id),
     onSuccess: (ok) => ok && revalidatePage(path),
   });
+
   return (
     <div
       key={message.id}
@@ -40,7 +41,11 @@ const Message: React.FC<{
         {message.subject}
       </div>
 
-      <Modal open={!!selectedMessage} setOpen={() => setSelectedMessage(null)} id="message">
+      <Modal
+        open={!!selectedMessage}
+        setOpen={() => setSelectedMessage(null)}
+        id={`message-${selectedMessage?.id}`}
+      >
         <div className="">
           <div className="font-bold">{selectedMessage?.sender}</div>
           <div className="font-regular text-14 mt-3">{selectedMessage?.body}</div>

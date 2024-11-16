@@ -77,14 +77,9 @@ const PdfDownload: React.FC<{
 
   return (
     <>
-      <div className="fixed bottom-0 text-end bg-white w-screen left-0 p-3 z-[2]">
-        <Button
-          onClick={() => setOpenModal(true)}
-          className=" btn btn-primary w-32 ml-4 btn-outline"
-        >
-          {fa.reports.card.downloadPdf}
-        </Button>
-      </div>
+      <Button onClick={() => setOpenModal(true)} className=" btn btn-primary w-32 ml-4 btn-outline">
+        {fa.reports.card.downloadPdf}
+      </Button>
 
       <Modal
         className="min-w-[54rem] p-0 text-center flex flex-col items-center relative bg-berry10"
@@ -138,7 +133,7 @@ const PdfDownload: React.FC<{
                     </tr>
                   </thead>
                   <tbody>
-                    {item?.scores.map((item, index) => (
+                    {item?.scores?.map((item, index) => (
                       <tr key={index} className={`${index % 2 ? 'bg-[#eee]' : 'bg-white'}`}>
                         <td className="p-1">{item.course}</td>
                         <td className="p-1 border-x border-x-black50">{faNumber(item.factor)}</td>

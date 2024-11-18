@@ -13,71 +13,43 @@ const PdfDownload: React.FC<{
   date: GroupDateType;
   gradeId: number;
 }> = ({ data, date, gradeId }) => {
-  const i18n = fa.reports.pdfDownload;
-  const elementRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [pdfUrl, setPdfUrl] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const name = `${fa.reports.card.card}-${date.startDate}-${date.endDate}`;
 
-  const handleConvertToPdf = async (): Promise<void> => {
-    if (imageUrls.length === 0) return;
-
+  const downloadPDF = async (): Promise<void> => {
+    setLoading(true);
+    console.log(1);
     try {
-      const pdfDoc = await PDFDocument.create();
-      const a4Width = 595.28;
-      const a4Height = 841.89;
-      const batchSize = 20; // Process images in batches of 20
-      for (let i = 0; i < imageUrls.length; i += batchSize) {
-        const batch = imageUrls.slice(i, i + batchSize);
-        for (const itemImageUrl of batch) {
-          const pngBytes = await fetch(itemImageUrl).then((res) => res.arrayBuffer());
-          const pngImage = await pdfDoc.embedPng(pngBytes);
-          const page = pdfDoc.addPage([a4Width, a4Height]);
-          page.drawImage(pngImage, {
-            x: 0,
-            y: 0,
-            width: a4Width,
-            height: a4Height,
-          });
-        }
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data, gradeId }),
+      });
+      console.log(2, response);
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
       }
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${name}.pdf`;
+      link.click();
     } catch (error) {
-      console.error('Could not generate PDF', error);
+      console.error('Error downloading PDF:', error);
     }
+    setLoading(false);
   };
-  const handleCapture = async (): Promise<void> => {
-    const capturedImages: string[] = [];
-    for (let i = 0; i < (data?.length || 0); i++) {
-      const element = elementRefs.current[i];
-      if (element) {
-        try {
-          const dataUrl = await toPng(element, { width: 794, height: 1123 });
-          capturedImages.push(dataUrl);
-        } catch (error) {
-          console.error('Could not capture image for item', data?.[i].name, error);
-        }
-      }
-    }
-    setImageUrls(capturedImages);
-  };
-
-  useEffect(() => {
-    openModal && handleCapture();
-  }, [JSON.stringify(data), openModal]);
-
-  useEffect(() => {
-    handleConvertToPdf();
-  }, [imageUrls]);
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)} className=" btn btn-primary w-32 ml-4 btn-outline">
+      <Button
+        onClick={downloadPDF}
+        isLoading={loading}
+        className=" btn btn-primary w-32 ml-4 btn-outline"
+      >
         {fa.reports.card.downloadPdf}
       </Button>
 
@@ -153,7 +125,7 @@ const PdfDownload: React.FC<{
         </div>
 
         <div className="sticky bottom-0 bg-berry10 w-full text-end p-3">
-          <Button onClick={() => saveAs(pdfUrl, name)} className="btn w-56 btn-primary">
+          <Button onClick={downloadPDF} className="btn w-56 btn-primary">
             {fa.reports.card.downloadPdf}
           </Button>
         </div>

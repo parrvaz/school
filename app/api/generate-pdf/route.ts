@@ -31,10 +31,8 @@ export async function POST(req: Request): Promise<NextResponse<unknown>> {
         .page {
           width: 794px;
           height: 1123px;
-          padding: 28px;
           background: white;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-          page-break-after: always;
         }
         table {
           width: 100%;
@@ -65,7 +63,7 @@ export async function POST(req: Request): Promise<NextResponse<unknown>> {
           .map(
             (item) => `
             <div class="page">
-              <div style="background-color: #FFF; padding: 1.75rem; width: 794px; height: 1123px;">
+              <div style="background-color: #FFF; padding: 1.75rem;">
                 <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
                   <div style="font-weight: 600; text-align: center; line-height: 1.25rem; font-size: 0.8125rem;">
                     <div>${i18n.info1}</div>

@@ -60,13 +60,13 @@ const AbsentsTable: React.FC<{ jalaliDate: string; tag: string; data: AbsentsTyp
     })),
     { headerName: fa.absents.fatherPhone, field: 'fatherPhone', minWidth: 130 },
     {
-      headerName: fa.global.action,
+      headerName: fa.absents.justify,
       cellRenderer: JustifyRenderer,
       cellRendererParams: { jalaliDate, tag },
       pinned: 'left',
       lockPosition: 'left',
-      width: 180,
-      minWidth: 180,
+      width: 100,
+      minWidth: 100,
       resizable: false,
     },
   ];

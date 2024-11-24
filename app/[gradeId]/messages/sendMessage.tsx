@@ -94,7 +94,7 @@ const SendMessage: React.FC<{
         name="body"
         rtl
         textarea
-        className="max-w-96 mt-6"
+        className="max-w-96 mt-6 h-20"
         placeholder={fa.messages.body}
       />
 

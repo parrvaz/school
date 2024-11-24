@@ -188,6 +188,19 @@ export type CreateExamFormType = {
   }[];
 };
 
+export type CreateHomeworkFormType = {
+  title: string;
+  date: string;
+  description: string;
+  link: string;
+  classrooms: ClassOptionType[];
+  course: OptionType | null;
+  totalScore: number | null;
+  expected: number | null;
+  photos: File[];
+  voice: string;
+};
+
 export type ReportCardType = {
   average: number;
   name?: string;

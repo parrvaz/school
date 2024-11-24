@@ -7,6 +7,7 @@ import {
   BellsType,
   ClassFormType,
   CreateExamFormType,
+  CreateHomeworkFormType,
   FieldsType,
   GradeFormType,
   GradeType,
@@ -171,6 +172,39 @@ export const GetReportAction = async (
   return Array.isArray(result)
     ? result.sort((a, b) => (a.lastName || '').localeCompare(b.lastName || '', 'fa'))
     : [result];
+};
+
+export const CreateHomeworkAction = async (
+  values: CreateHomeworkFormType,
+  gradeId: string
+): Promise<boolean> => {
+  const url = api.CreateHomeworkUrl(gradeId);
+  const formData = new FormData();
+  formData.append('title', values.title);
+  formData.append('classrooms', JSON.stringify(values.classrooms.map((k) => Number(k.value))));
+  formData.append('course_id', JSON.stringify(values.course?.value));
+  formData.append('expected', JSON.stringify(Number(values.expected)));
+  formData.append('score', JSON.stringify(Number(values.totalScore)));
+  formData.append('date', values.date);
+  formData.append('link', values.link);
+  formData.append('description', values.description);
+  // formData.append('voices[0]', JSON.stringify(values.voice));
+  values.photos.forEach((file, index) => {
+    formData.append(`photos[${index}]`, file);
+  });
+  // const body = {
+  //   ...values,
+  //   classrooms: values.classrooms.map((k) => k.value),
+  //   course_id: values.course?.value,
+  //   score: values.totalScore,
+  // };
+
+  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return res.ok;
 };
 
 export const UpdateBellsAction = async (

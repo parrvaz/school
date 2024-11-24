@@ -384,9 +384,9 @@
   },
   "homework": {
     "": "",
-    "pdfs": "فایل‌های PDF",
-    "voices": "صوت‌ها",
-    "photos": "تصاویر",
+    "uploadPdfs": "فایل‌های PDF بارگذاری",
+    "createVoices": "ایجاد صوت‌",
+    "uploadFile": "بارگذاری تصویر یا pdf",
     "link": "لینک",
     "description": "شرح",
     "expected": "نمره مورد انتظار",

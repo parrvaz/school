@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import FormInput from 'app/components/formInput';
@@ -19,11 +19,13 @@ import {
 import FormUpload from 'app/components/formUpload';
 import FormRecord from 'app/components/formRecord';
 import { CreateHomeworkAction } from 'app/lib/actions';
+import { GradeRoute } from 'app/lib/routes';
 
 const CreateHomework: React.FC<{ courses: CourseType[]; classes: ClassroomType[] }> = ({
   courses,
   classes,
 }) => {
+  const router = useRouter();
   const { gradeId } = useParams();
   const rules = { required: true };
   const classOptions = useMemo(() => getClassOption(classes), [classes]);
@@ -124,6 +126,13 @@ const CreateHomework: React.FC<{ courses: CourseType[]; classes: ClassroomType[]
       </div>
 
       <div className="flex justify-end mt-6 fixed bottom-0 bg-white90 w-full left-0 p-3 gap-4">
+        <Button
+          onClick={() => router.push(GradeRoute(gradeId, 'homework-list'))}
+          type="button"
+          className="btn btn-primary btn-outline w-48"
+        >
+          {fa.homework.return2list}
+        </Button>
         <Button isLoading={isPending} className="btn btn-primary w-48">
           {fa.global.submit}
         </Button>

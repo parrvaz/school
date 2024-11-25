@@ -15,6 +15,7 @@ export const teacherTag = async (): Promise<string> => `teacher-show`;
 export const courseTag = async (): Promise<string> => `course-show`;
 export const assignTag = async (): Promise<string> => `assign-show`;
 export const examTag = async (): Promise<string> => `exam-show`;
+export const homeworkTag = async (): Promise<string> => `homework-show`;
 export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;

@@ -188,6 +188,19 @@ export type CreateExamFormType = {
   }[];
 };
 
+export type HomeworkType = {
+  id: number;
+  title: string;
+  course_id: number;
+  course: string;
+  classrooms: { id: number; title: string }[];
+  modifiedDate: string;
+  date: string;
+  studentsNumber: number;
+  scoredNumber: number;
+  isFinal: boolean;
+};
+
 export type CreateHomeworkFormType = {
   title: string;
   date: string;

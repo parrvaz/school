@@ -14,14 +14,25 @@ export const metadata: Metadata = { title: fa.sidebar.homeworkList };
 
 const HomeworkListPage: React.FC<PageType> = async ({ params, searchParams }) => {
   const activeTab = camelCase(searchParams?.tab || '');
+  const homeworkId = searchParams?.homeworkId || '';
+  const tag = await homeworkTag();
+
   const [courses, classes, homework] = await Promise.all([
     fetchData<CourseType[]>(ShowCourseUrl(params?.gradeId), await courseTag()),
     fetchData<ClassroomType[]>(ShowClassUrl(params?.gradeId), await classroomTag()),
-    fetchData<HomeworkType[]>(ShowHomeworkUrl(params?.gradeId), await homeworkTag()),
+    fetchData<HomeworkType[] | HomeworkType>(
+      ShowHomeworkUrl(params?.gradeId, homeworkId),
+      await homeworkTag(homeworkId)
+    ),
   ]);
 
   const components = {
-    create: <CreateHomework {...{ courses, classes }} />,
+    create: (
+      <CreateHomework
+        homework={homeworkId ? (homework as HomeworkType) : undefined}
+        {...{ courses, classes, tag }}
+      />
+    ),
     giveScore: <GiveScore />,
     scoreReport: <ScoreReport />,
   };
@@ -38,7 +49,7 @@ const HomeworkListPage: React.FC<PageType> = async ({ params, searchParams }) =>
         {fa.homework[title[activeTab] || 'homeworkList']}
       </h1>
 
-      {components[activeTab] || <HomeworkList data={homework} />}
+      {components[activeTab] || <HomeworkList {...{ tag }} data={homework as HomeworkType[]} />}
     </div>
   );
 };

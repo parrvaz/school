@@ -386,6 +386,7 @@
   },
   "homework": {
     "": "",
+    "deleteConfirm": "آیا برای حذف این تکلیف مطمئن هستنید؟",
     "scoreReport": "گزارش نمرات",
     "giveScore": "نمره‌دهی",
     "scoredNumber": "نمره داده‌شده",

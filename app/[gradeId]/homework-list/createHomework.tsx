@@ -8,7 +8,12 @@ import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import FormInput from 'app/components/formInput';
 import FormDatePiker from 'app/components/formDatePiker';
-import { ClassroomType, CourseType, CreateHomeworkFormType } from 'app/types/common.type';
+import {
+  ClassroomType,
+  CourseType,
+  CreateHomeworkFormType,
+  HomeworkType,
+} from 'app/types/common.type';
 import FormSelect from 'app/components/formSelect';
 import {
   getClassOption,
@@ -20,18 +25,20 @@ import FormUpload from 'app/components/formUpload';
 import FormRecord from 'app/components/formRecord';
 import { CreateHomeworkAction } from 'app/lib/actions';
 import { GradeRoute } from 'app/lib/routes';
+import { tagRevalidate } from 'app/lib/server.util';
 
-const CreateHomework: React.FC<{ courses: CourseType[]; classes: ClassroomType[] }> = ({
-  courses,
-  classes,
-}) => {
+const CreateHomework: React.FC<{
+  courses: CourseType[];
+  classes: ClassroomType[];
+  homework?: HomeworkType;
+  tag: string;
+}> = ({ courses, classes, homework, tag }) => {
   const router = useRouter();
   const { gradeId } = useParams();
   const rules = { required: true };
   const classOptions = useMemo(() => getClassOption(classes), [classes]);
 
   const {
-    reset,
     watch,
     handleSubmit,
     control,
@@ -39,14 +46,14 @@ const CreateHomework: React.FC<{ courses: CourseType[]; classes: ClassroomType[]
     formState: { errors },
   } = useForm<CreateHomeworkFormType>({
     defaultValues: {
-      title: '',
-      date: '',
+      title: homework?.title || '',
+      date: homework?.date || '',
       classrooms: [],
-      course: null,
-      totalScore: null,
-      expected: null,
-      description: '',
-      link: '',
+      course: homework ? { value: homework.course_id, label: homework.course } : null,
+      totalScore: homework?.score || null,
+      expected: homework?.expected || null,
+      description: homework?.description || '',
+      link: homework?.link || '',
       photos: [],
       voice: '',
     },
@@ -54,8 +61,14 @@ const CreateHomework: React.FC<{ courses: CourseType[]; classes: ClassroomType[]
   const fields = watch('classrooms').map((k) => k.fieldId);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (e: CreateHomeworkFormType) => CreateHomeworkAction(e, gradeId.toString()),
-    onSuccess: (ok) => ok && reset(),
+    mutationFn: (e: CreateHomeworkFormType) =>
+      CreateHomeworkAction(e, gradeId.toString(), homework?.id),
+    onSuccess: (ok) => {
+      if (ok) {
+        tagRevalidate(tag);
+        router.push(GradeRoute(gradeId, 'homework-list'));
+      }
+    },
   });
 
   return (

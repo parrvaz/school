@@ -198,6 +198,10 @@ export type HomeworkType = {
   date: string;
   studentsNumber: number;
   scoredNumber: number;
+  description?: string;
+  link?: string;
+  score?: number;
+  expected?: number;
   isFinal: boolean;
 };
 

@@ -176,9 +176,12 @@ export const GetReportAction = async (
 
 export const CreateHomeworkAction = async (
   values: CreateHomeworkFormType,
-  gradeId: string
+  gradeId: string,
+  homeworkId?: number
 ): Promise<boolean> => {
-  const url = api.CreateHomeworkUrl(gradeId);
+  const url = homeworkId
+    ? api.UpdateHomeworkUrl(gradeId, homeworkId)
+    : api.CreateHomeworkUrl(gradeId);
   const formData = new FormData();
   formData.append('title', values.title);
   formData.append('classrooms', JSON.stringify(values.classrooms.map((k) => Number(k.value))));
@@ -192,17 +195,24 @@ export const CreateHomeworkAction = async (
   values.photos.forEach((file, index) => {
     formData.append(`photos[${index}]`, file);
   });
-  // const body = {
-  //   ...values,
-  //   classrooms: values.classrooms.map((k) => k.value),
-  //   course_id: values.course?.value,
-  //   score: values.totalScore,
-  // };
+  const body = {
+    ...values,
+    classrooms: values.classrooms.map((k) => k.value),
+    course_id: values.course?.value,
+    score: values.totalScore,
+  };
 
-  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
-  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  const res: ResponseType<{ data: boolean }> = await request.post(url, body);
+  // const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+  //   headers: { 'Content-Type': 'multipart/form-data' },
+  // });
+
+  return res.ok;
+};
+
+export const DeleteHomeworkAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.DeleteHomeworkUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
 
   return res.ok;
 };

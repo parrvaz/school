@@ -11,8 +11,7 @@ import Table from 'app/components/table';
 import RenderBoolean from 'app/components/renderBoolean';
 import HomeworkActionRenderer from './homeworkActionRenderer';
 
-const HomeworkList: React.FC<{ data: HomeworkType[] }> = ({ data }) => {
-  console.log(data);
+const HomeworkList: React.FC<{ data: HomeworkType[]; tag: string }> = ({ data, tag }) => {
   const { gradeId } = useParams();
 
   const columns = [
@@ -43,12 +42,7 @@ const HomeworkList: React.FC<{ data: HomeworkType[] }> = ({ data }) => {
       width: 235,
       minWidth: 235,
       resizable: false,
-      // cellRendererParams: {
-      //   setEditData: setStudentData,
-      //   deleteAction: DeleteStudentAction,
-      //   tags,
-      //   deleteMessage,
-      // },
+      cellRendererParams: { tag },
     },
   ];
   return (

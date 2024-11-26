@@ -386,6 +386,16 @@
   },
   "homework": {
     "": "",
+    "sendHomework": "ارسال تکلیف",
+    "uploadInfo": "فقط یک فایل pdf بارگذاری کنید",
+    "uploadHomework": "بارگذاری تکلیف",
+    "note": "یادداشت",
+    "files": "فایل ها",
+    "deliverHomework": "تحویل تکلیف",
+    "see": "مشاهده",
+    "notSubmitted": "تحویل داده نشده",
+    "notSet": "ثبت نشده",
+    "status": "تحویل/تاخیر",
     "deleteConfirm": "آیا برای حذف این تکلیف مطمئن هستنید؟",
     "scoreReport": "گزارش نمرات",
     "giveScore": "نمره‌دهی",
@@ -398,6 +408,7 @@
     "createVoices": "ایجاد صوت‌",
     "uploadFile": "بارگذاری تصویر یا pdf",
     "link": "لینک",
+    "links": "لینک‌ها",
     "description": "شرح",
     "expected": "نمره مورد انتظار",
     "score": "نمره",
@@ -420,6 +431,7 @@
     "study": "ثبت مطالعه",
     "reports": "گزارش‌ها",
     "homeworkList": "لیست تکالیف",
+    "homeworkDelivery": "تحویل تکالیف",
     "": "",
     "student": "لیست دانش‌آموزان"
   }

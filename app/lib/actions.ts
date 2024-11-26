@@ -210,6 +210,25 @@ export const CreateHomeworkAction = async (
   return res.ok;
 };
 
+export const SendHomeworkAction = async (
+  values: { note: string; pdf: File },
+  gradeId: string,
+  homeworkId?: number
+): Promise<boolean> => {
+  const url = api.SendHomeworkUrl(gradeId, homeworkId);
+
+  const formData = new FormData();
+  formData.append('note', values.note);
+  formData.append('pdf', values.pdf);
+
+  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return res.ok;
+};
+
 export const DeleteHomeworkAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = api.DeleteHomeworkUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);

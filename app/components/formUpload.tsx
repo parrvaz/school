@@ -12,6 +12,8 @@ type FormUploadProps = {
   title: string;
   name: string;
   type?: string[];
+  className?: string;
+  isMultiple?: boolean;
   errors?: any; // eslint-disable-line
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
@@ -24,9 +26,11 @@ const FormUpload: React.FC<FormUploadProps> = ({
   control,
   rules,
   errors,
+  className,
+  isMultiple = false,
 }) => {
   return (
-    <div className="flex flex-col gap-4 relative">
+    <div className={`${className} flex flex-col gap-4 relative w-full`}>
       <Controller
         name={name}
         control={control}
@@ -34,8 +38,10 @@ const FormUpload: React.FC<FormUploadProps> = ({
         render={({ field }): JSX.Element => {
           const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
             const selectedFiles = Array.from(event.target.files || []);
-            const updatedFiles = [...(field.value || []), ...selectedFiles];
-            field.onChange(updatedFiles);
+            if (isMultiple) {
+              const updatedFiles = [...(field.value || []), ...selectedFiles]; // Allow multiple file uploads
+              field.onChange(updatedFiles);
+            } else field.onChange(selectedFiles[0] ? [selectedFiles[0]] : []); // Only allow single file upload
           };
 
           const handleDeleteFile = (index: number): void => {

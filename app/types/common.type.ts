@@ -205,6 +205,33 @@ export type HomeworkType = {
   isFinal: boolean;
 };
 
+export type StudentHomeworkType = {
+  id: number;
+  title: string;
+  course_id: number;
+  course: string;
+  modifiedDate: string;
+  date: string;
+  score: number;
+  status: string;
+};
+
+export type SingleStudentHomeworkType = {
+  course: string;
+  course_id: number;
+  date: string;
+  description: string;
+  id: number;
+  link: string;
+  note: null;
+  pdfs: [];
+  photos: [];
+  score: number;
+  solution: null;
+  studentHomework_id: number;
+  title: string;
+};
+
 export type CreateHomeworkFormType = {
   title: string;
   date: string;

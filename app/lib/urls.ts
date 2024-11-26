@@ -65,6 +65,12 @@ export const UpdateHomeworkUrl = (gradeId: string, homeworkId: number): string =
   `/${gradeId}/homework/update/${homeworkId}`;
 export const ShowHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
   `/${gradeId}/homework/show${homeworkId ? `/${homeworkId}` : ''}`;
+export const ShowStudentHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
+  `/${gradeId}/homework/student/show${homeworkId ? `/${homeworkId}` : ''}`;
+export const SendHomeworkUrl = (gradeId: string, homeworkId?: number): string =>
+  homeworkId
+    ? `/${gradeId}/homework/student/update/${homeworkId}`
+    : `/${gradeId}/homework/student/store`;
 export const DeleteHomeworkUrl = (gradeId: string, id?: number): string =>
   `/${gradeId}/homework/delete/${id}`;
 

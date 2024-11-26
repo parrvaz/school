@@ -25,6 +25,7 @@ const menu = [
   { title: 'exams', icon: 'icon-receipt-item' },
   { title: 'reports', icon: 'icon-trend-up', url: '/card' },
   { title: 'homeworkList', icon: 'icon-edit' },
+  { title: 'homeworkDelivery', icon: 'icon-edit' },
   { title: 'bells', icon: 'icon-menu-board' },
   { title: 'absents', icon: 'icon-personalcard' },
   { title: 'rollCall', icon: 'icon-task' },
@@ -34,11 +35,20 @@ const menu = [
 ];
 
 const roleMenu = {
-  manager: menu.map((k) => k.title),
-  assistant: menu.map((k) => k.title),
+  manager: menu.map((k) => k.title).filter((k) => k !== 'homeworkDelivery'),
+  assistant: menu.map((k) => k.title).filter((k) => k !== 'homeworkDelivery'),
   parent: ['dashboard', 'reports'],
-  teacher: ['dashboard', 'createExam', 'exams', 'reports', 'absents', 'rollCall', 'messages'],
-  student: ['dashboard', 'reports', 'messages', 'study'],
+  teacher: [
+    'dashboard',
+    'createExam',
+    'exams',
+    'reports',
+    'homeworkList',
+    'absents',
+    'rollCall',
+    'messages',
+  ],
+  student: ['dashboard', 'reports', 'homeworkDelivery', 'messages', 'study'],
 };
 
 const GradeLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {

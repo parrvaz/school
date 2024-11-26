@@ -112,6 +112,7 @@ const CreateHomework: React.FC<{
           name="photos"
           type={['img', 'pdf']}
           control={control}
+          isMultiple
           errors={errors}
         />
       </div>

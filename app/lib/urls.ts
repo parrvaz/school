@@ -63,6 +63,8 @@ export const ProgressUrl = (gradeId: string, startDate?: string, endDate?: strin
 export const CreateHomeworkUrl = (gradeId: string): string => `/${gradeId}/homework/store`;
 export const UpdateHomeworkUrl = (gradeId: string, homeworkId: number): string =>
   `/${gradeId}/homework/update/${homeworkId}`;
+export const ScoreHomeworkUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/scoreStore/${id}`;
 export const ShowHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
   `/${gradeId}/homework/show${homeworkId ? `/${homeworkId}` : ''}`;
 export const ShowStudentHomeworkUrl = (gradeId: string, homeworkId?: string): string =>

@@ -20,7 +20,7 @@ const SaveModal: React.FC<{
             setNextAction(null);
           }}
         >
-          {fa.global.cancel}
+          {fa.global.no}
         </Button>
         <Button
           isLoading={isPending}

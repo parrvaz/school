@@ -117,6 +117,8 @@
     "factor": "ضریب",
     "average": "معدل",
     "title": "عنوان",
+    "next": "بعدی",
+    "previous": "قبلی",
     "": "",
     "action": "عملیات"
   },
@@ -386,6 +388,9 @@
   },
   "homework": {
     "": "",
+    "noNote": "یادداشتی ثبت نشده است.",
+    "studentNote": "یادداشت دانش‌آموز",
+    "submitContinue": "ثبت و ادامه",
     "sendHomework": "ارسال تکلیف",
     "uploadInfo": "فقط یک فایل pdf بارگذاری کنید",
     "uploadHomework": "بارگذاری تکلیف",

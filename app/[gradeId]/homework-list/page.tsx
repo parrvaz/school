@@ -44,13 +44,13 @@ const HomeworkListPage: React.FC<PageType> = async ({ params, searchParams }) =>
   };
 
   return (
-    <div className="pb-20">
+    <>
       <h1 className="font-bold text-berry100 text-24 mb-10">
         {fa.homework[title[activeTab] || 'homeworkList']}
       </h1>
 
       {components[activeTab] || <HomeworkList {...{ tag }} data={homework as HomeworkType[]} />}
-    </div>
+    </>
   );
 };
 

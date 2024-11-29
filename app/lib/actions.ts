@@ -229,6 +229,17 @@ export const SendHomeworkAction = async (
   return res.ok;
 };
 
+export const ScoreHomeworkAction = async (
+  score: string,
+  gradeId: string,
+  id: number
+): Promise<boolean> => {
+  const url = api.ScoreHomeworkUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, { score });
+  return res.ok;
+};
+
 export const DeleteHomeworkAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = api.DeleteHomeworkUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);

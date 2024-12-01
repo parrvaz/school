@@ -47,7 +47,7 @@ const DeliverHomework: React.FC<{ data: SingleStudentHomeworkType; justShow: boo
         </div>
       </div>
 
-      {!justShow && <HomeworkForm id={data.studentHomework_id} />}
+      {!justShow && <HomeworkForm data={data} />}
     </div>
   );
 };

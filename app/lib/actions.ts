@@ -195,23 +195,23 @@ export const CreateHomeworkAction = async (
   values.photos.forEach((file, index) => {
     formData.append(`photos[${index}]`, file);
   });
-  const body = {
-    ...values,
-    classrooms: values.classrooms.map((k) => k.value),
-    course_id: values.course?.value,
-    score: values.totalScore,
-  };
+  // const body = {
+  //   ...values,
+  //   classrooms: values.classrooms.map((k) => k.value),
+  //   course_id: values.course?.value,
+  //   score: values.totalScore,
+  // };
 
-  const res: ResponseType<{ data: boolean }> = await request.post(url, body);
-  // const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
-  //   headers: { 'Content-Type': 'multipart/form-data' },
-  // });
+  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 
   return res.ok;
 };
 
 export const SendHomeworkAction = async (
-  values: { note: string; pdf: File },
+  values: { note: string; pdf: File; homeworkId: string },
   gradeId: string,
   homeworkId?: number
 ): Promise<boolean> => {
@@ -219,9 +219,9 @@ export const SendHomeworkAction = async (
 
   const formData = new FormData();
   formData.append('note', values.note);
-  formData.append('pdf', values.pdf);
+  formData.append('pdf', values.pdf[0]);
+  formData.append('homework_id', values.homeworkId);
 
-  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
   const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });

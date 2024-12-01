@@ -5,13 +5,11 @@ import { fetchData, studentHomeworkTag } from 'app/lib/server.util';
 import { ShowStudentHomeworkUrl } from 'app/lib/urls';
 import { PageType, SingleStudentHomeworkType, StudentHomeworkType } from 'app/types/common.type';
 import StudentHomeworkList from '.';
-import DeliverHomework from './deliverHomework';
 
 export const metadata: Metadata = { title: fa.sidebar.homeworkList };
 
 const HomeworkDeliveryListPage: React.FC<PageType> = async ({ params, searchParams }) => {
   const homeworkId = searchParams?.homeworkId || '';
-  const justShow = searchParams?.show === 'true';
 
   const [homework] = await Promise.all([
     fetchData<StudentHomeworkType[] | SingleStudentHomeworkType>(
@@ -26,11 +24,7 @@ const HomeworkDeliveryListPage: React.FC<PageType> = async ({ params, searchPara
         {fa.homework[homeworkId ? 'deliverHomework' : 'homeworkList']}
       </h1>
 
-      {homeworkId ? (
-        <DeliverHomework data={homework as SingleStudentHomeworkType} justShow={justShow} />
-      ) : (
-        <StudentHomeworkList data={homework as StudentHomeworkType[]} />
-      )}
+      <StudentHomeworkList data={homework as StudentHomeworkType[]} />
     </div>
   );
 };

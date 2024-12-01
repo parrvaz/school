@@ -10,6 +10,7 @@ import { HomeworkType } from 'app/types/common.type';
 import Table from 'app/components/table';
 import RenderBoolean from 'app/components/renderBoolean';
 import HomeworkActionRenderer from './homeworkActionRenderer';
+import StudentNumRenderer from './studentNumRenderer';
 
 const HomeworkList: React.FC<{ data: HomeworkType[]; tag: string }> = ({ data, tag }) => {
   const { gradeId } = useParams();
@@ -23,8 +24,12 @@ const HomeworkList: React.FC<{ data: HomeworkType[]; tag: string }> = ({ data, t
       valueFormatter: (params) => params.value.map((k) => k.title).join(', '),
     },
     { headerName: fa.homework.modifiedDate, field: 'modifiedDate', width: 110, minWidth: 110 },
-    { headerName: fa.homework.date, field: 'date', width: 105, minWidth: 105 },
-    { headerName: fa.homework.studentsNumber, field: 'studentsNumber', width: 126, minWidth: 126 },
+    { headerName: fa.homework.date, field: 'date', width: 110, minWidth: 110 },
+    {
+      headerName: fa.homework.studentsNumber,
+      width: 126,
+      cellRenderer: StudentNumRenderer,
+    },
     { headerName: fa.homework.scoredNumber, field: 'scoredNumber', width: 110, minWidth: 110 },
     {
       headerName: fa.global.isFinal,

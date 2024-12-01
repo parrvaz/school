@@ -5,6 +5,7 @@ import { StudentHomeworkType } from 'app/types/common.type';
 import fa from 'app/lib/fa.json';
 import Table from 'app/components/table';
 import ShowHomeworkRenderer from './showHomeworkRenderer';
+import DeliveryStatus from './deliveryStatus';
 
 const StudentHomeworkList: React.FC<{ data: StudentHomeworkType[] }> = ({ data }) => {
   const columns = [
@@ -21,26 +22,22 @@ const StudentHomeworkList: React.FC<{ data: StudentHomeworkType[] }> = ({ data }
     },
     {
       headerName: fa.homework.status,
-      field: 'status',
       width: 130,
       minWidth: 130,
-      valueFormatter: (params) => fa.homework[params.value],
+      cellRenderer: DeliveryStatus,
     },
     {
       headerName: fa.global.action,
       cellRenderer: ShowHomeworkRenderer,
       pinned: 'left',
       lockPosition: 'left',
-      width: 90,
-      minWidth: 90,
+      width: 80,
+      minWidth: 80,
       resizable: false,
     },
   ];
-  return (
-    <div>
-      <Table {...{ columns, data }} className="h-full w-full" />
-    </div>
-  );
+
+  return <Table {...{ columns, data }} className="h-full w-full" />;
 };
 
 export default StudentHomeworkList;

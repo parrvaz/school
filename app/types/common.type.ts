@@ -216,6 +216,21 @@ export type StudentHomeworkType = {
   status: string;
 };
 
+export type GiveScoreType = {
+  classroom: string;
+  classroom_id: number;
+  firstName: string;
+  id: number;
+  lastName: string;
+  name: string;
+  note: string;
+  score: number;
+  solution: string;
+  status: string;
+  student_id: number;
+  totalScore: number;
+};
+
 export type SingleStudentHomeworkType = {
   course: string;
   course_id: number;

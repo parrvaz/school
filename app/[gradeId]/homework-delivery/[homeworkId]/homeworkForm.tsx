@@ -14,7 +14,6 @@ import { SingleStudentHomeworkType } from 'app/types/common.type';
 
 type FormType = { note: string; pdf: File };
 const HomeworkForm: React.FC<{ data: SingleStudentHomeworkType }> = ({ data }) => {
-  console.log(data);
   const { gradeId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();

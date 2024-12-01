@@ -6,7 +6,6 @@ import { ShowClassUrl, ShowCourseUrl, ShowHomeworkUrl } from 'app/lib/urls';
 import { ClassroomType, CourseType, HomeworkType, PageType } from 'app/types/common.type';
 import HomeworkList from '.';
 import CreateHomework from './createHomework';
-import GiveScore from './giveScore';
 import { camelCase } from 'app/utils/common.util';
 import ScoreReport from './scoreReport';
 
@@ -33,13 +32,11 @@ const HomeworkListPage: React.FC<PageType> = async ({ params, searchParams }) =>
         {...{ courses, classes, tag }}
       />
     ),
-    giveScore: <GiveScore />,
     scoreReport: <ScoreReport />,
   };
 
   const title = {
     create: 'createNewHomework',
-    giveScore: 'giveScore',
     scoreReport: 'scoreReport',
   };
 

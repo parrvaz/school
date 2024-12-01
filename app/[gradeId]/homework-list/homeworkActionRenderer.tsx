@@ -34,9 +34,11 @@ const HomeworkActionRenderer: React.FC = (props: any) => {
 
   return (
     <div className="flex items-center gap-2 h-full">
-      <Link href={GradeRoute(gradeId, 'homework-list', '?tab=give-score')}>
-        <Button className="btn btn-primary btn-outline btn-xs">{fa.homework.giveScore}</Button>
-      </Link>
+      <Button disabled={!node.data.submitStdNumber} className="btn btn-primary btn-outline btn-xs">
+        <Link href={GradeRoute(gradeId, 'homework-list', `/give-score/${node.data.id}`)}>
+          {fa.homework.giveScore}
+        </Link>
+      </Button>
       <Link href={GradeRoute(gradeId, 'homework-list', '?tab=score-report')}>
         <Button className="btn btn-primary btn-outline btn-xs">{fa.homework.scoreReport}</Button>
       </Link>

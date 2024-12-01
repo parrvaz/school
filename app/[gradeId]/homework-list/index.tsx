@@ -28,6 +28,7 @@ const HomeworkList: React.FC<{ data: HomeworkType[]; tag: string }> = ({ data, t
     {
       headerName: fa.homework.studentsNumber,
       width: 126,
+      minWidth: 126,
       cellRenderer: StudentNumRenderer,
     },
     { headerName: fa.homework.scoredNumber, field: 'scoredNumber', width: 110, minWidth: 110 },

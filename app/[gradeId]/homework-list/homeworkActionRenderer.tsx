@@ -39,8 +39,8 @@ const HomeworkActionRenderer: React.FC = (props: any) => {
           {fa.homework.giveScore}
         </Link>
       </Button>
-      <Link href={GradeRoute(gradeId, 'homework-list', '?tab=score-report')}>
-        <Button className="btn btn-primary btn-outline btn-xs">{fa.homework.scoreReport}</Button>
+      <Link href={GradeRoute(gradeId, 'homework-list', `/score-list/${node.data.id}`)}>
+        <Button className="btn btn-primary btn-outline btn-xs">{fa.homework.scoreList}</Button>
       </Link>
       <i className="icon-edit text-berry60 text-20 cursor-pointer" onClick={handleEdit} />
       <i className="icon-trash text-red70 text-20 cursor-pointer" onClick={handleDelete} />

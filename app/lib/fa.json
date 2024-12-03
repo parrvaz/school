@@ -120,6 +120,7 @@
     "next": "بعدی",
     "previous": "قبلی",
     "from": "از",
+    "edit": "ویرایش",
     "": "",
     "action": "عملیات"
   },
@@ -389,6 +390,9 @@
   },
   "homework": {
     "": "",
+    "zeroInfo": "برای تمام دانش‌آموزانی که نمره ندارد نمره صفر در نظر گرفته می‌شود.",
+    "zeroRest": "صفر برای بقیه",
+    "feedback": "بازخورد",
     "downloadHomework": "دانلود تکلیف بارگذاری‌شده",
     "delay": "روز تاخیر",
     "noNote": "یادداشتی ثبت نشده است.",
@@ -406,7 +410,7 @@
     "notSet": "ثبت نشده",
     "status": "تحویل/تاخیر",
     "deleteConfirm": "آیا برای حذف این تکلیف مطمئن هستنید؟",
-    "scoreReport": "گزارش نمرات",
+    "scoreList": "گزارش نمرات",
     "giveScore": "نمره‌دهی",
     "scoredNumber": "نمره داده‌شده",
     "studentsNumber": "مشارکت کنندگان",
@@ -421,6 +425,7 @@
     "description": "شرح",
     "expected": "نمره مورد انتظار",
     "score": "نمره",
+    "totalScore": "نمره کل",
     "deliverTime": "تاریخ تحویل",
     "createNewHomework": "ایجاد تکلیف جدید",
     "homeworkList": "لیست تکالیف"

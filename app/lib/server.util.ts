@@ -23,6 +23,7 @@ export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;
 export const plansTag = async (): Promise<string> => `plans-show`;
 export const scoreTag = async (): Promise<string> => `scores`;
+export const scoreListTag = async (): Promise<string> => `scores-list`;
 export const studyTag = async (id: string): Promise<string> => `study-${id}`;
 
 export const fetchData = async <T>(url: string, tag?: string, cacheMethod?: string): Promise<T> => {

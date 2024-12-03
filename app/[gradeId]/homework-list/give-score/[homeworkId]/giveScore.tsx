@@ -13,8 +13,9 @@ import { ScoreHomeworkAction } from 'app/lib/actions';
 import { numberValidation, valueValidation } from 'app/utils/common.util';
 import SaveModal from 'app/components/saveModal';
 import { GiveScoreType } from 'app/types/common.type';
+import { tagRevalidate } from 'app/lib/server.util';
 
-const GiveScore: React.FC<{ data: GiveScoreType[] }> = ({ data }) => {
+const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag }) => {
   type FormType = { score: string };
   const router = useRouter();
   const { gradeId, homeworkId } = useParams();
@@ -30,7 +31,6 @@ const GiveScore: React.FC<{ data: GiveScoreType[] }> = ({ data }) => {
   const itemIndex = data.findIndex((k) => k.id === +id);
   const nextId = data[itemIndex + 1]?.id;
   const perviousId = data[itemIndex - 1]?.id;
-  const examScore = 20;
   const homework = data[itemIndex];
   const initialScore = typeof homework?.score === 'number' ? homework.score.toString() : '';
 
@@ -56,6 +56,7 @@ const GiveScore: React.FC<{ data: GiveScoreType[] }> = ({ data }) => {
       ScoreHomeworkAction(score, gradeId.toString(), homework.id),
     onSuccess: (ok) => {
       if (ok) {
+        tagRevalidate(tag);
         nextId && router.push(GradeRoute(gradeId, 'homework-list', `?tab=give-score&id=${nextId}`));
       }
     },
@@ -95,7 +96,10 @@ const GiveScore: React.FC<{ data: GiveScoreType[] }> = ({ data }) => {
               {...{ errors, control }}
               name="score"
               placeholder={fa.global.score}
-              rules={numberValidation({ ...valueValidation(0, Number(examScore) || 100) }, true)}
+              rules={numberValidation(
+                { ...valueValidation(0, Number(homework.score) || 100) },
+                true
+              )}
             />
             <Button className="btn btn-primary min-h-10 w-24 !h-10" isLoading={isPending}>
               {fa.homework[nextId ? 'submitContinue' : 'submit']}

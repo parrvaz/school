@@ -231,6 +231,30 @@ export type GiveScoreType = {
   totalScore: number;
 };
 
+export type ScoreListType = {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  course_id: number;
+  course: string;
+  score: number;
+  expected: number;
+  isFinal: boolean;
+  scores: {
+    id: number;
+    student_id: number;
+    name: string;
+    firstName: string;
+    lastName: string;
+    classroom: string;
+    classroom_id: number;
+    score: number;
+    feedback: string;
+    status: string;
+  }[];
+};
+
 export type SingleStudentHomeworkType = {
   course: string;
   course_id: number;

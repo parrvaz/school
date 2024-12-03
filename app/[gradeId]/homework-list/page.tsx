@@ -7,7 +7,6 @@ import { ClassroomType, CourseType, HomeworkType, PageType } from 'app/types/com
 import HomeworkList from '.';
 import CreateHomework from './createHomework';
 import { camelCase } from 'app/utils/common.util';
-import ScoreReport from './scoreReport';
 
 export const metadata: Metadata = { title: fa.sidebar.homeworkList };
 
@@ -32,12 +31,10 @@ const HomeworkListPage: React.FC<PageType> = async ({ params, searchParams }) =>
         {...{ courses, classes, tag }}
       />
     ),
-    scoreReport: <ScoreReport />,
   };
 
   const title = {
     create: 'createNewHomework',
-    scoreReport: 'scoreReport',
   };
 
   return (

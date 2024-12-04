@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ScoreListType } from 'app/types/common.type';
@@ -12,10 +13,30 @@ import DeliveryStatus from 'app/[gradeId]/homework-delivery/deliveryStatus';
 import Button from 'app/components/button';
 import { GradeRoute } from 'app/lib/routes';
 import Checkbox from 'app/components/checkbox';
+import { ScoreFinalAction, ScoreZeroAction } from 'app/lib/actions';
+import { tagRevalidate } from 'app/lib/server.util';
 
-const ScoreList: React.FC<{ data: ScoreListType }> = ({ data }) => {
+const ScoreList: React.FC<{ data: ScoreListType; tag: string }> = ({ data, tag }) => {
   const { gradeId } = useParams();
   const [isFinal, setIsFinal] = useState(data.isFinal);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => ScoreFinalAction(gradeId.toString(), data.id),
+    onSuccess: (ok) => {
+      if (ok) {
+        tagRevalidate(tag);
+      }
+    },
+  });
+
+  const { mutate: isFinalMutate, isPending: isFinalPending } = useMutation({
+    mutationFn: () => ScoreZeroAction(gradeId.toString(), data.id),
+    onSuccess: (ok) => {
+      if (ok) {
+        setIsFinal((prev) => !prev);
+      }
+    },
+  });
 
   const columns = [
     { headerName: fa.global.name, field: 'name', minWidth: 110 },
@@ -30,7 +51,7 @@ const ScoreList: React.FC<{ data: ScoreListType }> = ({ data }) => {
       headerName: fa.homework.feedback,
       field: 'feedback',
       cellStyle: { fontSize: '24px' },
-      valueFormatter: ({ value }) => (value === null ? '-' : value),
+      valueFormatter: ({ value }) => (value === null ? '' : value),
     },
 
     {
@@ -44,7 +65,7 @@ const ScoreList: React.FC<{ data: ScoreListType }> = ({ data }) => {
     },
   ];
   return (
-    <div>
+    <div className="pb-20">
       <div className="bg-white p-4 rounded-lg flex  items-center">
         <div className="font-bold flex-1 text-20 text-berry100">{data.title}</div>
         <div className="font-regular text-black70 text-14 border-l border-l-black70 px-4">
@@ -70,9 +91,16 @@ const ScoreList: React.FC<{ data: ScoreListType }> = ({ data }) => {
           <Button className="btn btn-primary btn-outline">{fa.global.return}</Button>
         </Link>
         <div className="flex items-center">
-          <Checkbox label={fa.global.isFinal} checked={isFinal} onChange={setIsFinal} />
+          <Checkbox
+            label={fa.global.isFinal}
+            isLoading={isFinalPending}
+            checked={isFinal}
+            onChange={() => isFinalMutate()}
+          />
           <div className="tooltip tooltip-right mr-6" data-tip={fa.homework.zeroInfo}>
-            <Button className="btn btn-primary w-40">{fa.homework.zeroRest}</Button>
+            <Button isLoading={isPending} onClick={() => mutate()} className="btn btn-primary w-40">
+              {fa.homework.zeroRest}
+            </Button>
           </div>
         </div>
       </div>

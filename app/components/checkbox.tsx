@@ -5,8 +5,9 @@ const Checkbox: React.FC<{
   onChange: (status: boolean) => void;
   label: string;
   indeterminate?: boolean;
+  isLoading?: boolean;
   className?: string;
-}> = ({ checked, onChange, label, className, indeterminate = false }) => {
+}> = ({ checked, onChange, label, className, isLoading, indeterminate = false }) => {
   const checkboxRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (checkboxRef.current) {
@@ -16,13 +17,18 @@ const Checkbox: React.FC<{
   return (
     <div className={`form-control ${className}`}>
       <label className="label cursor-pointer">
-        <input
-          ref={checkboxRef}
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onChange(e.target.checked)}
-          className="checkbox ml-2 checkbox-primary"
-        />
+        {isLoading ? (
+          <span className="loading ml-2 text-berry60 loading-spinner loading-sm" />
+        ) : (
+          <input
+            disabled={isLoading}
+            ref={checkboxRef}
+            type="checkbox"
+            checked={checked}
+            onChange={(e) => onChange(e.target.checked)}
+            className="checkbox ml-2 checkbox-primary"
+          />
+        )}
         <span className="label-text">{label}</span>
       </label>
     </div>

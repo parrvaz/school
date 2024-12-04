@@ -184,7 +184,7 @@ export const CreateHomeworkAction = async (
     : api.CreateHomeworkUrl(gradeId);
   const formData = new FormData();
   formData.append('title', values.title);
-  formData.append('classrooms', JSON.stringify(values.classrooms.map((k) => Number(k.value))));
+  formData.append('classrooms', JSON.stringify(values.classrooms.map((k) => k.value)));
   formData.append('course_id', JSON.stringify(values.course?.value));
   formData.append('expected', JSON.stringify(Number(values.expected)));
   formData.append('score', JSON.stringify(Number(values.totalScore)));
@@ -192,8 +192,8 @@ export const CreateHomeworkAction = async (
   formData.append('link', values.link);
   formData.append('description', values.description);
   // formData.append('voices[0]', JSON.stringify(values.voice));
-  values.photos.forEach((file, index) => {
-    formData.append(`photos[${index}]`, file);
+  values.files.forEach((file, index) => {
+    formData.append(`files[${index}]`, file);
   });
   // const body = {
   //   ...values,
@@ -237,6 +237,20 @@ export const ScoreHomeworkAction = async (
   const url = api.ScoreHomeworkUrl(gradeId, id);
 
   const res: ResponseType<{ mistakes: object }> = await request.post(url, { score });
+  return res.ok;
+};
+
+export const ScoreZeroAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.ScoreZeroUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url);
+  return res.ok;
+};
+
+export const ScoreFinalAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.ScoreFinalUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url);
   return res.ok;
 };
 

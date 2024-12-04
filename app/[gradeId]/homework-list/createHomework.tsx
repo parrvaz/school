@@ -54,10 +54,11 @@ const CreateHomework: React.FC<{
       expected: homework?.expected || null,
       description: homework?.description || '',
       link: homework?.link || '',
-      photos: [],
+      files: [],
       voice: '',
     },
   });
+
   const fields = watch('classrooms').map((k) => k.fieldId);
 
   const { mutate, isPending } = useMutation({
@@ -109,7 +110,7 @@ const CreateHomework: React.FC<{
         />
         <FormUpload
           title={fa.homework.uploadFile}
-          name="photos"
+          name="files"
           type={['img', 'pdf']}
           control={control}
           isMultiple

@@ -230,6 +230,18 @@ export type GiveScoreType = {
   student_id: number;
   totalScore: number;
 };
+export type StudentScoreType = {
+  id: number;
+  student_id: number;
+  name: string;
+  firstName: string;
+  lastName: string;
+  classroom: string;
+  classroom_id: number;
+  score: number;
+  feedback: string;
+  status: string;
+};
 
 export type ScoreListType = {
   id: number;
@@ -241,18 +253,9 @@ export type ScoreListType = {
   score: number;
   expected: number;
   isFinal: boolean;
-  scores: {
-    id: number;
-    student_id: number;
-    name: string;
-    firstName: string;
-    lastName: string;
-    classroom: string;
-    classroom_id: number;
-    score: number;
-    feedback: string;
-    status: string;
-  }[];
+  submitted: StudentScoreType[];
+  notSubmitted: StudentScoreType[];
+  scores: StudentScoreType[];
 };
 
 export type SingleStudentHomeworkType = {
@@ -280,7 +283,7 @@ export type CreateHomeworkFormType = {
   course: OptionType | null;
   totalScore: number | null;
   expected: number | null;
-  photos: File[];
+  files: File[];
   voice: string;
 };
 

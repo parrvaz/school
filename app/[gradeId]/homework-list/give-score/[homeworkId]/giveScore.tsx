@@ -14,6 +14,7 @@ import { numberValidation, valueValidation } from 'app/utils/common.util';
 import SaveModal from 'app/components/saveModal';
 import { GiveScoreType } from 'app/types/common.type';
 import { tagRevalidate } from 'app/lib/server.util';
+import NoData from 'app/components/noDate';
 
 const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag }) => {
   type FormType = { score: string };
@@ -21,7 +22,6 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
   const { gradeId, homeworkId } = useParams();
   const searchParams = useSearchParams();
   const [nextAction, setNextAction] = useState<(() => void) | null>(null);
-
   const id = searchParams.get('id') || '';
 
   const studentOptions = useMemo(
@@ -52,12 +52,19 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
   }, [id]);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: ({ score }: FormType) =>
-      ScoreHomeworkAction(score, gradeId.toString(), homework.id),
+    mutationFn: ({ score }: FormType) => {
+      const goNext = Number(score) === homework.score;
+      return goNext
+        ? Promise.resolve(true)
+        : ScoreHomeworkAction(score, gradeId.toString(), homework.id);
+    },
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
-        nextId && router.push(GradeRoute(gradeId, 'homework-list', `?tab=give-score&id=${nextId}`));
+        nextId &&
+          router.push(
+            GradeRoute(gradeId, 'homework-list', `/give-score/${homeworkId}?id=${nextId}`)
+          );
       }
     },
   });
@@ -66,7 +73,7 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
   const hasChange = JSON.stringify(watch('score')) !== JSON.stringify(initialScore);
 
   const handlePervious = (): void => {
-    const url = GradeRoute(gradeId, 'homework-list', `?tab=give-score&id=${perviousId}`);
+    const url = GradeRoute(gradeId, 'homework-list', `/give-score/${homeworkId}?id=${perviousId}`);
     hasChange ? setNextAction(() => () => router.push(url)) : router.push(url);
   };
 
@@ -79,7 +86,9 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
           placeholder={fa.global.chooseStudent}
           value={studentOptions.find((k) => k.value === +id)}
           onChange={(e) =>
-            router.push(GradeRoute(gradeId, 'homework-list', `?tab=give-score&id=${e.value}`))
+            router.push(
+              GradeRoute(gradeId, 'homework-list', `/give-score/${homeworkId}?id=${e.value}`)
+            )
           }
         />
 
@@ -97,12 +106,16 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
               name="score"
               placeholder={fa.global.score}
               rules={numberValidation(
-                { ...valueValidation(0, Number(homework.score) || 100) },
+                { ...valueValidation(0, Number(homework?.totalScore) || 100) },
                 true
               )}
             />
-            <Button className="btn btn-primary min-h-10 w-24 !h-10" isLoading={isPending}>
-              {fa.homework[nextId ? 'submitContinue' : 'submit']}
+            <Button className="btn btn-primary min-h-10 w-36 !h-10" isLoading={isPending}>
+              {
+                fa.homework[
+                  +watch('score') === homework.score ? 'next' : nextId ? 'submitContinue' : 'submit'
+                ]
+              }
             </Button>
           </form>
         </div>
@@ -112,9 +125,13 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
         {fa.homework.studentNote} : {homework?.note || fa.homework.noNote}
       </div>
 
-      <div className="w-full h-[calc(100vh-100px)] mt-3">
-        <iframe src={homework?.solution} width="100%" height="100%" title="PDF Viewer" />
-      </div>
+      {homework?.solution ? (
+        <div className="w-full h-[calc(100vh-100px)] mt-3">
+          <iframe src={homework.solution} width="100%" height="100%" title="PDF Viewer" />
+        </div>
+      ) : (
+        <NoData />
+      )}
 
       <SaveModal {...{ nextAction, setNextAction, onSave, isPending }} />
     </div>

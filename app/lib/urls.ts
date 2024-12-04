@@ -69,6 +69,10 @@ export const ScoreListUrl = (gradeId: string, homeworkId: string): string =>
   `/${gradeId}/homework/scoreList/${homeworkId}`;
 export const ScoreHomeworkUrl = (gradeId: string, id: number): string =>
   `/${gradeId}/homework/scoreStore/${id}`;
+export const ScoreZeroUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/setZero/${id}`;
+export const ScoreFinalUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/setFinal/${id}`;
 export const ShowHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
   `/${gradeId}/homework/show${homeworkId ? `/${homeworkId}` : ''}`;
 export const ShowStudentHomeworkUrl = (gradeId: string, homeworkId?: string): string =>

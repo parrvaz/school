@@ -15,7 +15,7 @@ const RenderLayoutLink: React.FC = () => {
     <div role="tablist" className="tabs tabs-boxed w-fit bg-white">
       {['card', 'progress'].map((tab) => (
         <Link
-          href={GradeRoute(params.gradeId, 'reports', `/${tab}`)}
+          href={GradeRoute(params.gradeId, 'reports', `${tab}`)}
           key={tab}
           role="tab"
           className={`${activeTab === tab ? 'tab-active' : ''} tab`}

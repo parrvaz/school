@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import fa from 'app/lib/fa.json';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'https://pishkarserver.semimnet.ir/api';
-const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://pishkar.semimnet.ir';
+const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pishkar.semimnet.ir';
 
 // create main request configs
 const request = ((): ApisauceInstance => {

@@ -257,6 +257,18 @@ export const ScoreFinalAction = async (gradeId: string, id: number): Promise<boo
 export const DeleteHomeworkAction = async (gradeId: string, id: number): Promise<boolean> => {
   const url = api.DeleteHomeworkUrl(gradeId, id);
   const res: ResponseType<{ data: string }> = await request.post(url);
+  return res.ok;
+};
+
+export const DownloadCardExcelAction = async (
+  gradeId: string,
+  body: object,
+  name: string
+): Promise<boolean> => {
+  const url = api.CardExcelUrl(gradeId);
+  const res: ResponseType<BlobPart> = await request.get(url, body, { responseType: 'blob' });
+
+  if (res.ok) saveAs(res.data, name);
 
   return res.ok;
 };

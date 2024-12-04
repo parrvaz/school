@@ -34,12 +34,10 @@ export const fetchData = async <T>(url: string, tag?: string, cacheMethod?: stri
   const requestOptions: RequestInit = { method: 'GET', headers, next, cache };
 
   const res = await fetch(baseURL + url, requestOptions);
-  // console.log(url, res.status);
 
   if (res.status === 404) return notFound();
   if (res.status === 405) return redirect(LoginRoute());
   if (res.status === 403) return redirect('/403');
-  // if (res.status > 499) return redirect('/500');
 
   const data = await res.json();
 

@@ -23,7 +23,7 @@ const menu = [
   { title: 'assign', icon: 'icon-book' },
   { title: 'createExam', icon: 'icon-path' },
   { title: 'exams', icon: 'icon-receipt-item' },
-  { title: 'reports', icon: 'icon-trend-up', url: '/card' },
+  { title: 'reports', icon: 'icon-trend-up', url: 'card' },
   { title: 'homeworkList', icon: 'icon-edit' },
   { title: 'homeworkDelivery', icon: 'icon-edit' },
   { title: 'bells', icon: 'icon-menu-board' },

@@ -20,7 +20,7 @@ const ReportCardPage: React.FC<PageType> = async ({ params }) => {
   return (
     <ReportCard
       {...{ students, exams }}
-      gradeId={grade.find((k) => k.code === params.gradeId)?.grade_id || 0}
+      grade={grade.find((k) => k.code === params.gradeId)?.grade_id || 0}
     />
   );
 };

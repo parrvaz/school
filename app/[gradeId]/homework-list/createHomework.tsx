@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams, useRouter } from 'next/navigation';
 import Button from 'app/components/button';
@@ -18,6 +18,7 @@ import FormSelect from 'app/components/formSelect';
 import {
   getClassOption,
   getCoursesOption,
+  initializeFiles,
   numberValidation,
   valueValidation,
 } from 'app/utils/common.util';
@@ -48,7 +49,9 @@ const CreateHomework: React.FC<{
     defaultValues: {
       title: homework?.title || '',
       date: homework?.date || '',
-      classrooms: [],
+      classrooms:
+        homework?.classrooms.map((k) => ({ value: k.id, label: k.title, fieldId: k.field_id })) ||
+        [],
       course: homework ? { value: homework.course_id, label: homework.course } : null,
       totalScore: homework?.score || null,
       expected: homework?.expected || null,
@@ -60,6 +63,14 @@ const CreateHomework: React.FC<{
   });
 
   const fields = watch('classrooms').map((k) => k.fieldId);
+
+  useEffect(() => {
+    if (homework?.files) {
+      initializeFiles(homework?.files.map((k) => k.file) || []).then((files) => {
+        setValue('files', files); // Set the converted files into the form
+      });
+    }
+  }, [homework]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (e: CreateHomeworkFormType) =>
@@ -87,7 +98,7 @@ const CreateHomework: React.FC<{
         <FormSelect
           {...{ errors, control, rules }}
           name="course"
-          options={useMemo(() => getCoursesOption(courses, fields), [])}
+          options={useMemo(() => getCoursesOption(courses, fields), [fields])}
           placeholder={fa.global.course}
         />
         <FormInput

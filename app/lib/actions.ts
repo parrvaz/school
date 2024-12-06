@@ -184,7 +184,6 @@ export const CreateHomeworkAction = async (
     : api.CreateHomeworkUrl(gradeId);
   const formData = new FormData();
   formData.append('title', values.title);
-  formData.append('classrooms', JSON.stringify(values.classrooms.map((k) => k.value)));
   formData.append('course_id', JSON.stringify(values.course?.value));
   formData.append('expected', JSON.stringify(Number(values.expected)));
   formData.append('score', JSON.stringify(Number(values.totalScore)));
@@ -195,14 +194,10 @@ export const CreateHomeworkAction = async (
   values.files.forEach((file, index) => {
     formData.append(`files[${index}]`, file);
   });
-  // const body = {
-  //   ...values,
-  //   classrooms: values.classrooms.map((k) => k.value),
-  //   course_id: values.course?.value,
-  //   score: values.totalScore,
-  // };
+  values.classrooms.forEach((item) => {
+    formData.append(`classrooms[]`, JSON.stringify(item.value));
+  });
 
-  // const res: ResponseType<{ data: boolean }> = await request.post(url, body);
   const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });

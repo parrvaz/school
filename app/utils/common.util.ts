@@ -573,3 +573,15 @@ export const getClassNodes = (activeClasses, students): TreeNodeType[] =>
       }, new Map())
       .values()
   );
+
+const urlToFile = async (url: string, filename: string): Promise<File> => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const fileType = blob.type; // Automatically determines MIME type
+  return new File([blob], filename, { type: fileType });
+};
+
+export const initializeFiles = async (urls: string[]): Promise<File[]> => {
+  const filePromises = urls.map((url) => urlToFile(url, url.split('/').pop() || 'file'));
+  return Promise.all(filePromises);
+};

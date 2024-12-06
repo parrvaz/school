@@ -193,7 +193,7 @@ export type HomeworkType = {
   title: string;
   course_id: number;
   course: string;
-  classrooms: { id: number; title: string }[];
+  classrooms: { id: number; title: string; field_id: number }[];
   modifiedDate: string;
   date: string;
   studentsNumber: number;
@@ -203,6 +203,7 @@ export type HomeworkType = {
   score?: number;
   expected?: number;
   isFinal: boolean;
+  files: { file: string }[];
 };
 
 export type StudentHomeworkType = {

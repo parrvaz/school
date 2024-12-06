@@ -113,7 +113,11 @@ const GiveScore: React.FC<{ data: GiveScoreType[]; tag: string }> = ({ data, tag
             <Button className="btn btn-primary min-h-10 w-36 !h-10" isLoading={isPending}>
               {
                 fa.homework[
-                  +watch('score') === homework.score ? 'next' : nextId ? 'submitContinue' : 'submit'
+                  +watch('score') === homework?.score
+                    ? 'next'
+                    : nextId
+                      ? 'submitContinue'
+                      : 'submit'
                 ]
               }
             </Button>

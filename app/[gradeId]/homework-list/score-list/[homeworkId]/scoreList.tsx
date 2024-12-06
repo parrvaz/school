@@ -21,16 +21,15 @@ const ScoreList: React.FC<{ data: ScoreListType; tag: string }> = ({ data, tag }
   const [isFinal, setIsFinal] = useState(data.isFinal);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => ScoreFinalAction(gradeId.toString(), data.id),
+    mutationFn: () => ScoreZeroAction(gradeId.toString(), data.id),
     onSuccess: (ok) => {
       if (ok) {
         tagRevalidate(tag);
       }
     },
   });
-
   const { mutate: isFinalMutate, isPending: isFinalPending } = useMutation({
-    mutationFn: () => ScoreZeroAction(gradeId.toString(), data.id),
+    mutationFn: () => ScoreFinalAction(gradeId.toString(), data.id),
     onSuccess: (ok) => {
       if (ok) {
         setIsFinal((prev) => !prev);

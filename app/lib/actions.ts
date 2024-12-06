@@ -190,7 +190,7 @@ export const CreateHomeworkAction = async (
   formData.append('date', values.date);
   formData.append('link', values.link);
   formData.append('description', values.description);
-  // formData.append('voices[0]', JSON.stringify(values.voice));
+  formData.append('voices[0]', JSON.stringify(values.voice));
   values.files.forEach((file, index) => {
     formData.append(`files[${index}]`, file);
   });

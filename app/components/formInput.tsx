@@ -60,7 +60,7 @@ const FormInput: React.FC<InputType> = (props) => {
                 fieldError
                   ? 'border-red70 focus:border focus:shadow-inputError'
                   : 'focus:border  focus:border-berry60 focus:shadow-input'
-              } h-20 w-full rounded-lg p-3 font-regular text-13 text-black70 outline-none transition-shadow duration-500`}
+              } w-full rounded-lg p-3 h-full font-regular text-13 text-black70 outline-none transition-shadow duration-500`}
             />
           )}
 

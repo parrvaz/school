@@ -37,6 +37,7 @@ export type ClassroomType = {
 };
 
 export type ClassOptionType = { value: number; label: string; fieldId: number };
+export type OptionType = { value: number | null; label: string };
 
 export type ClassFormType = {
   title: string;
@@ -185,6 +186,108 @@ export type CreateExamFormType = {
     name: { value: number; label: string } | null;
     score: number | null | string;
   }[];
+};
+
+export type HomeworkType = {
+  id: number;
+  title: string;
+  course_id: number;
+  course: string;
+  classrooms: { id: number; title: string; field_id: number }[];
+  modifiedDate: string;
+  date: string;
+  studentsNumber: number;
+  scoredNumber: number;
+  description?: string;
+  link?: string;
+  score?: number;
+  expected?: number;
+  isFinal: boolean;
+  files: { file: string }[];
+  voices: { file: string }[];
+};
+
+export type StudentHomeworkType = {
+  id: number;
+  title: string;
+  course_id: number;
+  course: string;
+  modifiedDate: string;
+  date: string;
+  score: number;
+  status: string;
+};
+
+export type GiveScoreType = {
+  classroom: string;
+  classroom_id: number;
+  firstName: string;
+  id: number;
+  lastName: string;
+  name: string;
+  note: string;
+  score: number;
+  solution: string;
+  status: string;
+  student_id: number;
+  totalScore: number;
+};
+export type StudentScoreType = {
+  id: number;
+  student_id: number;
+  name: string;
+  firstName: string;
+  lastName: string;
+  classroom: string;
+  classroom_id: number;
+  score: number;
+  feedback: string;
+  status: string;
+};
+
+export type ScoreListType = {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  course_id: number;
+  course: string;
+  score: number;
+  expected: number;
+  isFinal: boolean;
+  submitted: StudentScoreType[];
+  notSubmitted: StudentScoreType[];
+  scores: StudentScoreType[];
+};
+
+export type SingleStudentHomeworkType = {
+  course: string;
+  course_id: number;
+  date: string;
+  description: string;
+  id: number;
+  link: string;
+  note: string;
+  files: { file: string }[];
+  voices: { file: string }[];
+  score: number;
+  solution: string;
+  studentHomework_id: number;
+  title: string;
+};
+
+export type CreateHomeworkFormType = {
+  title: string;
+  date: string;
+  description: string;
+  link: string;
+  classrooms: ClassOptionType[];
+  course: OptionType | null;
+  totalScore: number | null;
+  expected: number | null;
+  files: File[];
+  voice: string;
+  voiceBlob: Blob;
 };
 
 export type ReportCardType = {

@@ -60,6 +60,31 @@ export const CardExcelUrl = (gradeId: string): string => `/${gradeId}/reports/ca
 export const ProgressUrl = (gradeId: string, startDate?: string, endDate?: string): string =>
   `/${gradeId}/reports/progress${startDate ? `?startDate=${startDate}&endDate=${endDate}` : ''}`;
 
+// Homework ///////////////////////////////////////////
+export const CreateHomeworkUrl = (gradeId: string): string => `/${gradeId}/homework/store`;
+export const UpdateHomeworkUrl = (gradeId: string, homeworkId: number): string =>
+  `/${gradeId}/homework/update/${homeworkId}`;
+export const HomeworkScoreUrl = (gradeId: string, homeworkId: string): string =>
+  `/${gradeId}/homework/score/${homeworkId}`;
+export const ScoreListUrl = (gradeId: string, homeworkId: string): string =>
+  `/${gradeId}/homework/scoreList/${homeworkId}`;
+export const ScoreHomeworkUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/scoreStore/${id}`;
+export const ScoreZeroUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/setZero/${id}`;
+export const ScoreFinalUrl = (gradeId: string, id: number): string =>
+  `/${gradeId}/homework/setFinal/${id}`;
+export const ShowHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
+  `/${gradeId}/homework/show${homeworkId ? `/${homeworkId}` : ''}`;
+export const ShowStudentHomeworkUrl = (gradeId: string, homeworkId?: string): string =>
+  `/${gradeId}/homework/student/show${homeworkId ? `/${homeworkId}` : ''}`;
+export const SendHomeworkUrl = (gradeId: string, homeworkId?: number): string =>
+  homeworkId
+    ? `/${gradeId}/homework/student/update/${homeworkId}`
+    : `/${gradeId}/homework/student/store`;
+export const DeleteHomeworkUrl = (gradeId: string, id?: number): string =>
+  `/${gradeId}/homework/delete/${id}`;
+
 // Bells ///////////////////////////////////////////
 export const CreateBellUrl = (gradeId: string): string => `/${gradeId}/bells/store`;
 export const UpdateBellUrl = (gradeId: string): string => `/${gradeId}/bells/update`;

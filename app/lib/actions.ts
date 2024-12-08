@@ -7,6 +7,7 @@ import {
   BellsType,
   ClassFormType,
   CreateExamFormType,
+  CreateHomeworkFormType,
   FieldsType,
   GradeFormType,
   GradeType,
@@ -171,6 +172,88 @@ export const GetReportAction = async (
   return Array.isArray(result)
     ? result.sort((a, b) => (a.lastName || '').localeCompare(b.lastName || '', 'fa'))
     : [result];
+};
+
+export const CreateHomeworkAction = async (
+  values: CreateHomeworkFormType,
+  gradeId: string,
+  homeworkId?: number
+): Promise<boolean> => {
+  const url = homeworkId
+    ? api.UpdateHomeworkUrl(gradeId, homeworkId)
+    : api.CreateHomeworkUrl(gradeId);
+  const formData = new FormData();
+
+  formData.append('title', values.title);
+  formData.append('course_id', JSON.stringify(values.course?.value));
+  formData.append('expected', JSON.stringify(Number(values.expected)));
+  formData.append('score', JSON.stringify(Number(values.totalScore)));
+  formData.append('date', values.date);
+  formData.append('link', values.link);
+  formData.append('description', values.description);
+  values.voiceBlob && formData.append('voices[0]', values.voiceBlob, 'recording.webm');
+  values.files.forEach((file, index) => {
+    formData.append(`files[${index}]`, file);
+  });
+  values.classrooms.forEach((item) => {
+    formData.append(`classrooms[]`, JSON.stringify(item.value));
+  });
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return res.ok;
+};
+
+export const SendHomeworkAction = async (
+  values: { note: string; pdf: File; homeworkId: string },
+  gradeId: string,
+  homeworkId?: number
+): Promise<boolean> => {
+  const url = api.SendHomeworkUrl(gradeId, homeworkId);
+
+  const formData = new FormData();
+  formData.append('note', values.note);
+  formData.append('pdf', values.pdf[0]);
+  formData.append('homework_id', values.homeworkId);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return res.ok;
+};
+
+export const ScoreHomeworkAction = async (
+  score: string,
+  gradeId: string,
+  id: number
+): Promise<boolean> => {
+  const url = api.ScoreHomeworkUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url, { score });
+  return res.ok;
+};
+
+export const ScoreZeroAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.ScoreZeroUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url);
+  return res.ok;
+};
+
+export const ScoreFinalAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.ScoreFinalUrl(gradeId, id);
+
+  const res: ResponseType<{ mistakes: object }> = await request.post(url);
+  return res.ok;
+};
+
+export const DeleteHomeworkAction = async (gradeId: string, id: number): Promise<boolean> => {
+  const url = api.DeleteHomeworkUrl(gradeId, id);
+  const res: ResponseType<{ data: string }> = await request.post(url);
+  return res.ok;
 };
 
 export const DownloadCardExcelAction = async (

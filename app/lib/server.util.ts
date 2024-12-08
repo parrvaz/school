@@ -15,11 +15,15 @@ export const teacherTag = async (): Promise<string> => `teacher-show`;
 export const courseTag = async (): Promise<string> => `course-show`;
 export const assignTag = async (): Promise<string> => `assign-show`;
 export const examTag = async (): Promise<string> => `exam-show`;
+export const homeworkTag = async (id?: string): Promise<string> => `homework-show-${id}`;
+export const studentHomeworkTag = async (id?: string): Promise<string> =>
+  `student-homework-show-${id}`;
 export const bellTag = async (): Promise<string> => `bell-show`;
 export const schedulesTag = async (): Promise<string> => `schedules-show`;
 export const absentsTag = async (): Promise<string> => `absents-show`;
 export const plansTag = async (): Promise<string> => `plans-show`;
 export const scoreTag = async (): Promise<string> => `scores`;
+export const scoreListTag = async (): Promise<string> => `scores-list`;
 export const studyTag = async (id: string): Promise<string> => `study-${id}`;
 
 export const fetchData = async <T>(url: string, tag?: string, cacheMethod?: string): Promise<T> => {

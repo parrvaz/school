@@ -60,14 +60,6 @@ const HomeworkForm: React.FC<{ data: SingleStudentHomeworkType }> = ({ data }) =
         <Button isLoading={isPending} className="btn btn-primary w-48">
           {fa.homework.sendHomework}
         </Button>
-        {data.solution && (
-          <a href={data.solution} download>
-            <Button type="button" className="btn btn-primary btn-outline">
-              <i className="icon-import text-20" />
-              {fa.homework.downloadHomework}
-            </Button>
-          </a>
-        )}
       </div>
     </form>
   );

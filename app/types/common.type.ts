@@ -204,6 +204,7 @@ export type HomeworkType = {
   expected?: number;
   isFinal: boolean;
   files: { file: string }[];
+  voices: { file: string }[];
 };
 
 export type StudentHomeworkType = {
@@ -266,11 +267,11 @@ export type SingleStudentHomeworkType = {
   description: string;
   id: number;
   link: string;
-  note: null;
-  pdfs: [];
-  photos: [];
+  note: string;
+  files: { file: string }[];
+  voices: { file: string }[];
   score: number;
-  solution: null;
+  solution: string;
   studentHomework_id: number;
   title: string;
 };
@@ -286,6 +287,7 @@ export type CreateHomeworkFormType = {
   expected: number | null;
   files: File[];
   voice: string;
+  voiceBlob: Blob;
 };
 
 export type ReportCardType = {

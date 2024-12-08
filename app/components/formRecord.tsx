@@ -9,9 +9,17 @@ type FormRecordProps = {
   errors?: any; // eslint-disable-line
   control: Control<any>; // eslint-disable-line
   rules?: Record<string, boolean>;
+  setValue;
 };
 
-const FormRecord: React.FC<FormRecordProps> = ({ name, control, rules, errors, title }) => {
+const FormRecord: React.FC<FormRecordProps> = ({
+  name,
+  control,
+  rules,
+  errors,
+  title,
+  setValue,
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [seconds, setSeconds] = useState(0);
@@ -46,6 +54,7 @@ const FormRecord: React.FC<FormRecordProps> = ({ name, control, rules, errors, t
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const url = URL.createObjectURL(audioBlob);
         onChange(url); // Update form value with audio URL
+        setValue('voiceBlob', audioBlob);
       };
 
       mediaRecorder.start();

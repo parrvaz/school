@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Button from 'app/components/button';
 import fa from 'app/lib/fa.json';
 import { GradeRoute } from 'app/lib/routes';
@@ -13,11 +13,11 @@ import { tagRevalidate } from 'app/lib/server.util';
 const HomeworkActionRenderer: React.FC = (props: any) => {
   const { node, tag, api } = props;
   const { gradeId } = useParams();
-  const router = useRouter();
+  // const router = useRouter();
   const [deleteId, setDeleteId] = useState(false);
 
-  const handleEdit = (): void =>
-    router.push(GradeRoute(gradeId, 'homework-list', `?tab=create&homeworkId=${node.data.id}`));
+  // const handleEdit = (): void =>
+  //   router.push(GradeRoute(gradeId, 'homework-list', `?tab=create&homeworkId=${node.data.id}`));
 
   const handleDelete = (): void => setDeleteId(node.data.id);
 
@@ -42,7 +42,7 @@ const HomeworkActionRenderer: React.FC = (props: any) => {
       <Link href={GradeRoute(gradeId, 'homework-list', `/score-list/${node.data.id}`)}>
         <Button className="btn btn-primary btn-outline btn-xs">{fa.homework.scoreList}</Button>
       </Link>
-      <i className="icon-edit text-berry60 text-20 cursor-pointer" onClick={handleEdit} />
+      {/* <i className="icon-edit text-berry60 text-20 cursor-pointer" onClick={handleEdit} /> */}
       <i className="icon-trash text-red70 text-20 cursor-pointer" onClick={handleDelete} />
 
       <DeleteModal

@@ -183,6 +183,7 @@ export const CreateHomeworkAction = async (
     ? api.UpdateHomeworkUrl(gradeId, homeworkId)
     : api.CreateHomeworkUrl(gradeId);
   const formData = new FormData();
+
   formData.append('title', values.title);
   formData.append('course_id', JSON.stringify(values.course?.value));
   formData.append('expected', JSON.stringify(Number(values.expected)));
@@ -190,7 +191,7 @@ export const CreateHomeworkAction = async (
   formData.append('date', values.date);
   formData.append('link', values.link);
   formData.append('description', values.description);
-  formData.append('voices[0]', JSON.stringify(values.voice));
+  values.voiceBlob && formData.append('voices[0]', values.voiceBlob, 'recording.webm');
   values.files.forEach((file, index) => {
     formData.append(`files[${index}]`, file);
   });

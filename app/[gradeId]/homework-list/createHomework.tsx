@@ -58,7 +58,8 @@ const CreateHomework: React.FC<{
       description: homework?.description || '',
       link: homework?.link || '',
       files: [],
-      voice: '',
+      voice: homework?.voices[0]?.file || '',
+      voiceBlob: undefined,
     },
   });
 
@@ -145,8 +146,7 @@ const CreateHomework: React.FC<{
         />
         <FormRecord
           name="voice"
-          control={control}
-          errors={errors}
+          {...{ setValue, control, errors }}
           title={fa.homework.createVoices}
         />
       </div>

@@ -18,7 +18,8 @@ const StudentHomeworkList: React.FC<{ data: StudentHomeworkType[] }> = ({ data }
       field: 'score',
       width: 90,
       minWidth: 90,
-      valueFormatter: (params) => params.value || fa.homework.notSet,
+      valueFormatter: (params) =>
+        typeof params.value === 'number' ? params.value : fa.homework.notSet,
     },
     {
       headerName: fa.homework.status,

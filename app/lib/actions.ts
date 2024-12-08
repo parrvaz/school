@@ -207,7 +207,7 @@ export const CreateHomeworkAction = async (
 };
 
 export const SendHomeworkAction = async (
-  values: { note: string; pdf: File; homeworkId: string },
+  values: { note: string; pdf: File; homeworkId: string | string[] },
   gradeId: string,
   homeworkId?: number
 ): Promise<boolean> => {
@@ -216,7 +216,7 @@ export const SendHomeworkAction = async (
   const formData = new FormData();
   formData.append('note', values.note);
   formData.append('pdf', values.pdf[0]);
-  formData.append('homework_id', values.homeworkId);
+  formData.append('homework_id', values.homeworkId.toString());
 
   const res: ResponseType<{ mistakes: object }> = await request.post(url, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

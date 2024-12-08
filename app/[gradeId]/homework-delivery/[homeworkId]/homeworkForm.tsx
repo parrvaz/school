@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import FormInput from 'app/components/formInput';
@@ -14,10 +14,8 @@ import { SingleStudentHomeworkType } from 'app/types/common.type';
 
 type FormType = { note: string; pdf: File };
 const HomeworkForm: React.FC<{ data: SingleStudentHomeworkType }> = ({ data }) => {
-  const { gradeId } = useParams();
+  const { gradeId, homeworkId } = useParams();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const homeworkId = searchParams.get('homeworkId') || '';
 
   const {
     handleSubmit,

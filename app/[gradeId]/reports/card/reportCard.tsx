@@ -15,13 +15,12 @@ import {
   StudentType,
 } from 'app/types/common.type';
 import CardTable from './cardTable';
-import PdfDownload from './pdfDownload';
 
 const ReportCard: React.FC<{
   students: StudentType[] | null;
   exams: ExamType[];
   grade: number;
-}> = ({ students, exams, grade }) => {
+}> = ({ students, exams }) => {
   const { gradeId } = useParams();
   const [data, setData] = useState<{
     table: ProgressType[] | ReportCardType[] | undefined;
@@ -44,7 +43,7 @@ const ReportCard: React.FC<{
       {data?.table?.map((value) => <CardTable key={value.name} data={value} />)}
       {!!data?.table && (
         <div className="fixed bottom-0 flex justify-end left-0 text-end bg-white w-screen p-3 z-[2]">
-          <PdfDownload gradeId={grade} data={data.table as ReportCardType[]} date={data.date} />
+          {/* <PdfDownload gradeId={grade} data={data.table as ReportCardType[]} date={data.date} /> */}
           <Button
             isLoading={excelPending}
             onClick={() => downloadExcel()}

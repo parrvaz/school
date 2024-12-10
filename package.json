@@ -21,7 +21,7 @@
     "jalaali-js": "^1.2.7",
     "js-cookie": "^3.0.5",
     "moment-jalaali": "^0.10.1",
-    "next": "14.2.10",
+    "next": "14.2.20",
     "react": "^18",
     "react-big-calendar": "^1.14.1",
     "react-chartjs-2": "^5.2.0",

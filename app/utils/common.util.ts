@@ -251,7 +251,7 @@ const getCoursesWithBothFields = (courses: CourseType[], fieldIds: number[]): Co
     .filter(
       (group) =>
         group.some((course) => course.field_id === null) ||
-        fieldIds.every((fieldId) => group.some((course) => course.field_id === fieldId))
+        fieldIds?.every((fieldId) => group.some((course) => course.field_id === fieldId))
     )
     .map((group) => group[0]); // Return the first instance of each `id`
 };

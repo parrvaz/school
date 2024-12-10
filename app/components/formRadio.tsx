@@ -1,5 +1,6 @@
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
+import clsx from 'clsx';
 import { handleError } from 'app/utils/component.util';
 
 type RadioType = {
@@ -22,15 +23,19 @@ const FormRadio: React.FC<RadioType> = (props) => {
         render={({ field }): JSX.Element => (
           <div className="join">
             {options.map(({ label, value }) => (
-              <input
+              <label
                 key={value}
-                type="radio"
-                className="join-item btn btn-sm"
-                value={value}
-                checked={field.value === value}
-                onChange={() => (field.onChange(value), onChange?.(value))}
-                aria-label={label}
-              />
+                className={clsx('join-item btn btn-sm', field.value === value ? 'btn-primary' : '')}
+              >
+                <input
+                  type="radio"
+                  value={value}
+                  checked={field.value === value}
+                  onChange={() => (field.onChange(value), onChange?.(value))}
+                  className="hidden"
+                />
+                {label}
+              </label>
             ))}
           </div>
         )}
